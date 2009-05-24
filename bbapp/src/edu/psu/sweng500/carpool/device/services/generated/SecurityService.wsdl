@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://services.generated.carpool.sweng500.psu.edu" xmlns:ns2="http://beans.generated.carpool.sweng500.psu.edu/xsd" xmlns:axis2="http://services.generated.carpool.sweng500.psu.edu" xmlns:ns1="http://services.generated.carpool.sweng500.psu.edu/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns0="http://exceptions.generated.carpool.sweng500.psu.edu/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://exceptions.generated.carpool.sweng500.psu.edu/xsd" xmlns:ax21="http://exceptions.generated.carpool.sweng500.psu.edu/xsd">
+		
+			<xs:import namespace="http://services.generated.carpool.sweng500.psu.edu/xsd"/>
+		        
+		    <xs:complexType name="SecurityServiceException">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="errorCode" type="xs:int"/>
+                    <xs:element minOccurs="0" name="errorDescription" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="message" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="traceMessage" nillable="true" type="xs:string"/>
+                </xs:sequence>
+		    </xs:complexType>
+		</xs:schema>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.generated.carpool.sweng500.psu.edu/xsd" xmlns:xsd="http://services.generated.carpool.sweng500.psu.edu/xsd">
+        
+	        <xs:import namespace="http://exceptions.generated.carpool.sweng500.psu.edu/xsd"/>
+        
+		    <xs:element name="SecurityServiceException">
+		        <xs:complexType>
+		            <xs:sequence>
+		                <xs:element minOccurs="0" name="SecurityServiceException" nillable="true" type="ns0:SecurityServiceException"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+		    <xs:element name="loginElementRequest">
+		        <xs:complexType>
+		            <xs:sequence>
+		                <xs:element minOccurs="1" name="userName" nillable="false" type="xs:string"/>
+		                <xs:element minOccurs="1" name="password" nillable="false" type="xs:string"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+			<xs:element name="loginElementResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="0" name="return" nillable="false" type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="loginRequest">
+    <wsdl:part name="parameters" element="ns1:loginElementRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SecurityServiceException">
+    <wsdl:part name="parameters" element="ns1:SecurityServiceException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="loginResponse">
+    <wsdl:part name="parameters" element="ns1:loginElementResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="SecurityServicePortType">
+    <wsdl:operation name="login">
+      <wsdl:input message="axis2:loginRequest" wsaw:Action="urn:loginRequest">
+    </wsdl:input>
+      <wsdl:output message="axis2:loginResponse" wsaw:Action="urn:loginResponse">
+    </wsdl:output>
+      <wsdl:fault name="SecurityServiceException" message="axis2:SecurityServiceException" wsaw:Action="urn:findPeopleSecurityServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SecurityServiceSOAP11Binding" type="axis2:SecurityServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="login">
+      <soap:operation soapAction="urn:login" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="SecurityServiceException">
+        <soap:fault name="SecurityServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SecurityService">
+    <wsdl:port name="SecurityServiceSOAP11port_http" binding="axis2:SecurityServiceSOAP11Binding">
+      <soap:address location="http://192.168.1.5:6187/sweng500_car_pool/services/SecurityService/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
