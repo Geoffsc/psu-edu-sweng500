@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+
+<project name="service" basedir="." default="java2wsdl">
+	<target name="java2wsdl" description="Generate WSDL file using Axis Java2WSDL tool" depends="">
+		<!-- 
+	  		Don't use the same name for IN parameter, if they refer to
+	  		different objects
+	  		ie:
+	  			public functionA(MyCompositeObject x)
+	  			public functionB(MyCompositeObjectNumber2 x)
+	  		This cause some confusion in the wsdl generator.
+	  		This is better:
+	  			public functionA(MyCompositeObject x)
+	  			public functionB(MyCompositeObjectNumber2 y)
+  		-->
+		
+		<property file="build.properties" />
+		<property file="${env}.properties" />
+		<property file="service-${env}.properties" />
+
+		<property name="src.dir" value="src" />
+		<property name="web.dir" value="WebContent" />
+		<property name="output.dir" value="output" />
+		<property name="build.dir" value="${output.dir}/build" />
+
+		<path id="master-classpath">
+			<pathelement path="${build.dir}/WEB-INF/classes" />
+			<fileset dir="${web.dir}/WEB-INF/lib">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${props.appserver.home}/${props.appserver.lib.dir}">
+				<include name="*.jar" />
+			</fileset>
+			<!--
+			<fileset dir="${props.vig.path}/lib/shared">
+				<include name="*.jar" />
+			</fileset>
+			-->
+		</path>
+
+		<property name="service.dir" 	value="${output.dir}/service"/>
+		<property name="wsdl.dir" value="${build.dir}/wsdl" description="The location where the WSDL will be stored"/>
+		<property name="axis.lib.dir" location="${axis.home}/lib" />
+
+		<path id="master-axis-classpath">
+			<path refid="master-classpath" />
+			<fileset dir="${axis.lib.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+		<!-- <taskdef classpathref="master-axis-classpath" resource="axis-tasks.properties" /> -->
+		<!-- classname="org.apache.ws.java2wsdl.Java2WSDLTask" -->
+		
+		<taskdef name="Java2WSDLTask"
+			classname="org.apache.ws.java2wsdl.Java2WSDLTask"
+			classpathref="master-axis-classpath"/>
+
+		<property name="cp" refid="master-classpath" />
+		<echo message="Classpath in build-axis.xml is ${cp}" />
+		<echo message="Creating WSDL file for project" />
+		<mkdir dir="${wsdl.dir}" />
+		<delete file="${wsdl.dir}/${service.wsdl.name}" failonerror="false" />
+		
+		<Java2WSDLTask 
+			className="${service.endpoint.package.structure}.${service.class.name}" 
+			classpath="${master-axis-classpath}"
+			targetNamespace="${service.namespace}"
+			targetNamespacePrefix="tns"
+			outputLocation="${wsdl.dir}"
+			outputFileName="${service.wsdl.name}"
+			locationUri="${service.host.url}/${props.project.name}/services/${service.name}"
+			schemaTargetNamespace="http://services.directory.ims.com/xsd"
+			schemaTargetNamespacePrefix="xsd"
+			serviceName="${service.name}">
+			<!-- <classpath refid="master-classpath" /> -->
+		</Java2WSDLTask>
+		
+		<!-- style="rpc" 
+			exclude="${service.method.exclude}" 
+			implclass="${service.endpoint.package.structure}.${service.class.name}" 
+			 
+			serviceportname="${props.project.name}">
+			 
+			-->
+	</target>
+</project>

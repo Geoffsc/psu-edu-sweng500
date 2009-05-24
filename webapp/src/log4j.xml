@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+	debug="false">
+
+	<appender name="logFile" class="org.apache.log4j.FileAppender">
+		<param name="File"
+			value="c:/temp/sweng500_car_pool.log" />
+		<param name="Append" value="false" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<!--<param name="ConversionPattern" value="%t %-5p %c{2} - %m%n"/>-->
+			<!--param name="ConversionPattern" value="%d{yyyy-mm-dd HH:mm:ss}, %c{2}, %m%n"/-->
+			<param name="ConversionPattern"
+				value="%d [%t] %-5p %c(%F:%L)  - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<!--<param name="ConversionPattern" value="%t %-5p %c{2} - %m%n"/>-->
+			<param name="ConversionPattern"
+				value="%d [%t] %-5p %c(%F:%L)  - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="smtp" class="org.apache.log4j.net.SMTPAppender">
+		<param name="Threshold" value="FATAL"/>
+		<param name="To" value="gis.application.errors@ims.com"/>
+		<param name="From" value="gis.application.errors@ims.com"/>
+		<param name="Subject" value="Fatal Error!"/>
+		<param name="SMTPHost" value="smtprelay.ims.com"/>
+		<param name="BufferSize" value="10"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{ABSOLUTE},%c{1}] %m%n"/>
+		</layout>
+	</appender>
+	
+	<!-- 
+	<category name="edu.psu">
+		<priority value="debug" />
+		<appender-ref ref="logFile" />
+	</category>
+	-->
+	
+	<root>
+		<priority value="debug"/>
+		<appender-ref ref="logFile"/>
+		<appender-ref ref="stdout"/>
+	</root>
+
+</log4j:configuration>

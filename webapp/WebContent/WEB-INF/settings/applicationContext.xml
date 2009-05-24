@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean id="applicationContext" 
+    	class="org.apache.axis2.extensions.spring.receivers.ApplicationContextHolder" />
+    	
+	<bean id="loginService" class="edu.psu.sweng500.carpool.services.AdbSecurityService">
+    </bean>
+    	
+    <bean id="urlMapping"
+        class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+            <property name="mappings">
+                    <props>
+                            <!-- <prop key="/localTest.html">localServiceTest</prop> -->
+					</props>
+			</property>
+	</bean>
+   
+</beans>

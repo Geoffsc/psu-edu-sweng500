@@ -1,0 +1,115 @@
+<?xml version="1.0" ?>
+
+
+<project name="sweng500_car_pool" basedir="." default="help">
+	<property file="build.properties"/>
+	<property file="${env}.properties"/>
+	
+	<property name="output.dir" value="output"/>
+	<property name="dist.dir" 	value="${output.dir}/dist"/>
+	<property name="jsr.dir" 	value="${output.dir}/jsr"/>
+	
+	<path id="tomcat-classpath">
+        <fileset dir="${props.appserver.home}/server/lib">
+            <include name="catalina-ant.jar"/>
+        </fileset>
+    </path>
+
+<!-- Tomcat Deployment Tasks -->
+	<taskdef name="reload"
+		classname="org.apache.catalina.ant.ReloadTask">
+		<classpath refid="tomcat-classpath"/>
+	</taskdef>
+<!-- 
+	<taskdef name="deploy"    classname="org.apache.catalina.ant.DeployTask"/>
+    <taskdef name="install"   classname="org.apache.catalina.ant.InstallTask"/>
+    <taskdef name="list"      classname="org.apache.catalina.ant.ListTask"/>
+    <taskdef name="reload"    classname="org.apache.catalina.ant.ReloadTask"/>
+    <taskdef name="remove"    classname="org.apache.catalina.ant.RemoveTask"/>
+    <taskdef name="resources" classname="org.apache.catalina.ant.ResourcesTask"/>
+    <taskdef name="roles"     classname="org.apache.catalina.ant.RolesTask"/>
+    <taskdef name="start"     classname="org.apache.catalina.ant.StartTask"/>
+    <taskdef name="stop"      classname="org.apache.catalina.ant.StopTask"/>
+    <taskdef name="undeploy"  classname="org.apache.catalina.ant.UndeployTask"/>
+-->
+
+<!-- DEPLOY WAR -->
+    <target name="deploywar" description="deploy web app as war file">
+        <copy todir="${props.deploy.path}" preservelastmodified="true">
+            <fileset dir="${dist.dir}/debug">
+                <include name="${props.project.name}.war"/>
+            </fileset>
+        </copy>
+    	<!--
+		<reload url="${props.admin.url}/manager" 
+			username="${props.admin.user}" 
+			password="${props.admin.pw}" 
+			path="/${props.project.name}"/>
+			-->
+    </target>
+	
+<!-- COPY WAR -->
+    <target name="copywar" description="copy war file to shared deployment folder">
+    	<mkdir dir="${props.shareddir.path}/${env}/debug"/>
+        <copy todir="${props.shareddir.path}/${env}/debug" preservelastmodified="true">
+            <fileset dir="${dist.dir}/debug">
+                <include name="${props.project.name}.war"/>
+            </fileset>
+        </copy>
+    	<mkdir dir="${props.shareddir.path}/${env}/production"/>
+    	<copy todir="${props.shareddir.path}/${env}/production" preservelastmodified="true">
+            <fileset dir="${dist.dir}/production">
+                <include name="${props.project.name}.war"/>
+            </fileset>
+        </copy>
+    </target>
+
+<!-- DEPLOY JSR -->	
+    <target name="deployjsr" description="deploy JSR-168 portlet app as war file">
+        <copy todir="${props.deploy.path}" preservelastmodified="true" verbose="true">
+            <fileset dir="${jsr.dir}">
+                <include name="${props.project.name}.war"/>
+            </fileset>
+        </copy>
+    	<!--
+        <reload url="${props.admin.url}/manager" 
+			username="${props.admin.user}" 
+			password="${props.admin.pw}" 
+			path="/${props.project.name}"/>
+			-->
+    </target>
+	
+<!-- COPY JSR -->	
+    <target name="copyjsr" description="copy JSR-168 portlet app as war file to shared deployment folder">
+    	<mkdir dir="${props.shareddir.path}/${env}/debug"/>
+        <copy todir="${props.shareddir.path}/${env}/debug" preservelastmodified="true">
+            <fileset dir="${jsr.dir}/debug">
+                <include name="${props.project.name}.war"/>
+            </fileset>
+        </copy>
+    	<mkdir dir="${props.shareddir.path}/${env}/production"/>
+    	<copy todir="${props.shareddir.path}/${env}/production" preservelastmodified="true">
+            <fileset dir="${jsr.dir}/production">
+                <include name="${props.project.name}.war"/>
+            </fileset>
+        </copy>
+    </target>
+
+<!-- HELP -->
+	<target name="help">
+		<echo message=""/>
+		<echo message="This build file supports the main build.xml..."/>
+		<echo message="This file is pulled in from the main build.xml"/>
+		<echo message="for Weblogic environments determined by"/>
+		<echo message="build.properties props.appserver key."/>
+		<echo message="------------------------------------------------------"/>
+		<echo message=""/>
+		<echo message="Among the available targets are:"/>
+		<echo message=""/>
+		<echo message="deploywar             --> deploy web app as war file"/>
+		<echo message="deployjsr             --> deploy JSR-168 portlet app as war file"/>
+		<echo message="copyjsr               --> copy JSR-168 portlet app as war file to shared deployment folder"/>
+		<echo message="help                  --> help"/>
+		<echo message=""/>
+	</target>
+</project>

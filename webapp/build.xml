@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="sweng500_car_pool" basedir="." default="help">
+    <property file="build.properties"/>
+    <property file="${env}.properties"/>
+    <property file="conf/services/service-${env}.properties"/>
+    <!-- Set directory options -->
+    <property name="src.dir" value="src"/>
+    <property name="web.dir" value="bin"/>
+    <property name="output.dir" value="output"/>
+    <property name="build.dir" value="${output.dir}/build"/>
+    <property name="dist.dir" value="${output.dir}/dist"/>
+    <property name="docs.dir" value="${output.dir}/docs"/>
+    <property name="jsr.dir" value="${output.dir}/jsr"/>
+    <property name="service.dir" value="${output.dir}/service"/>
+    <!-- Compiling options -->
+    <property name="java.build.version" value="1.5"/>
+    <property name="compile.debug" value="true"/>
+    <property name="compile.deprecation" value="false"/>
+    <property name="compile.optimize" value="true"/>
+    <!-- Set Classpath -->
+    <path id="master-classpath">
+        <pathelement path="${build.dir}/WEB-INF/classes"/>
+        <fileset dir="${web.dir}/WEB-INF/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${props.appserver.home}/${props.appserver.lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+        <!--
+		<fileset dir="${props.vig.path}/lib/shared">
+			<include name="*.jar"/>
+		</fileset>
+		-->
+    </path>
+    <!-- AXIS Classpath -->
+    <property name="axis.lib.dir" location="${axis.home}/lib"/>
+    <path id="master-axis-classpath">
+        <path refid="master-classpath"/>
+        <fileset dir="${axis.lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+    <!-- <taskdef classpathref="master-axis-classpath" resource="axis-tasks.properties"/> -->
+    <!-- CLEAN ALL -->
+    <target name="clean-all" description="Remove all supporting build directories">
+        <delete dir="${output.dir}"/>
+    </target>
+    <!-- BUILD -->
+    <target name="build" description="Compile main source tree java files and build exploded web app" depends="clean-all">
+        <mkdir dir="${build.dir}/WEB-INF/classes"/>
+        <copy todir="${build.dir}" preservelastmodified="true" overwrite="false">
+            <fileset dir="${web.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.dir}/WEB-INF/classes" verbose="true" overwrite="false">
+            <fileset dir="${src.dir}" excludes="**/*.java"/>
+        </copy>
+        <antcall target="wsdl2java"/>
+        <!-- Replace instances of JDBC references for JNDI resources -->
+        <!-- <replace file="${build.dir}/WEB-INF/settings/data/applicationContext-hibernate.xml" 
+							replacefilterfile="${env}.properties"/> -->
+        <javac target="${java.build.version}" destdir="${build.dir}/WEB-INF/classes" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}" failonerror="true">
+            <src path="${src.dir}"/>
+            <classpath refid="master-classpath"/>
+            <exclude name="**/*Test*.java"/>
+            <exclude name="**/*test*.java"/>
+        </javac>
+    </target>
+    <!-- WAR -->
+    <target name="war" description="Runs build, then creates a WAR file of the Web Application" depends="build, java2wsdl">
+        <mkdir dir="${dist.dir}/debug"/>
+        <war warfile="${dist.dir}/debug/${props.project.name}.war" webxml="${web.dir}/WEB-INF/web.xml">
+            <fileset dir="${build.dir}"/>
+        </war>
+        <!-- Create an additional production version of the WAR file -->
+        <!-- The deployer will need to remove the -production from the file name -->
+        <mkdir dir="${dist.dir}/production"/>
+        <delete quiet="true" file="${build.dir}/WEB-INF/classes/log4j.dtd"/>
+        <delete quiet="true" file="${build.dir}/WEB-INF/classes/log4j.xml"/>
+        <delete quiet="true" file="${build.dir}/WEB-INF/classes/log4j.properties"/>
+        <war warfile="${dist.dir}/production/${props.project.name}.war" webxml="${web.dir}/WEB-INF/web.xml">
+            <fileset dir="${build.dir}"/>
+        </war>
+    </target>
+    <!-- DEPLOY WAR -->
+    <target name="deploywar" description="Runs war, then deploys the WAR file" depends="war">
+        <subant target="deploywar">
+            <filelist dir="${basedir}">
+                <file name="build-${props.appserver}.xml"/>
+            </filelist>
+        </subant>
+    </target>
+    <!-- COPY WAR -->
+    <target name="copywar" description="Copies WAR file to the shared deployment directory" depends="war">
+        <subant target="copywar">
+            <filelist dir="${basedir}">
+                <file name="build-${props.appserver}.xml"/>
+            </filelist>
+        </subant>
+    </target>
+    <!-- JSR -->
+    <target name="jsr" description="Runs war, then re-packages the WAR file as a JSR-168 portlet app" depends="war">
+        <mkdir dir="${jsr.dir}"/>
+        <subant target="jsr">
+            <filelist dir="${basedir}">
+                <file name="build-jsr.xml"/>
+            </filelist>
+        </subant>
+    </target>
+    <!-- DEPLOY JSR -->
+    <target name="deployjsr" description="Runs jsr, then deploys the JSR-168 portlet app as a WAR file" depends="jsr">
+        <subant target="deployjsr">
+            <filelist dir="${basedir}">
+                <file name="build-${props.appserver}.xml"/>
+            </filelist>
+        </subant>
+    </target>
+    <!-- COPY JSR -->
+    <target name="copyjsr" description="Runs jsr, then copies the JSR-168 WAR file to the shared deployment directory" depends="jsr">
+        <subant target="copyjsr">
+            <filelist dir="${basedir}">
+                <file name="build-${props.appserver}.xml"/>
+            </filelist>
+        </subant>
+    </target>
+    <!-- GENERATE SERVICE -->
+    <target name="java2wsdl" description="Create wsdl from Java classes">
+        <subant target="java2wsdl" failonerror="false">
+            <filelist dir="${basedir}">
+                <file name="build-service.xml"/>
+            </filelist>
+        </subant>
+    </target>
+    <!-- JAVADOC -->
+    <target name="doc" description="Runs build, then creates JavaDocs" depends="build">
+        <javadoc packagenames="${props.javadoc.package.names}" sourcepath="${src.dir}" destdir="${docs.dir}" version="false" use="true" private="false" overview="overview.html" windowtitle="${props.javadoc.window.title}" doctitle="${props.javadoc.document.title}" verbose="false" bottom="Copyright ï¿½ ©2005 IMS Health. All Rights Reserved.">
+            <link href="http://java.sun.com/j2se/1.4/docs/api/"/>
+            <link href="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
+            <classpath>
+                <pathelement location="master-classpath"/>
+            </classpath>
+        </javadoc>
+    </target>
+    <!-- AXIS Generate source from wsdl -->
+    <target name="wsdl2java" if="compilewsdl">
+        <echo message="Running wsdl2java"/>
+        <mkdir dir="${service.dir}"/>
+        <axis-wsdl2java output="${service.dir}" verbose="true" url="${wsdl.url}" serverside="false" skeletonDeploy="yes" debug="true" username="${wsdl.username}" password="${wsdl.password}">
+            <mapping namespace="${service.namespace}" package="${generated.package.structure}"/>
+        </axis-wsdl2java>
+        <javac target="${java.build.version}" destdir="${build.dir}/WEB-INF/classes" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}" failonerror="true">
+            <src path="${service.dir}"/>
+            <classpath refid="master-classpath"/>
+            <exclude name="**/*Test*.java"/>
+            <exclude name="**/*test*.java"/>
+        </javac>
+    </target>
+    <!-- HELP -->
+    <target name="help">
+        <echo message=""/>
+        <echo message="${props.project.name} build file"/>
+        <echo message="------------------------------------------------------"/>
+        <echo message=""/>
+        <echo message="Among the available targets are:"/>
+        <echo message=""/>
+        <echo message="clean-all             --&gt; Remove all supporting build directories"/>
+        <echo message="build                 --&gt; Compile main source tree java files and build exploded web app"/>
+        <echo message="war                   --&gt; Runs build, then creates a WAR file of the Web Application"/>
+        <echo message="jsr                   --&gt; Runs war, then re-packages the WAR file as a JSR-168 portlet app"/>
+        <echo message="deploywar             --&gt; Runs war, then deploys the WAR file"/>
+        <echo message="deployjsr             --&gt; Runs jsr, then deploys the JSR-168 portlet app as a WAR file"/>
+        <echo message="copyjsr               --&gt; Runs jsr, then copies the JSR-168 WAR file to the shared deployment directory"/>
+        <echo message="doc                   --&gt; Runs build, then creates JavaDocs"/>
+        <echo message="help                  --&gt; help"/>
+        <echo message=""/>
+    </target>
+</project>
