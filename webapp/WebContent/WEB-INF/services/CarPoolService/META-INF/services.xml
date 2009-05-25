@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.4.1  Built on : Aug 19, 2008 (10:13:39 LKT) -->
+<serviceGroup>
+    <service name="CarPoolService">
+    	<description>
+      		Car Pool Service
+    	</description>
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="edu.psu.sweng500.carpool.generated.services.CarPoolServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">edu.psu.sweng500.carpool.generated.services.CarPoolServiceSkeleton</parameter>
+        
+        <!-- Use the line below when run within a ServletContext -->
+        <parameter name="ServiceObjectSupplier">
+    		org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier
+    	</parameter>
+        
+        <parameter name="SpringBeanName">carPoolService</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="findPlaces" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://services.generated.carpool.sweng500.psu.edu">
+            <actionMapping>urn:findPlaces</actionMapping>
+            <outputActionMapping>urn:findPlacesResponse</outputActionMapping>
+            <faultActionMapping faultName="CarPoolServiceException">urn:findPlacesSecurityServiceException</faultActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

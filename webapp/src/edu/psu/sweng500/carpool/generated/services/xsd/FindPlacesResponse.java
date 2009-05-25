@@ -1,6 +1,6 @@
 
 /**
- * SecurityServiceExceptionE.java
+ * FindPlacesResponse.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.4.1  Built on : Aug 19, 2008 (10:13:44 LKT)
@@ -10,22 +10,22 @@
             
 
             /**
-            *  SecurityServiceExceptionE bean class
+            *  FindPlacesResponse bean class
             */
         
-        public  class SecurityServiceExceptionE
+        public  class FindPlacesResponse
         implements org.apache.axis2.databinding.ADBBean{
         
                 public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName(
                 "http://services.generated.carpool.sweng500.psu.edu/xsd",
-                "SecurityServiceException",
-                "ns4");
+                "FindPlacesResponse",
+                "ns3");
 
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://services.generated.carpool.sweng500.psu.edu/xsd")){
-                return "ns4";
+                return "ns3";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -33,48 +33,86 @@
         
 
                         /**
-                        * field for SecurityServiceException
+                        * field for Places
+                        * This was an Array!
                         */
 
                         
-                                    protected edu.psu.sweng500.carpool.generated.exceptions.xsd.SecurityServiceException localSecurityServiceException ;
+                                    protected edu.psu.sweng500.carpool.generated.beans.xsd.Place[] localPlaces ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
                            *   in the serialized XML
                            */
-                           protected boolean localSecurityServiceExceptionTracker = false ;
+                           protected boolean localPlacesTracker = false ;
                            
 
                            /**
                            * Auto generated getter method
-                           * @return edu.psu.sweng500.carpool.generated.exceptions.xsd.SecurityServiceException
+                           * @return edu.psu.sweng500.carpool.generated.beans.xsd.Place[]
                            */
-                           public  edu.psu.sweng500.carpool.generated.exceptions.xsd.SecurityServiceException getSecurityServiceException(){
-                               return localSecurityServiceException;
+                           public  edu.psu.sweng500.carpool.generated.beans.xsd.Place[] getPlaces(){
+                               return localPlaces;
                            }
 
                            
                         
-                            /**
-                               * Auto generated setter method
-                               * @param param SecurityServiceException
-                               */
-                               public void setSecurityServiceException(edu.psu.sweng500.carpool.generated.exceptions.xsd.SecurityServiceException param){
-                            
-                                       if (param != null){
-                                          //update the setting tracker
-                                          localSecurityServiceExceptionTracker = true;
-                                       } else {
-                                          localSecurityServiceExceptionTracker = true;
-                                              
-                                       }
-                                   
-                                            this.localSecurityServiceException=param;
-                                    
 
-                               }
+
+                               
+                              /**
+                               * validate the array for Places
+                               */
+                              protected void validatePlaces(edu.psu.sweng500.carpool.generated.beans.xsd.Place[] param){
+                             
+                              }
+
+
+                             /**
+                              * Auto generated setter method
+                              * @param param Places
+                              */
+                              public void setPlaces(edu.psu.sweng500.carpool.generated.beans.xsd.Place[] param){
+                              
+                                   validatePlaces(param);
+
+                               
+                                          if (param != null){
+                                             //update the setting tracker
+                                             localPlacesTracker = true;
+                                          } else {
+                                             localPlacesTracker = true;
+                                                 
+                                          }
+                                      
+                                      this.localPlaces=param;
+                              }
+
+                               
+                             
+                             /**
+                             * Auto generated add method for the array for convenience
+                             * @param param edu.psu.sweng500.carpool.generated.beans.xsd.Place
+                             */
+                             public void addPlaces(edu.psu.sweng500.carpool.generated.beans.xsd.Place param){
+                                   if (localPlaces == null){
+                                   localPlaces = new edu.psu.sweng500.carpool.generated.beans.xsd.Place[]{};
+                                   }
+
                             
+                                 //update the setting tracker
+                                localPlacesTracker = true;
+                            
+
+                               java.util.List list =
+                            org.apache.axis2.databinding.utils.ConverterUtil.toList(localPlaces);
+                               list.add(param);
+                               this.localPlaces =
+                             (edu.psu.sweng500.carpool.generated.beans.xsd.Place[])list.toArray(
+                            new edu.psu.sweng500.carpool.generated.beans.xsd.Place[list.size()]);
+
+                             }
+                             
 
      /**
      * isReaderMTOMAware
@@ -108,7 +146,7 @@
                        new org.apache.axis2.databinding.ADBDataSource(this,MY_QNAME){
 
                  public void serialize(org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
-                       SecurityServiceExceptionE.this.serialize(MY_QNAME,factory,xmlWriter);
+                       FindPlacesResponse.this.serialize(MY_QNAME,factory,xmlWriter);
                  }
                };
                return new org.apache.axiom.om.impl.llom.OMSourcedElementImpl(
@@ -162,48 +200,79 @@
                    java.lang.String namespacePrefix = registerPrefix(xmlWriter,"http://services.generated.carpool.sweng500.psu.edu/xsd");
                    if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)){
                        writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
-                           namespacePrefix+":SecurityServiceException",
+                           namespacePrefix+":FindPlacesResponse",
                            xmlWriter);
                    } else {
                        writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
-                           "SecurityServiceException",
+                           "FindPlacesResponse",
                            xmlWriter);
                    }
 
                
                    }
-                if (localSecurityServiceExceptionTracker){
-                                    if (localSecurityServiceException==null){
+                if (localPlacesTracker){
+                                       if (localPlaces!=null){
+                                            for (int i = 0;i < localPlaces.length;i++){
+                                                if (localPlaces[i] != null){
+                                                 localPlaces[i].serialize(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","places"),
+                                                           factory,xmlWriter);
+                                                } else {
+                                                   
+                                                            // write null attribute
+                                                            java.lang.String namespace2 = "http://services.generated.carpool.sweng500.psu.edu/xsd";
+                                                            if (! namespace2.equals("")) {
+                                                                java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
 
-                                            java.lang.String namespace2 = "http://services.generated.carpool.sweng500.psu.edu/xsd";
+                                                                if (prefix2 == null) {
+                                                                    prefix2 = generatePrefix(namespace2);
 
-                                        if (! namespace2.equals("")) {
-                                            java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
+                                                                    xmlWriter.writeStartElement(prefix2,"places", namespace2);
+                                                                    xmlWriter.writeNamespace(prefix2, namespace2);
+                                                                    xmlWriter.setPrefix(prefix2, namespace2);
 
-                                            if (prefix2 == null) {
-                                                prefix2 = generatePrefix(namespace2);
+                                                                } else {
+                                                                    xmlWriter.writeStartElement(namespace2,"places");
+                                                                }
 
-                                                xmlWriter.writeStartElement(prefix2,"SecurityServiceException", namespace2);
-                                                xmlWriter.writeNamespace(prefix2, namespace2);
-                                                xmlWriter.setPrefix(prefix2, namespace2);
+                                                            } else {
+                                                                xmlWriter.writeStartElement("places");
+                                                            }
 
-                                            } else {
-                                                xmlWriter.writeStartElement(namespace2,"SecurityServiceException");
+                                                           // write the nil attribute
+                                                           writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                           xmlWriter.writeEndElement();
+                                                    
+                                                }
+
                                             }
+                                     } else {
+                                        
+                                                // write null attribute
+                                                java.lang.String namespace2 = "http://services.generated.carpool.sweng500.psu.edu/xsd";
+                                                if (! namespace2.equals("")) {
+                                                    java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
 
-                                        } else {
-                                            xmlWriter.writeStartElement("SecurityServiceException");
-                                        }
+                                                    if (prefix2 == null) {
+                                                        prefix2 = generatePrefix(namespace2);
 
+                                                        xmlWriter.writeStartElement(prefix2,"places", namespace2);
+                                                        xmlWriter.writeNamespace(prefix2, namespace2);
+                                                        xmlWriter.setPrefix(prefix2, namespace2);
 
-                                       // write the nil attribute
-                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                      xmlWriter.writeEndElement();
-                                    }else{
-                                     localSecurityServiceException.serialize(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","SecurityServiceException"),
-                                        factory,xmlWriter);
+                                                    } else {
+                                                        xmlWriter.writeStartElement(namespace2,"places");
+                                                    }
+
+                                                } else {
+                                                    xmlWriter.writeStartElement("places");
+                                                }
+
+                                               // write the nil attribute
+                                               writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                               xmlWriter.writeEndElement();
+                                        
                                     }
-                                }
+                                 }
                     xmlWriter.writeEndElement();
                
 
@@ -365,14 +434,32 @@
                  java.util.ArrayList elementList = new java.util.ArrayList();
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
-                 if (localSecurityServiceExceptionTracker){
-                            elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
-                                                                      "SecurityServiceException"));
-                            
-                            
-                                    elementList.add(localSecurityServiceException==null?null:
-                                    localSecurityServiceException);
-                                }
+                 if (localPlacesTracker){
+                             if (localPlaces!=null) {
+                                 for (int i = 0;i < localPlaces.length;i++){
+
+                                    if (localPlaces[i] != null){
+                                         elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
+                                                                          "places"));
+                                         elementList.add(localPlaces[i]);
+                                    } else {
+                                        
+                                                elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
+                                                                          "places"));
+                                                elementList.add(null);
+                                            
+                                    }
+
+                                 }
+                             } else {
+                                 
+                                        elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
+                                                                          "places"));
+                                        elementList.add(localPlaces);
+                                    
+                             }
+
+                        }
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
             
@@ -397,9 +484,9 @@
         * Postcondition: If this object is an element, the reader is positioned at its end element
         *                If this object is a complex type, the reader is positioned at the end element of its outer element
         */
-        public static SecurityServiceExceptionE parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
-            SecurityServiceExceptionE object =
-                new SecurityServiceExceptionE();
+        public static FindPlacesResponse parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
+            FindPlacesResponse object =
+                new FindPlacesResponse();
 
             int event;
             java.lang.String nillableValue = null;
@@ -410,17 +497,6 @@
                 while (!reader.isStartElement() && !reader.isEndElement())
                     reader.next();
 
-                
-                   nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                   if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                         // Skip the element and report the null value.  It cannot have subelements.
-                         while (!reader.isEndElement())
-                             reader.next();
-                         
-                                 return null;
-                             
-
-                   }
                 
                 if (reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","type")!=null){
                   java.lang.String fullTypeName = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
@@ -434,10 +510,10 @@
 
                     java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":")+1);
                     
-                            if (!"SecurityServiceException".equals(type)){
+                            if (!"FindPlacesResponse".equals(type)){
                                 //find namespace for the prefix
                                 java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-                                return (SecurityServiceExceptionE)edu.psu.sweng500.carpool.generated.exceptions.xsd.ExtensionMapper.getTypeObject(
+                                return (FindPlacesResponse)edu.psu.sweng500.carpool.generated.beans.xsd.ExtensionMapper.getTypeObject(
                                      nsUri,type,reader);
                               }
                         
@@ -459,24 +535,60 @@
                     
                     reader.next();
                 
+                        java.util.ArrayList list1 = new java.util.ArrayList();
+                    
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","SecurityServiceException").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","places").equals(reader.getName())){
                                 
-                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                          object.setSecurityServiceException(null);
-                                          reader.next();
-                                            
-                                            reader.next();
-                                          
-                                      }else{
                                     
-                                                object.setSecurityServiceException(edu.psu.sweng500.carpool.generated.exceptions.xsd.SecurityServiceException.Factory.parse(reader));
-                                              
-                                        reader.next();
-                                    }
+                                    
+                                    // Process the array and step past its final element's end.
+                                    
+                                                          nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                                          if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                                              list1.add(null);
+                                                              reader.next();
+                                                          } else {
+                                                        list1.add(edu.psu.sweng500.carpool.generated.beans.xsd.Place.Factory.parse(reader));
+                                                                }
+                                                        //loop until we find a start element that is not part of this array
+                                                        boolean loopDone1 = false;
+                                                        while(!loopDone1){
+                                                            // We should be at the end element, but make sure
+                                                            while (!reader.isEndElement())
+                                                                reader.next();
+                                                            // Step out of this element
+                                                            reader.next();
+                                                            // Step to next element event.
+                                                            while (!reader.isStartElement() && !reader.isEndElement())
+                                                                reader.next();
+                                                            if (reader.isEndElement()){
+                                                                //two continuous end elements means we are exiting the xml structure
+                                                                loopDone1 = true;
+                                                            } else {
+                                                                if (new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","places").equals(reader.getName())){
+                                                                    
+                                                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                                                          list1.add(null);
+                                                                          reader.next();
+                                                                      } else {
+                                                                    list1.add(edu.psu.sweng500.carpool.generated.beans.xsd.Place.Factory.parse(reader));
+                                                                        }
+                                                                }else{
+                                                                    loopDone1 = true;
+                                                                }
+                                                            }
+                                                        }
+                                                        // call the converter utility  to convert and set the array
+                                                        
+                                                        object.setPlaces((edu.psu.sweng500.carpool.generated.beans.xsd.Place[])
+                                                            org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
+                                                                edu.psu.sweng500.carpool.generated.beans.xsd.Place.class,
+                                                                list1));
+                                                            
                               }  // End of if for expected property start element
                                 
                                     else {

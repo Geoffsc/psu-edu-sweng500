@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://services.generated.carpool.sweng500.psu.edu" xmlns:axis2="http://services.generated.carpool.sweng500.psu.edu" xmlns:ns0="beans.generated.carpool.sweng500.psu.edu/xsd" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns1="http://exceptions.generated.carpool.sweng500.psu.edu/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://services.generated.carpool.sweng500.psu.edu/xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://beans.generated.carpool.sweng500.psu.edu/xsd" xmlns:ax21="http://beans.generated.carpool.sweng500.psu.edu/xsd">
+  		<xs:complexType name="Place">
+            <xs:sequence>
+            	<xs:element maxOccurs="1" minOccurs="1" name="id" nillable="false" type="xs:string"/>
+                <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="address" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="description" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="category" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="latitude" nillable="true" type="xs:float"/>
+                <xs:element minOccurs="0" name="longitude" nillable="true" type="xs:float"/>
+                <xs:element minOccurs="0" name="phoneNumber" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="url" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="zoom" nillable="true" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+  	</xs:schema>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://exceptions.generated.carpool.sweng500.psu.edu/xsd" xmlns:ax22="http://exceptions.generated.carpool.sweng500.psu.edu/xsd">
+		
+			<!--  <xs:import namespace="http://services.generated.carpool.sweng500.psu.edu/xsd"/> -->
+		        
+		    <xs:complexType name="CarPoolServiceException">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="errorCode" type="xs:int"/>
+                    <xs:element minOccurs="0" name="errorDescription" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="message" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="traceMessage" nillable="true" type="xs:string"/>
+                </xs:sequence>
+		    </xs:complexType>
+		</xs:schema>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.generated.carpool.sweng500.psu.edu/xsd" xmlns:ax21="http://beans.generated.carpool.sweng500.psu.edu/xsd" xmlns:ax22="http://exceptions.generated.carpool.sweng500.psu.edu/xsd" xmlns:xsd="http://services.generated.carpool.sweng500.psu.edu/xsd">
+        
+	        <xs:import namespace="http://exceptions.generated.carpool.sweng500.psu.edu/xsd"/>
+	        <xs:import namespace="http://beans.generated.carpool.sweng500.psu.edu/xsd"/>
+        
+		    <xs:element name="CarPoolServiceException">
+		        <xs:complexType>
+		            <xs:sequence>
+		                <xs:element minOccurs="0" name="CarPoolServiceException" nillable="true" type="ns1:CarPoolServiceException"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+			
+			<xs:element name="FindPlacesRequest">
+		        <xs:complexType>
+		            <xs:sequence>
+		                <xs:element minOccurs="1" name="userName" nillable="false" type="xs:string"/>
+		            	<xs:element minOccurs="1" name="type" nillable="false" type="xs:string"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+			<xs:element name="FindPlacesResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="places" nillable="true" type="ax21:Place"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
+		</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="FindPlacesResponse">
+    <wsdl:part name="parameters" element="ns2:FindPlacesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CarPoolServiceException">
+    <wsdl:part name="parameters" element="ns2:CarPoolServiceException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="FindPlacesRequest">
+    <wsdl:part name="parameters" element="ns2:FindPlacesRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CarPoolServicePortType">
+    <wsdl:operation name="findPlaces">
+      <wsdl:input message="axis2:FindPlacesRequest" wsaw:Action="urn:findPlacesRequest">
+    </wsdl:input>
+      <wsdl:output message="axis2:FindPlacesResponse" wsaw:Action="urn:findPlacesResponse">
+    </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:findPlacesSecurityServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CarPoolServiceSOAP11Binding" type="axis2:CarPoolServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="findPlaces">
+      <soap:operation soapAction="urn:findPlaces" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException">
+        <soap:fault name="CarPoolServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CarPoolService">
+    <wsdl:port name="CarPoolServiceSOAP11port_http" binding="axis2:CarPoolServiceSOAP11Binding">
+      <soap:address location="http://localhost:6187/sweng500_car_pool/services/CarPoolService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

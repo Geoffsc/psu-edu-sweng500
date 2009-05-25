@@ -1,6 +1,6 @@
 
 /**
- * LoginElementResponse.java
+ * CarPoolServiceExceptionE.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.4.1  Built on : Aug 19, 2008 (10:13:44 LKT)
@@ -10,22 +10,22 @@
             
 
             /**
-            *  LoginElementResponse bean class
+            *  CarPoolServiceExceptionE bean class
             */
         
-        public  class LoginElementResponse
+        public  class CarPoolServiceExceptionE
         implements org.apache.axis2.databinding.ADBBean{
         
                 public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName(
                 "http://services.generated.carpool.sweng500.psu.edu/xsd",
-                "loginElementResponse",
-                "ns4");
+                "CarPoolServiceException",
+                "ns3");
 
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://services.generated.carpool.sweng500.psu.edu/xsd")){
-                return "ns4";
+                return "ns3";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -33,45 +33,44 @@
         
 
                         /**
-                        * field for _return
+                        * field for CarPoolServiceException
                         */
 
                         
-                                    protected boolean local_return ;
+                                    protected edu.psu.sweng500.carpool.generated.exceptions.xsd.CarPoolServiceException localCarPoolServiceException ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
                            *   in the serialized XML
                            */
-                           protected boolean local_returnTracker = false ;
+                           protected boolean localCarPoolServiceExceptionTracker = false ;
                            
 
                            /**
                            * Auto generated getter method
-                           * @return boolean
+                           * @return edu.psu.sweng500.carpool.generated.exceptions.xsd.CarPoolServiceException
                            */
-                           public  boolean get_return(){
-                               return local_return;
+                           public  edu.psu.sweng500.carpool.generated.exceptions.xsd.CarPoolServiceException getCarPoolServiceException(){
+                               return localCarPoolServiceException;
                            }
 
                            
                         
                             /**
                                * Auto generated setter method
-                               * @param param _return
+                               * @param param CarPoolServiceException
                                */
-                               public void set_return(boolean param){
+                               public void setCarPoolServiceException(edu.psu.sweng500.carpool.generated.exceptions.xsd.CarPoolServiceException param){
                             
-                                       // setting primitive attribute tracker to true
-                                       
-                                               if (false) {
-                                           local_returnTracker = false;
-                                              
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localCarPoolServiceExceptionTracker = true;
                                        } else {
-                                          local_returnTracker = true;
+                                          localCarPoolServiceExceptionTracker = true;
+                                              
                                        }
                                    
-                                            this.local_return=param;
+                                            this.localCarPoolServiceException=param;
                                     
 
                                }
@@ -109,7 +108,7 @@
                        new org.apache.axis2.databinding.ADBDataSource(this,MY_QNAME){
 
                  public void serialize(org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
-                       LoginElementResponse.this.serialize(MY_QNAME,factory,xmlWriter);
+                       CarPoolServiceExceptionE.this.serialize(MY_QNAME,factory,xmlWriter);
                  }
                };
                return new org.apache.axiom.om.impl.llom.OMSourcedElementImpl(
@@ -163,46 +162,48 @@
                    java.lang.String namespacePrefix = registerPrefix(xmlWriter,"http://services.generated.carpool.sweng500.psu.edu/xsd");
                    if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)){
                        writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
-                           namespacePrefix+":loginElementResponse",
+                           namespacePrefix+":CarPoolServiceException",
                            xmlWriter);
                    } else {
                        writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
-                           "loginElementResponse",
+                           "CarPoolServiceException",
                            xmlWriter);
                    }
 
                
                    }
-                if (local_returnTracker){
-                                    namespace = "http://services.generated.carpool.sweng500.psu.edu/xsd";
-                                    if (! namespace.equals("")) {
-                                        prefix = xmlWriter.getPrefix(namespace);
+                if (localCarPoolServiceExceptionTracker){
+                                    if (localCarPoolServiceException==null){
 
-                                        if (prefix == null) {
-                                            prefix = generatePrefix(namespace);
+                                            java.lang.String namespace2 = "http://services.generated.carpool.sweng500.psu.edu/xsd";
 
-                                            xmlWriter.writeStartElement(prefix,"return", namespace);
-                                            xmlWriter.writeNamespace(prefix, namespace);
-                                            xmlWriter.setPrefix(prefix, namespace);
+                                        if (! namespace2.equals("")) {
+                                            java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
+
+                                            if (prefix2 == null) {
+                                                prefix2 = generatePrefix(namespace2);
+
+                                                xmlWriter.writeStartElement(prefix2,"CarPoolServiceException", namespace2);
+                                                xmlWriter.writeNamespace(prefix2, namespace2);
+                                                xmlWriter.setPrefix(prefix2, namespace2);
+
+                                            } else {
+                                                xmlWriter.writeStartElement(namespace2,"CarPoolServiceException");
+                                            }
 
                                         } else {
-                                            xmlWriter.writeStartElement(namespace,"return");
+                                            xmlWriter.writeStartElement("CarPoolServiceException");
                                         }
 
-                                    } else {
-                                        xmlWriter.writeStartElement("return");
+
+                                       // write the nil attribute
+                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                      xmlWriter.writeEndElement();
+                                    }else{
+                                     localCarPoolServiceException.serialize(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","CarPoolServiceException"),
+                                        factory,xmlWriter);
                                     }
-                                
-                                               if (false) {
-                                           
-                                                         throw new org.apache.axis2.databinding.ADBException("return cannot be null!!");
-                                                      
-                                               } else {
-                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(local_return));
-                                               }
-                                    
-                                   xmlWriter.writeEndElement();
-                             }
+                                }
                     xmlWriter.writeEndElement();
                
 
@@ -364,13 +365,14 @@
                  java.util.ArrayList elementList = new java.util.ArrayList();
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
-                 if (local_returnTracker){
-                                      elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
-                                                                      "return"));
-                                 
-                                elementList.add(
-                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(local_return));
-                            }
+                 if (localCarPoolServiceExceptionTracker){
+                            elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
+                                                                      "CarPoolServiceException"));
+                            
+                            
+                                    elementList.add(localCarPoolServiceException==null?null:
+                                    localCarPoolServiceException);
+                                }
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
             
@@ -395,9 +397,9 @@
         * Postcondition: If this object is an element, the reader is positioned at its end element
         *                If this object is a complex type, the reader is positioned at the end element of its outer element
         */
-        public static LoginElementResponse parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
-            LoginElementResponse object =
-                new LoginElementResponse();
+        public static CarPoolServiceExceptionE parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
+            CarPoolServiceExceptionE object =
+                new CarPoolServiceExceptionE();
 
             int event;
             java.lang.String nillableValue = null;
@@ -408,6 +410,17 @@
                 while (!reader.isStartElement() && !reader.isEndElement())
                     reader.next();
 
+                
+                   nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                   if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                         // Skip the element and report the null value.  It cannot have subelements.
+                         while (!reader.isEndElement())
+                             reader.next();
+                         
+                                 return null;
+                             
+
+                   }
                 
                 if (reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","type")!=null){
                   java.lang.String fullTypeName = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
@@ -421,10 +434,10 @@
 
                     java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":")+1);
                     
-                            if (!"loginElementResponse".equals(type)){
+                            if (!"CarPoolServiceException".equals(type)){
                                 //find namespace for the prefix
                                 java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-                                return (LoginElementResponse)edu.psu.sweng500.carpool.generated.exceptions.xsd.ExtensionMapper.getTypeObject(
+                                return (CarPoolServiceExceptionE)edu.psu.sweng500.carpool.generated.beans.xsd.ExtensionMapper.getTypeObject(
                                      nsUri,type,reader);
                               }
                         
@@ -449,15 +462,21 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","return").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","CarPoolServiceException").equals(reader.getName())){
                                 
-                                    java.lang.String content = reader.getElementText();
+                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                          object.setCarPoolServiceException(null);
+                                          reader.next();
+                                            
+                                            reader.next();
+                                          
+                                      }else{
                                     
-                                              object.set_return(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToBoolean(content));
+                                                object.setCarPoolServiceException(edu.psu.sweng500.carpool.generated.exceptions.xsd.CarPoolServiceException.Factory.parse(reader));
                                               
                                         reader.next();
-                                    
+                                    }
                               }  // End of if for expected property start element
                                 
                                     else {

@@ -6,7 +6,7 @@
  * by the Apache Axis2 version: 1.4.1  Built on : Aug 19, 2008 (10:13:44 LKT)
  */
 
-            package edu.psu.sweng500.carpool.generated.exceptions.xsd;
+            package edu.psu.sweng500.carpool.generated.beans.xsd;
             /**
             *  ExtensionMapper class
             */
@@ -19,10 +19,20 @@
 
               
                   if (
-                  "http://exceptions.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
-                  "SecurityServiceException".equals(typeName)){
+                  "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
+                  "Place".equals(typeName)){
                    
-                            return  edu.psu.sweng500.carpool.generated.exceptions.xsd.SecurityServiceException.Factory.parse(reader);
+                            return  edu.psu.sweng500.carpool.generated.beans.xsd.Place.Factory.parse(reader);
+                        
+
+                  }
+
+              
+                  if (
+                  "http://exceptions.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
+                  "CarPoolServiceException".equals(typeName)){
+                   
+                            return  edu.psu.sweng500.carpool.generated.exceptions.xsd.CarPoolServiceException.Factory.parse(reader);
                         
 
                   }

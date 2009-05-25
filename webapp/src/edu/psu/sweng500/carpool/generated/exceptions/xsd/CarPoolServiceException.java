@@ -1,6 +1,6 @@
 
 /**
- * SecurityServiceException.java
+ * CarPoolServiceException.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.4.1  Built on : Aug 19, 2008 (10:13:44 LKT)
@@ -10,21 +10,21 @@
             
 
             /**
-            *  SecurityServiceException bean class
+            *  CarPoolServiceException bean class
             */
         
-        public  class SecurityServiceException
+        public  class CarPoolServiceException
         implements org.apache.axis2.databinding.ADBBean{
         /* This type was generated from the piece of schema that had
-                name = SecurityServiceException
+                name = CarPoolServiceException
                 Namespace URI = http://exceptions.generated.carpool.sweng500.psu.edu/xsd
-                Namespace Prefix = ns3
+                Namespace Prefix = ns2
                 */
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://exceptions.generated.carpool.sweng500.psu.edu/xsd")){
-                return "ns3";
+                return "ns2";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -240,7 +240,7 @@
                        new org.apache.axis2.databinding.ADBDataSource(this,parentQName){
 
                  public void serialize(org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
-                       SecurityServiceException.this.serialize(parentQName,factory,xmlWriter);
+                       CarPoolServiceException.this.serialize(parentQName,factory,xmlWriter);
                  }
                };
                return new org.apache.axiom.om.impl.llom.OMSourcedElementImpl(
@@ -294,11 +294,11 @@
                    java.lang.String namespacePrefix = registerPrefix(xmlWriter,"http://exceptions.generated.carpool.sweng500.psu.edu/xsd");
                    if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)){
                        writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
-                           namespacePrefix+":SecurityServiceException",
+                           namespacePrefix+":CarPoolServiceException",
                            xmlWriter);
                    } else {
                        writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
-                           "SecurityServiceException",
+                           "CarPoolServiceException",
                            xmlWriter);
                    }
 
@@ -646,9 +646,9 @@
         * Postcondition: If this object is an element, the reader is positioned at its end element
         *                If this object is a complex type, the reader is positioned at the end element of its outer element
         */
-        public static SecurityServiceException parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
-            SecurityServiceException object =
-                new SecurityServiceException();
+        public static CarPoolServiceException parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
+            CarPoolServiceException object =
+                new CarPoolServiceException();
 
             int event;
             java.lang.String nillableValue = null;
@@ -672,10 +672,10 @@
 
                     java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":")+1);
                     
-                            if (!"SecurityServiceException".equals(type)){
+                            if (!"CarPoolServiceException".equals(type)){
                                 //find namespace for the prefix
                                 java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-                                return (SecurityServiceException)edu.psu.sweng500.carpool.generated.exceptions.xsd.ExtensionMapper.getTypeObject(
+                                return (CarPoolServiceException)edu.psu.sweng500.carpool.generated.beans.xsd.ExtensionMapper.getTypeObject(
                                      nsUri,type,reader);
                               }
                         

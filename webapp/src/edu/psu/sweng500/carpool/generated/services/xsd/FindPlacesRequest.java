@@ -1,6 +1,6 @@
 
 /**
- * LoginElementRequest.java
+ * FindPlacesRequest.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.4.1  Built on : Aug 19, 2008 (10:13:44 LKT)
@@ -10,22 +10,22 @@
             
 
             /**
-            *  LoginElementRequest bean class
+            *  FindPlacesRequest bean class
             */
         
-        public  class LoginElementRequest
+        public  class FindPlacesRequest
         implements org.apache.axis2.databinding.ADBBean{
         
                 public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName(
                 "http://services.generated.carpool.sweng500.psu.edu/xsd",
-                "loginElementRequest",
-                "ns4");
+                "FindPlacesRequest",
+                "ns3");
 
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://services.generated.carpool.sweng500.psu.edu/xsd")){
-                return "ns4";
+                return "ns3";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -63,30 +63,30 @@
                             
 
                         /**
-                        * field for Password
+                        * field for Type
                         */
 
                         
-                                    protected java.lang.String localPassword ;
+                                    protected java.lang.String localType ;
                                 
 
                            /**
                            * Auto generated getter method
                            * @return java.lang.String
                            */
-                           public  java.lang.String getPassword(){
-                               return localPassword;
+                           public  java.lang.String getType(){
+                               return localType;
                            }
 
                            
                         
                             /**
                                * Auto generated setter method
-                               * @param param Password
+                               * @param param Type
                                */
-                               public void setPassword(java.lang.String param){
+                               public void setType(java.lang.String param){
                             
-                                            this.localPassword=param;
+                                            this.localType=param;
                                     
 
                                }
@@ -124,7 +124,7 @@
                        new org.apache.axis2.databinding.ADBDataSource(this,MY_QNAME){
 
                  public void serialize(org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
-                       LoginElementRequest.this.serialize(MY_QNAME,factory,xmlWriter);
+                       FindPlacesRequest.this.serialize(MY_QNAME,factory,xmlWriter);
                  }
                };
                return new org.apache.axiom.om.impl.llom.OMSourcedElementImpl(
@@ -178,11 +178,11 @@
                    java.lang.String namespacePrefix = registerPrefix(xmlWriter,"http://services.generated.carpool.sweng500.psu.edu/xsd");
                    if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)){
                        writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
-                           namespacePrefix+":loginElementRequest",
+                           namespacePrefix+":FindPlacesRequest",
                            xmlWriter);
                    } else {
                        writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
-                           "loginElementRequest",
+                           "FindPlacesRequest",
                            xmlWriter);
                    }
 
@@ -230,28 +230,28 @@
                                         if (prefix == null) {
                                             prefix = generatePrefix(namespace);
 
-                                            xmlWriter.writeStartElement(prefix,"password", namespace);
+                                            xmlWriter.writeStartElement(prefix,"type", namespace);
                                             xmlWriter.writeNamespace(prefix, namespace);
                                             xmlWriter.setPrefix(prefix, namespace);
 
                                         } else {
-                                            xmlWriter.writeStartElement(namespace,"password");
+                                            xmlWriter.writeStartElement(namespace,"type");
                                         }
 
                                     } else {
-                                        xmlWriter.writeStartElement("password");
+                                        xmlWriter.writeStartElement("type");
                                     }
                                 
 
-                                          if (localPassword==null){
+                                          if (localType==null){
                                               // write the nil attribute
                                               
-                                                     throw new org.apache.axis2.databinding.ADBException("password cannot be null!!");
+                                                     throw new org.apache.axis2.databinding.ADBException("type cannot be null!!");
                                                   
                                           }else{
 
                                         
-                                                   xmlWriter.writeCharacters(localPassword);
+                                                   xmlWriter.writeCharacters(localType);
                                             
                                           }
                                     
@@ -429,12 +429,12 @@
                                         }
                                     
                                       elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
-                                                                      "password"));
+                                                                      "type"));
                                  
-                                        if (localPassword != null){
-                                            elementList.add(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPassword));
+                                        if (localType != null){
+                                            elementList.add(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localType));
                                         } else {
-                                           throw new org.apache.axis2.databinding.ADBException("password cannot be null!!");
+                                           throw new org.apache.axis2.databinding.ADBException("type cannot be null!!");
                                         }
                                     
 
@@ -461,9 +461,9 @@
         * Postcondition: If this object is an element, the reader is positioned at its end element
         *                If this object is a complex type, the reader is positioned at the end element of its outer element
         */
-        public static LoginElementRequest parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
-            LoginElementRequest object =
-                new LoginElementRequest();
+        public static FindPlacesRequest parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
+            FindPlacesRequest object =
+                new FindPlacesRequest();
 
             int event;
             java.lang.String nillableValue = null;
@@ -487,10 +487,10 @@
 
                     java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":")+1);
                     
-                            if (!"loginElementRequest".equals(type)){
+                            if (!"FindPlacesRequest".equals(type)){
                                 //find namespace for the prefix
                                 java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-                                return (LoginElementRequest)edu.psu.sweng500.carpool.generated.exceptions.xsd.ExtensionMapper.getTypeObject(
+                                return (FindPlacesRequest)edu.psu.sweng500.carpool.generated.beans.xsd.ExtensionMapper.getTypeObject(
                                      nsUri,type,reader);
                               }
                         
@@ -534,11 +534,11 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","password").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","type").equals(reader.getName())){
                                 
                                     java.lang.String content = reader.getElementText();
                                     
-                                              object.setPassword(
+                                              object.setType(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                               
                                         reader.next();

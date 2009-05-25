@@ -7,6 +7,9 @@
     	
 	<bean id="loginService" class="edu.psu.sweng500.carpool.services.AdbSecurityService">
     </bean>
+    
+    <bean id="carPoolService" class="edu.psu.sweng500.carpool.services.AdbCarPoolService">
+    </bean>
     	
     <bean id="urlMapping"
         class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
