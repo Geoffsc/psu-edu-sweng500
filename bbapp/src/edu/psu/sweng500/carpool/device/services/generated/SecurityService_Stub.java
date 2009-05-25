@@ -14,7 +14,7 @@ public class SecurityService_Stub implements SecurityService, javax.xml.rpc.Stub
 
     public SecurityService_Stub() {
         _propertyNames = new String[] { ENDPOINT_ADDRESS_PROPERTY };
-        _propertyValues = new Object[] { "http://192.168.1.5:6187/sweng500_car_pool/services/SecurityService/" };
+        _propertyValues = new Object[] { "http://192.168.1.5:6180/sweng500_car_pool/services/SecurityService/" };
     }
 
     public void _setProperty( String name, Object value ) {
@@ -80,18 +80,18 @@ public class SecurityService_Stub implements SecurityService, javax.xml.rpc.Stub
         return (Boolean )((Object[])resultObj)[0];
     }
 
-    protected static final QName _qname_operation_login = new QName( "http://services.generated.carpool.sweng500.psu.edu", "login" );
-    protected static final QName _qname_loginElementResponse = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "loginElementResponse" );
-    protected static final QName _qname_loginElementRequest = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "loginElementRequest" );
-    protected static final Element _type_loginElementResponse;
+    protected static final QName _qname_operation_login = new QName( "http://services.generated.security.sweng500.psu.edu", "login" );
+    protected static final QName _qname_loginElementResponse = new QName( "http://services.generated.security.sweng500.psu.edu/xsd", "loginElementResponse" );
+    protected static final QName _qname_loginElementRequest = new QName( "http://services.generated.security.sweng500.psu.edu/xsd", "loginElementRequest" );
     protected static final Element _type_loginElementRequest;
+    protected static final Element _type_loginElementResponse;
 
     static {
         _type_loginElementResponse = new Element( _qname_loginElementResponse, _complexType( new Element[] {
-            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "return" ), Type.BOOLEAN, 0, 1, false )}), 1, 1, false );
+            new Element( new QName( "http://services.generated.security.sweng500.psu.edu/xsd", "return" ), Type.BOOLEAN, 0, 1, false )}), 1, 1, false );
         _type_loginElementRequest = new Element( _qname_loginElementRequest, _complexType( new Element[] {
-            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "userName" ), Type.STRING ),
-            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "password" ), Type.STRING )}), 1, 1, false );
+            new Element( new QName( "http://services.generated.security.sweng500.psu.edu/xsd", "userName" ), Type.STRING ),
+            new Element( new QName( "http://services.generated.security.sweng500.psu.edu/xsd", "password" ), Type.STRING )}), 1, 1, false );
     }
 
     private static ComplexType _complexType( Element[] elements ) {
