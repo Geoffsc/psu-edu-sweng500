@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions targetNamespace="http://services.generated.carpool.sweng500.psu.edu" xmlns:axis2="http://services.generated.carpool.sweng500.psu.edu" xmlns:ns0="http://exceptions.generated.carpool.sweng500.psu.edu/xsd" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns1="http://services.generated.carpool.sweng500.psu.edu/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://beans.generated.carpool.sweng500.psu.edu/xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions targetNamespace="http://services.generated.security.sweng500.psu.edu" xmlns:axis2="http://services.generated.security.sweng500.psu.edu" xmlns:ns0="beans.generated.security.sweng500.psu.edu/xsd" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns1="http://exceptions.generated.security.sweng500.psu.edu/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://services.generated.security.sweng500.psu.edu/xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
-    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://exceptions.generated.carpool.sweng500.psu.edu/xsd" xmlns:ax21="http://exceptions.generated.carpool.sweng500.psu.edu/xsd">
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://exceptions.generated.security.sweng500.psu.edu/xsd" xmlns:ax22="http://exceptions.generated.security.sweng500.psu.edu/xsd">
 		
-			<xs:import namespace="http://services.generated.carpool.sweng500.psu.edu/xsd"/>
+			<!--  <xs:import namespace="http://services.generated.security.sweng500.psu.edu/xsd"/> -->
 		        
 		    <xs:complexType name="SecurityServiceException">
                 <xs:sequence>
@@ -13,18 +13,20 @@
                     <xs:element minOccurs="0" name="traceMessage" nillable="true" type="xs:string"/>
                 </xs:sequence>
 		    </xs:complexType>
+		    
 		</xs:schema>
-    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.generated.carpool.sweng500.psu.edu/xsd" xmlns:xsd="http://services.generated.carpool.sweng500.psu.edu/xsd">
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.generated.security.sweng500.psu.edu/xsd" xmlns:ax22="http://exceptions.generated.security.sweng500.psu.edu/xsd" xmlns:xsd="http://services.generated.security.sweng500.psu.edu/xsd">
         
-	        <xs:import namespace="http://exceptions.generated.carpool.sweng500.psu.edu/xsd"/>
+	        <xs:import namespace="http://exceptions.generated.security.sweng500.psu.edu/xsd"/>
         
 		    <xs:element name="SecurityServiceException">
 		        <xs:complexType>
 		            <xs:sequence>
-		                <xs:element minOccurs="0" name="SecurityServiceException" nillable="true" type="ns0:SecurityServiceException"/>
+		                <xs:element minOccurs="0" name="SecurityServiceException" nillable="true" type="ns1:SecurityServiceException"/>
 		            </xs:sequence>
 		        </xs:complexType>
 		    </xs:element>
+		    
 		    <xs:element name="loginElementRequest">
 		        <xs:complexType>
 		            <xs:sequence>
@@ -40,18 +42,19 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
+			
 		</xs:schema>
   </wsdl:types>
   <wsdl:message name="loginRequest">
-    <wsdl:part name="parameters" element="ns1:loginElementRequest">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="SecurityServiceException">
-    <wsdl:part name="parameters" element="ns1:SecurityServiceException">
+    <wsdl:part name="parameters" element="ns2:loginElementRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="loginResponse">
-    <wsdl:part name="parameters" element="ns1:loginElementResponse">
+    <wsdl:part name="parameters" element="ns2:loginElementResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SecurityServiceException">
+    <wsdl:part name="parameters" element="ns2:SecurityServiceException">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="SecurityServicePortType">
@@ -60,7 +63,7 @@
     </wsdl:input>
       <wsdl:output message="axis2:loginResponse" wsaw:Action="urn:loginResponse">
     </wsdl:output>
-      <wsdl:fault name="SecurityServiceException" message="axis2:SecurityServiceException" wsaw:Action="urn:findPeopleSecurityServiceException">
+      <wsdl:fault name="SecurityServiceException" message="axis2:SecurityServiceException" wsaw:Action="urn:loginSecurityServiceException">
     </wsdl:fault>
     </wsdl:operation>
   </wsdl:portType>
