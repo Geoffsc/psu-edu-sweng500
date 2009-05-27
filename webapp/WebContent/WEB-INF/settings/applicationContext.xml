@@ -6,6 +6,7 @@
     	class="org.apache.axis2.extensions.spring.receivers.ApplicationContextHolder" />
     	
 	<bean id="loginService" class="edu.psu.sweng500.carpool.services.AdbSecurityService">
+		<property name="securityService"><ref bean="securityService"/></property>
     </bean>
     
     <bean id="carPoolService" class="edu.psu.sweng500.carpool.services.AdbCarPoolService">

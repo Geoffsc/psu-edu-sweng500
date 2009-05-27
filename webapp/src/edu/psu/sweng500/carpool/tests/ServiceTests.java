@@ -39,7 +39,7 @@ public class ServiceTests
 		    method = ServiceUtilities.addValue(
 		    		factory, method, omNs, "userName", "eborisow");
 		    method = ServiceUtilities.addValue(
-                    factory, method, omNs, "password", "test");
+                    factory, method, omNs, "password", "password");
 		    
 		    ServiceClient serviceClient = new ServiceClient();
 		
@@ -61,7 +61,7 @@ public class ServiceTests
 		}
 	}
 	
-	@Test
+	
 	public void testFindPlaces()
 	{
 		try

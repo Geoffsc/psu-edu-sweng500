@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "../../dtd/spring-beans.dtd">
+
+<beans>
+	<!-- Data source bean -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>org.gjt.mm.mysql.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://localhost/sweng500</value>
+		</property>
+		<property name="username">
+			<value>eborisow</value>
+		</property>
+		<property name="password">
+			<value>password</value>
+		</property>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource"><ref local="dataSource"/></property>
+		<property name="mappingResources">
+			<list>
+				<value>edu/psu/sweng500/carpool/data/resources/CarPool-Users.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+
+
+				<prop key="hibernate.c3p0.min_size">3</prop>
+				<prop key="hibernate.c3p0.max_size">15</prop>
+				<prop key="hibernate.c3p0.timeout">1800</prop>
+
+				<!-- Disable second-level cache. -->
+		        <prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
+				<!--  <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop> -->
+				<!--  Use with EH Cache <prop key="hibernate.cache.use_second_level_cache">true</prop> -->
+				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+		        <prop key="hibernate.cache.use_query_cache">false</prop>
+		        <prop key="hibernate.cache.use_minimal_puts">false</prop>
+		        <prop key="hibernate.max_fetch_depth">3</prop>
+
+		        <!-- Print SQL to stdout. -->
+		        <prop key="hibernate.show_sql">true</prop>
+		        <prop key="hibernate.format_sql">true</prop>
+
+		        <!-- Drop and then re-create schema on SessionFactory build, for testing. -->
+		        <!-- <prop key="hibernate.hbm2ddl.auto">create</prop> -->
+
+		        <!-- Bind the getCurrentSession() method to the thread. -->
+		        <!-- <prop key="hibernate.current_session_context_class">thread</prop> -->
+			</props>
+		</property>
+	</bean>
+
+	<bean id="securityService" class="edu.psu.sweng500.carpool.services.SecurityServiceWrapper">
+		<property name="sessionFactory"><ref local="sessionFactory"/></property>
+	</bean>
+</beans>

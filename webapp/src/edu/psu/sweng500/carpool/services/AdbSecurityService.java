@@ -11,6 +11,13 @@ import edu.psu.sweng500.security.generated.services.xsd.LoginElementResponse;
 public class AdbSecurityService implements SecurityServiceSkeletonInterface
 {
 	private static final Log log = LogFactory.getLog(AdbSecurityService.class);
+	
+	private ISecurityServiceWrapper securityService;
+	
+	public void setSecurityService(ISecurityServiceWrapper securityService)
+	{
+		this.securityService = securityService;
+	}
 
 	public LoginElementResponse login(LoginElementRequest loginElementRequest)
 			throws SecurityServiceException
@@ -20,8 +27,10 @@ public class AdbSecurityService implements SecurityServiceSkeletonInterface
 		{
 			log.debug("User name: " + loginElementRequest.getUserName() + "/password: " + loginElementRequest.getPassword());
 		}
+		
+		boolean isLoggedIn = this.securityService.login(loginElementRequest.getUserName(), loginElementRequest.getPassword());
 		LoginElementResponse response = new LoginElementResponse();
-		response.set_return(true);
+		response.set_return(isLoggedIn);
 		return response;
 	}
 

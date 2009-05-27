@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="edu.psu.sweng500.carpool.beans">
+  <class name="User" table="users">
+	<id unsaved-value="null" column="id" type="string" name="id"/>
+	
+	<property name="userName" column="USER_NAME" not-null="true"/>
+	<property name="password"/>
+	<property name="givenName" column="GIVEN_NAME"/>
+	<property name="surName"/>
+	
+	<many-to-one name="organization" column="ORGANIZATION_ID" unique="true" insert="false" update="false" outer-join="false"/>
+  </class>
+  
+  <class name="Organization" table="organizations">
+  	<id unsaved-value="null" column="id" type="string" name="id"/>
+  	<property name="name" not-null="true"/>
+  </class>
+</hibernate-mapping>

@@ -3,10 +3,21 @@
 	<display-name>SWENG500 - Car Pool WebApp</display-name>
 	
 	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/settings/applicationContext.xml</param-value>
+		<param-name>webAppRootKey</param-name>
+		<param-value>edu.psu.sweng500.carpool</param-value>
 	</context-param>
 	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/settings/data/applicationContext-hibernate.xml
+			/WEB-INF/settings/applicationContext.xml
+		</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
+	</listener>
 	<listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
