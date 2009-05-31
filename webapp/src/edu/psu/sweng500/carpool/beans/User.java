@@ -1,5 +1,7 @@
 package edu.psu.sweng500.carpool.beans;
 
+import java.util.Set;
+
 public class User
 {
 	private String id;
@@ -7,7 +9,9 @@ public class User
 	private String password;
 	private String givenName;
 	private String surName;
+	private String type;
 	private Organization organization;
+	private Set savedAddresses;
 	
 	public String getId()
 	{
@@ -56,6 +60,22 @@ public class User
 	public void setOrganization(Organization organization)
 	{
 		this.organization = organization;
+	}
+	public String getType()
+	{
+		return type;
+	}
+	public void setType(String type)
+	{
+		this.type = type;
+	}
+	public Set getSavedAddresses()
+	{
+		return savedAddresses;
+	}
+	public void setSavedAddresses(Set savedAddresses)
+	{
+		this.savedAddresses = savedAddresses;
 	}
 	
 }

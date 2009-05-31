@@ -3,19 +3,39 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="edu.psu.sweng500.carpool.beans">
-  <class name="User" table="users">
-	<id unsaved-value="null" column="id" type="string" name="id"/>
+  <class name="User" table="USERS">
+	<id unsaved-value="null" column="ID" type="string" name="id"/>
 	
 	<property name="userName" column="USER_NAME" not-null="true"/>
-	<property name="password"/>
+	<property name="password" column="PASSWORD"/>
 	<property name="givenName" column="GIVEN_NAME"/>
-	<property name="surName"/>
+	<property name="surName" column="SURNAME"/>
 	
 	<many-to-one name="organization" column="ORGANIZATION_ID" unique="true" insert="false" update="false" outer-join="false"/>
+	
+	<set name="savedAddresses" table="USERS_ADDRESSES">
+        <key column="USER_ID"/>
+        <many-to-many column="ADDRESS_ID"
+            unique="true"
+            class="Address"/>
+    </set>
+	
   </class>
   
-  <class name="Organization" table="organizations">
-  	<id unsaved-value="null" column="id" type="string" name="id"/>
-  	<property name="name" not-null="true"/>
+  <class name="Organization" table="ORGANIZATIONS">
+  	<id unsaved-value="null" column="ID" type="string" name="id"/>
+  	<property name="name" not-null="true" column="NAME"/>
+  </class>
+  
+  <class name="Address" table="ADDRESSES">
+  	<id unsaved-value="null" column="ID" type="string" name="id"/>
+  	<property name="name" not-null="true" column="NAME"/>
+  	<property name="address1" column="ADDRESS_LINE_1"/>
+  	<property name="address2" column="ADDRESS_LINE_2"/>
+  	<property name="city" column="CITY"/>
+  	<property name="stateOrProvince" column="STATE_OR_PROVINCE"/>
+  	<property name="postalCode" column="POSTAL_CODE"/>
+  	<property name="latitude" column="LATITUDE"/>
+  	<property name="longitude" column="LONGITUDE"/>
   </class>
 </hibernate-mapping>

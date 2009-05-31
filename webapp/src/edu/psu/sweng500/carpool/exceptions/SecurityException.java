@@ -18,6 +18,7 @@ public class SecurityException
      * Indicates that the user specified could not be found
      */
     public static final int USER_NOT_FOUND = 6000;
+    public static final int INVALID_PASSWORD = 6001;
 
     /**
      * An internal error occurred in the service

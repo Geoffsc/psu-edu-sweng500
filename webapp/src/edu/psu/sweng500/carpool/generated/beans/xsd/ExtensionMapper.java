@@ -20,6 +20,36 @@
               
                   if (
                   "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
+                  "Organization".equals(typeName)){
+                   
+                            return  edu.psu.sweng500.carpool.generated.beans.xsd.Organization.Factory.parse(reader);
+                        
+
+                  }
+
+              
+                  if (
+                  "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
+                  "PlaceList".equals(typeName)){
+                   
+                            return  edu.psu.sweng500.carpool.generated.beans.xsd.PlaceList.Factory.parse(reader);
+                        
+
+                  }
+
+              
+                  if (
+                  "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
+                  "User".equals(typeName)){
+                   
+                            return  edu.psu.sweng500.carpool.generated.beans.xsd.User.Factory.parse(reader);
+                        
+
+                  }
+
+              
+                  if (
+                  "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
                   "Place".equals(typeName)){
                    
                             return  edu.psu.sweng500.carpool.generated.beans.xsd.Place.Factory.parse(reader);
