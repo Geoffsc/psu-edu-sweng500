@@ -57,7 +57,7 @@ public class SecurityService_Stub implements SecurityService, javax.xml.rpc.Stub
         }
     }
 
-    public Boolean login(String userName, String password) throws java.rmi.RemoteException {
+    public SimpleMessage login(String userName, String password) throws java.rmi.RemoteException {
         Object inputObject[] = new Object[] {
             userName,
             password
@@ -77,7 +77,18 @@ public class SecurityService_Stub implements SecurityService, javax.xml.rpc.Stub
             throw e;
         }
 
-        return (Boolean )((Object[])resultObj)[0];
+        return SimpleMessage_fromObject((Object[])((Object[]) resultObj)[0]);
+    }
+
+    private static SimpleMessage SimpleMessage_fromObject( Object obj[] ) {
+        if(obj == null) return null;
+        SimpleMessage result = new SimpleMessage();
+        result.setIsSuccess((Boolean )obj[0]);
+        result.setErrorCode((Integer )obj[1]);
+        result.setErrorDescription((String )obj[2]);
+        result.setMessage((String )obj[3]);
+        result.setTraceMessage((String )obj[4]);
+        return result;
     }
 
     protected static final QName _qname_operation_login = new QName( "http://services.generated.security.sweng500.psu.edu", "login" );
@@ -88,7 +99,12 @@ public class SecurityService_Stub implements SecurityService, javax.xml.rpc.Stub
 
     static {
         _type_loginElementResponse = new Element( _qname_loginElementResponse, _complexType( new Element[] {
-            new Element( new QName( "http://services.generated.security.sweng500.psu.edu/xsd", "return" ), Type.BOOLEAN, 0, 1, false )}), 1, 1, false );
+            new Element( new QName( "http://services.generated.security.sweng500.psu.edu/xsd", "return" ), _complexType( new Element[] {
+                new Element( new QName( "http://beans.generated.security.sweng500.psu.edu/xsd", "isSuccess" ), Type.BOOLEAN, 0, 1, false ),
+                new Element( new QName( "http://beans.generated.security.sweng500.psu.edu/xsd", "errorCode" ), Type.INT, 0, 1, true ),
+                new Element( new QName( "http://beans.generated.security.sweng500.psu.edu/xsd", "errorDescription" ), Type.STRING, 0, 1, true ),
+                new Element( new QName( "http://beans.generated.security.sweng500.psu.edu/xsd", "message" ), Type.STRING, 0, 1, true ),
+                new Element( new QName( "http://beans.generated.security.sweng500.psu.edu/xsd", "traceMessage" ), Type.STRING, 0, 1, true )}), 1, 1, true )}), 1, 1, false );
         _type_loginElementRequest = new Element( _qname_loginElementRequest, _complexType( new Element[] {
             new Element( new QName( "http://services.generated.security.sweng500.psu.edu/xsd", "userName" ), Type.STRING ),
             new Element( new QName( "http://services.generated.security.sweng500.psu.edu/xsd", "password" ), Type.STRING )}), 1, 1, false );
