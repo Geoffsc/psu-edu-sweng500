@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions targetNamespace="http://services.generated.security.sweng500.psu.edu" xmlns:axis2="http://services.generated.security.sweng500.psu.edu" xmlns:ns0="beans.generated.security.sweng500.psu.edu/xsd" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns1="http://exceptions.generated.security.sweng500.psu.edu/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://services.generated.security.sweng500.psu.edu/xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions targetNamespace="http://services.generated.security.sweng500.psu.edu" xmlns:axis2="http://services.generated.security.sweng500.psu.edu" xmlns:ns0="http://beans.generated.security.sweng500.psu.edu/xsd" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns1="http://exceptions.generated.security.sweng500.psu.edu/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:ax21="http://beans.generated.security.sweng500.psu.edu/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://services.generated.security.sweng500.psu.edu/xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://beans.generated.security.sweng500.psu.edu/xsd" xmlns:ax21="http://beans.generated.security.sweng500.psu.edu/xsd">
+  		<xs:complexType name="SimpleMessage">
+                <xs:sequence>
+                	<xs:element minOccurs="0" name="isSuccess" nillable="false" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="errorCode" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="errorDescription" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="message" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="traceMessage" nillable="true" type="xs:string"/>
+                </xs:sequence>
+		    </xs:complexType>
+  	</xs:schema>
     <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://exceptions.generated.security.sweng500.psu.edu/xsd" xmlns:ax22="http://exceptions.generated.security.sweng500.psu.edu/xsd">
 		
 			<!--  <xs:import namespace="http://services.generated.security.sweng500.psu.edu/xsd"/> -->
@@ -18,6 +29,7 @@
     <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://services.generated.security.sweng500.psu.edu/xsd" xmlns:ax22="http://exceptions.generated.security.sweng500.psu.edu/xsd" xmlns:xsd="http://services.generated.security.sweng500.psu.edu/xsd">
         
 	        <xs:import namespace="http://exceptions.generated.security.sweng500.psu.edu/xsd"/>
+	        <xs:import namespace="http://beans.generated.security.sweng500.psu.edu/xsd"/>
         
 		    <xs:element name="SecurityServiceException">
 		        <xs:complexType>
@@ -38,7 +50,7 @@
 			<xs:element name="loginElementResponse">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element maxOccurs="1" minOccurs="0" name="return" nillable="false" type="xs:boolean"/>
+						<xs:element maxOccurs="1" name="return" nillable="true" type="ns0:SimpleMessage"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>

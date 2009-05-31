@@ -10,6 +10,7 @@
     </bean>
     
     <bean id="carPoolService" class="edu.psu.sweng500.carpool.services.AdbCarPoolService">
+    	<property name="carPoolLocationService"><ref bean="carPoolLocationService"/></property>
     </bean>
     	
     <bean id="urlMapping"
