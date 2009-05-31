@@ -6,6 +6,6 @@ public interface SecurityService extends java.rmi.Remote {
     /**
      *
      */
-    public Boolean login(String userName, String password) throws java.rmi.RemoteException;
+    public SimpleMessage login(String userName, String password) throws java.rmi.RemoteException;
 
 }

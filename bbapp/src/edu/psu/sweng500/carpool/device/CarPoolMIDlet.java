@@ -6,6 +6,7 @@
 package edu.psu.sweng500.carpool.device;
 
 import edu.psu.sweng500.carpool.device.services.generated.SecurityService_Stub;
+import edu.psu.sweng500.carpool.device.services.generated.SimpleMessage;
 import java.rmi.RemoteException;
 import javax.microedition.midlet.*;
 import javax.microedition.lcdui.*;
@@ -15,21 +16,27 @@ import javax.microedition.rms.RecordStoreException;
 /**
  * @author EBorisow
  */
-public class CarPoolMIDlet extends MIDlet implements CommandListener {
+public class CarPoolMIDlet extends MIDlet implements CommandListener, ItemCommandListener {
 
     private boolean midletPaused = false;
+    private String logMessage;
 
     //<editor-fold defaultstate="collapsed" desc=" Generated Fields ">//GEN-BEGIN:|fields|0|
-    private Command cmdOK;
     private Command cmdShowRecords;
-    private Form frm_Login;
-    private StringItem strTitle;
-    private TextField txtUserName;
-    private TextField txtPassword;
-    private Spacer spacer;
-    private Spacer spacer1;
+    private Command cmdOK;
+    private Command cmdShowLog;
+    private Command screenCommand;
+    private Command itemCommand;
+    private Command cmdBack;
+    private Command screenCommand1;
     private Form frm_Main_Menu;
     private StringItem strTitle1;
+    private Form frm_Login;
+    private Spacer spacer;
+    private TextField txtPassword;
+    private TextField txtUserName;
+    private Spacer spacer1;
+    private StringItem strTitle;
     //</editor-fold>//GEN-END:|fields|0|
 
     /**
@@ -126,8 +133,9 @@ public class CarPoolMIDlet extends MIDlet implements CommandListener {
                 String password = txtPassword.getString();
                 try
                 {
-                    Boolean isLoggedIn = securityService.login(userName, password);
-                    if (!isLoggedIn.booleanValue())
+                    SimpleMessage message = securityService.login(userName, password);
+                    logMessage = ("The result is: " + message.getIsSuccess());
+                    if (!message.getIsSuccess().booleanValue())
                     {
                         return;
                     }
@@ -138,18 +146,32 @@ public class CarPoolMIDlet extends MIDlet implements CommandListener {
                 catch (RemoteException rme)
                 {
                     rme.printStackTrace();
+                    logMessage = "A remote exception occurred: " + rme.getMessage();
+
+                    return;
                 }
+
                 switchDisplayable(null, getFrm_Main_Menu());//GEN-LINE:|7-commandAction|2|26-postAction
                 // write post-action user code here
-            } else if (command == cmdShowRecords) {//GEN-LINE:|7-commandAction|3|39-preAction
+            } else if (command == cmdShowLog) {//GEN-LINE:|7-commandAction|3|41-preAction
                 // write pre-action user code here
-//GEN-LINE:|7-commandAction|4|39-postAction
-                // write post-action user code here
+//GEN-LINE:|7-commandAction|4|41-postAction
+                Alert alert = new Alert("Log", logMessage, null, AlertType.INFO);
+                alert.setTimeout(Alert.FOREVER);
+                alert.addCommand(cmdBack);
+                Display display = getDisplay();
+                display.setCurrent(alert);
+            // write post-action user code here
             }//GEN-BEGIN:|7-commandAction|5|7-postCommandAction
         }//GEN-END:|7-commandAction|5|7-postCommandAction
+        if (command == cmdShowLog)
+        {
+        }
         // write post-action user code here
-    }//GEN-BEGIN:|7-commandAction|6|
-    //</editor-fold>//GEN-END:|7-commandAction|6|
+    }//GEN-BEGIN:|7-commandAction|6|41-postAction
+    //</editor-fold>//GEN-END:|7-commandAction|6|41-postAction
+
+
 
 
 
@@ -163,8 +185,9 @@ public class CarPoolMIDlet extends MIDlet implements CommandListener {
             // write pre-init user code here
             frm_Login = new Form("Login Form", new Item[] { getStrTitle(), getSpacer(), getTxtUserName(), getSpacer1(), getTxtPassword() });//GEN-BEGIN:|14-getter|1|14-postInit
             frm_Login.addCommand(getCmdOK());
-            frm_Login.addCommand(getCmdShowRecords());
+            frm_Login.addCommand(getCmdShowLog());
             frm_Login.setCommandListener(this);//GEN-END:|14-getter|1|14-postInit
+            this.getDisplay().setCurrentItem(txtUserName);
             // write post-init user code here
         }//GEN-BEGIN:|14-getter|2|
         return frm_Login;
@@ -179,7 +202,7 @@ public class CarPoolMIDlet extends MIDlet implements CommandListener {
     public StringItem getStrTitle() {
         if (strTitle == null) {//GEN-END:|20-getter|0|20-preInit
             // write pre-init user code here
-            strTitle = new StringItem("", "Please login", Item.PLAIN);//GEN-LINE:|20-getter|1|20-postInit
+            strTitle = new StringItem("Please login", "", Item.PLAIN);//GEN-LINE:|20-getter|1|20-postInit
             // write post-init user code here
         }//GEN-BEGIN:|20-getter|2|
         return strTitle;
@@ -194,7 +217,9 @@ public class CarPoolMIDlet extends MIDlet implements CommandListener {
     public TextField getTxtUserName() {
         if (txtUserName == null) {//GEN-END:|21-getter|0|21-preInit
             // write pre-init user code here
-            txtUserName = new TextField("User Name:", "", 32, TextField.ANY);//GEN-LINE:|21-getter|1|21-postInit
+            txtUserName = new TextField("User Name:", "", 32, TextField.ANY);//GEN-BEGIN:|21-getter|1|21-postInit
+            txtUserName.addCommand(getCmdShowRecords());
+            txtUserName.setItemCommandListener(this);//GEN-END:|21-getter|1|21-postInit
             // write post-init user code here
         }//GEN-BEGIN:|21-getter|2|
         return txtUserName;
@@ -295,6 +320,100 @@ public class CarPoolMIDlet extends MIDlet implements CommandListener {
     }
     //</editor-fold>//GEN-END:|38-getter|2|
 
+    //<editor-fold defaultstate="collapsed" desc=" Generated Method: commandAction for Items ">//GEN-BEGIN:|8-itemCommandAction|0|8-preItemCommandAction
+    /**
+     * Called by a system to indicated that a command has been invoked on a particular item.
+     * @param command the Command that was invoked
+     * @param displayable the Item where the command was invoked
+     */
+    public void commandAction(Command command, Item item) {//GEN-END:|8-itemCommandAction|0|8-preItemCommandAction
+        // write pre-action user code here
+        if (item == txtUserName) {//GEN-BEGIN:|8-itemCommandAction|1|39-preAction
+            if (command == cmdShowRecords) {//GEN-END:|8-itemCommandAction|1|39-preAction
+                // write pre-action user code here
+//GEN-LINE:|8-itemCommandAction|2|39-postAction
+                // write post-action user code here
+            }//GEN-BEGIN:|8-itemCommandAction|3|8-postItemCommandAction
+        }//GEN-END:|8-itemCommandAction|3|8-postItemCommandAction
+        // write post-action user code here
+    }//GEN-BEGIN:|8-itemCommandAction|4|
+    //</editor-fold>//GEN-END:|8-itemCommandAction|4|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: cmdShowLog ">//GEN-BEGIN:|40-getter|0|40-preInit
+    /**
+     * Returns an initiliazed instance of cmdShowLog component.
+     * @return the initialized component instance
+     */
+    public Command getCmdShowLog() {
+        if (cmdShowLog == null) {//GEN-END:|40-getter|0|40-preInit
+            // write pre-init user code here
+            cmdShowLog = new Command("Show Log", Command.SCREEN, 0);//GEN-LINE:|40-getter|1|40-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|40-getter|2|
+        return cmdShowLog;
+    }
+    //</editor-fold>//GEN-END:|40-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: screenCommand ">//GEN-BEGIN:|42-getter|0|42-preInit
+    /**
+     * Returns an initiliazed instance of screenCommand component.
+     * @return the initialized component instance
+     */
+    public Command getScreenCommand() {
+        if (screenCommand == null) {//GEN-END:|42-getter|0|42-preInit
+            // write pre-init user code here
+            screenCommand = new Command("Screen", Command.SCREEN, 0);//GEN-LINE:|42-getter|1|42-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|42-getter|2|
+        return screenCommand;
+    }
+    //</editor-fold>//GEN-END:|42-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: itemCommand ">//GEN-BEGIN:|44-getter|0|44-preInit
+    /**
+     * Returns an initiliazed instance of itemCommand component.
+     * @return the initialized component instance
+     */
+    public Command getItemCommand() {
+        if (itemCommand == null) {//GEN-END:|44-getter|0|44-preInit
+            // write pre-init user code here
+            itemCommand = new Command("Item", Command.ITEM, 0);//GEN-LINE:|44-getter|1|44-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|44-getter|2|
+        return itemCommand;
+    }
+    //</editor-fold>//GEN-END:|44-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: cmdBack ">//GEN-BEGIN:|46-getter|0|46-preInit
+    /**
+     * Returns an initiliazed instance of cmdBack component.
+     * @return the initialized component instance
+     */
+    public Command getCmdBack() {
+        if (cmdBack == null) {//GEN-END:|46-getter|0|46-preInit
+            // write pre-init user code here
+            cmdBack = new Command("Back", Command.BACK, 0);//GEN-LINE:|46-getter|1|46-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|46-getter|2|
+        return cmdBack;
+    }
+    //</editor-fold>//GEN-END:|46-getter|2|
+
+    //<editor-fold defaultstate="collapsed" desc=" Generated Getter: screenCommand1 ">//GEN-BEGIN:|48-getter|0|48-preInit
+    /**
+     * Returns an initiliazed instance of screenCommand1 component.
+     * @return the initialized component instance
+     */
+    public Command getScreenCommand1() {
+        if (screenCommand1 == null) {//GEN-END:|48-getter|0|48-preInit
+            // write pre-init user code here
+            screenCommand1 = new Command("Screen", Command.SCREEN, 0);//GEN-LINE:|48-getter|1|48-postInit
+            // write post-init user code here
+        }//GEN-BEGIN:|48-getter|2|
+        return screenCommand1;
+    }
+    //</editor-fold>//GEN-END:|48-getter|2|
+
 
 
 
@@ -352,7 +471,11 @@ public class CarPoolMIDlet extends MIDlet implements CommandListener {
     {
         RecordStore rs= null;
         try {
-            RecordStore.deleteRecordStore("sweng500_carpool");
+            rs = getRecordStore(true);
+            if (rs != null)
+            {
+                RecordStore.deleteRecordStore("sweng500_carpool");
+            }
 
             rs = getRecordStore(true);
 
