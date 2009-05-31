@@ -18,13 +18,13 @@
         /* This type was generated from the piece of schema that had
                 name = SecurityServiceException
                 Namespace URI = http://exceptions.generated.security.sweng500.psu.edu/xsd
-                Namespace Prefix = ns4
+                Namespace Prefix = ns2
                 */
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://exceptions.generated.security.sweng500.psu.edu/xsd")){
-                return "ns4";
+                return "ns2";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -675,7 +675,7 @@
                             if (!"SecurityServiceException".equals(type)){
                                 //find namespace for the prefix
                                 java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-                                return (SecurityServiceException)edu.psu.sweng500.security.generated.exceptions.xsd.ExtensionMapper.getTypeObject(
+                                return (SecurityServiceException)edu.psu.sweng500.security.generated.beans.xsd.ExtensionMapper.getTypeObject(
                                      nsUri,type,reader);
                               }
                         

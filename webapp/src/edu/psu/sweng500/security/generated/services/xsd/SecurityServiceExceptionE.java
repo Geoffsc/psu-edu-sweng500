@@ -19,13 +19,13 @@
                 public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName(
                 "http://services.generated.security.sweng500.psu.edu/xsd",
                 "SecurityServiceException",
-                "ns5");
+                "ns3");
 
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://services.generated.security.sweng500.psu.edu/xsd")){
-                return "ns5";
+                return "ns3";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -437,7 +437,7 @@
                             if (!"SecurityServiceException".equals(type)){
                                 //find namespace for the prefix
                                 java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-                                return (SecurityServiceExceptionE)edu.psu.sweng500.security.generated.exceptions.xsd.ExtensionMapper.getTypeObject(
+                                return (SecurityServiceExceptionE)edu.psu.sweng500.security.generated.beans.xsd.ExtensionMapper.getTypeObject(
                                      nsUri,type,reader);
                               }
                         
