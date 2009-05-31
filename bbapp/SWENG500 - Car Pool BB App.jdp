@@ -28,6 +28,7 @@ src\edu\psu\sweng500\carpool\device\services\generated\SecurityService.java
 src\edu\psu\sweng500\carpool\device\services\generated\SecurityService.wsclient
 src\edu\psu\sweng500\carpool\device\services\generated\SecurityService.wsdl
 src\edu\psu\sweng500\carpool\device\services\generated\SecurityService_Stub.java
+src\edu\psu\sweng500\carpool\device\services\generated\SimpleMessage.java
 ]
 HaveAlxImports=0
 HaveDefs=0
