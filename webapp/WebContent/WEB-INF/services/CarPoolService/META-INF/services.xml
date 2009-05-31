@@ -24,5 +24,18 @@
             <outputActionMapping>urn:findPlacesResponse</outputActionMapping>
             <faultActionMapping faultName="CarPoolServiceException">urn:findPlacesSecurityServiceException</faultActionMapping>
         </operation>
+        
+        <operation name="findPlacesNearLocation" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://services.generated.carpool.sweng500.psu.edu">
+            <actionMapping>urn:findPlacesNearLocationRequest</actionMapping>
+            <outputActionMapping>urn:findPlacesNearLocationResponse</outputActionMapping>
+            <faultActionMapping faultName="CarPoolServiceException">urn:findPlacesSecurityServiceException</faultActionMapping>
+        </operation>
+        
+        <operation name="getUser" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://services.generated.carpool.sweng500.psu.edu">
+            <actionMapping>urn:getUserRequest</actionMapping>
+            <outputActionMapping>urn:getUserResponse</outputActionMapping>
+            <faultActionMapping faultName="CarPoolServiceException">urn:getUserServiceException</faultActionMapping>
+        </operation>
+        
     </service>
 </serviceGroup>
