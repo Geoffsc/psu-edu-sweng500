@@ -8,12 +8,16 @@ import org.apache.axiom.om.OMAbstractFactory;
 import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.OMFactory;
 import org.apache.axiom.om.OMNamespace;
+import org.apache.axis2.AxisFault;
 import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.junit.Test;
 
+import edu.psu.sweng500.carpool.exceptions.SecurityException;
 import edu.psu.sweng500.carpool.services.utilities.ServiceUtilities;
+import edu.psu.sweng500.security.generated.services.SecurityServiceException;
+import edu.psu.sweng500.security.generated.services.xsd.SecurityServiceExceptionE;
 
 public class ServiceTests
 {
@@ -58,9 +62,64 @@ public class ServiceTests
 		    System.out.println("Response: " + writer.toString());
 		} catch (Exception ex) {
 		    ex.printStackTrace();
+		    System.out.println("The exception class is: " + ex.getClass().getName());
+		    
+		    if (ex instanceof AxisFault)
+		    {
+		    	AxisFault fault = (AxisFault) ex;
+		    	OMElement omElement = fault.getDetail();
+		    	
+		    }
+		    
+		    if (ex instanceof SecurityServiceException)
+		    {
+		    	SecurityServiceException sse = (SecurityServiceException) ex;
+		    	SecurityServiceExceptionE sseException = sse.getFaultMessage();
+		    	edu.psu.sweng500.security.generated.exceptions.xsd.SecurityServiceException sseBean = sseException.getSecurityServiceException();
+		    	System.out.println("The error code was: " + sseBean.getErrorCode());
+		    	System.out.println("The error description was: " + sseBean.getErrorDescription());
+		    	System.out.println("The error trace was: " + sseBean.getTraceMessage());
+		    }
 		}
 	}
 	
+	@Test
+	public void testFindPlacesNearLocation()
+	{
+		try
+		{
+			OMFactory factory = OMAbstractFactory.getOMFactory();
+		    OMNamespace omNs = factory.createOMNamespace(
+		                "http://services.generated.carpool.sweng500.psu.edu/xsd", "xsd");
+		
+		    OMElement method = factory.createOMElement("findPlacesNearLocation", omNs);
+		    
+		    method = ServiceUtilities.addValue(
+		    		factory, method, omNs, "latitude", "0");
+		    method = ServiceUtilities.addValue(
+                    factory, method, omNs, "longitude", "0");
+		    method = ServiceUtilities.addValue(
+                    factory, method, omNs, "numMiles", "20");
+		    
+		    ServiceClient serviceClient = new ServiceClient();
+		
+		    Options options = new Options();
+		    serviceClient.setOptions(options);
+		    options.setTo(targetEPR1);
+		
+		    //Blocking invocation
+		    OMElement result = serviceClient.sendReceive(method);
+		
+		    StringWriter writer = new StringWriter();
+		    result.serialize(XMLOutputFactory.newInstance()
+		            .createXMLStreamWriter(writer));
+		    writer.flush();
+		
+		    System.out.println("Response: " + writer.toString());
+		} catch (Exception ex) {
+		    ex.printStackTrace();
+		}
+	}
 	
 	public void testFindPlaces()
 	{

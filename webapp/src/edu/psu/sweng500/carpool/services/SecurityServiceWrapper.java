@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import edu.psu.sweng500.carpool.beans.User;
+import edu.psu.sweng500.carpool.exceptions.SecurityException;
 
 public class SecurityServiceWrapper extends HibernateDaoSupport implements ISecurityServiceWrapper
 {
@@ -50,7 +51,9 @@ public class SecurityServiceWrapper extends HibernateDaoSupport implements ISecu
             {
             	return true;
             }
-            return false;
+            
+            throw new SecurityException(SecurityException.USER_NOT_FOUND, "The specified user could not be found");
+            
         }
         catch (HibernateException ex) {
             throw convertHibernateAccessException(ex);
