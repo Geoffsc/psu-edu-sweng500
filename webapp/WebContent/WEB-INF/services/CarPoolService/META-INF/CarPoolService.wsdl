@@ -62,6 +62,12 @@
             </xs:sequence>
         </xs:complexType>
         
+        <xs:complexType name="TripList">
+            <xs:sequence>
+            	<xs:element maxOccurs="unbounded" minOccurs="0" name="trip" nillable="true" type="ax21:Trip"/>
+            </xs:sequence>
+        </xs:complexType>
+        
         <xs:complexType name="SimpleMessage">
                 <xs:sequence>
                 	<xs:element minOccurs="0" name="isSuccess" nillable="false" type="xs:boolean"/>
@@ -148,8 +154,28 @@
 				</xs:complexType>
 			</xs:element>
 			
+			<xs:element name="GetTripsByUserRequest">
+		        <xs:complexType>
+		            <xs:sequence>
+		                <xs:element minOccurs="1" name="userId" nillable="false" type="xs:string"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+		    
+		    <xs:element name="GetTripsByUserResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="0" name="trips" nillable="true" type="ax21:TripList"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
 		</xs:schema>
   </wsdl:types>
+  <wsdl:message name="GetTripsByUserResponse">
+    <wsdl:part name="parameters" element="ns2:GetTripsByUserResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="FindPlacesNearLocationResponse">
     <wsdl:part name="parameters" element="ns2:FindPlacesNearLocationResponse">
     </wsdl:part>
@@ -164,6 +190,10 @@
   </wsdl:message>
   <wsdl:message name="GetUserRequest">
     <wsdl:part name="parameters" element="ns2:GetUserRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetTripsByUserRequest">
+    <wsdl:part name="parameters" element="ns2:GetTripsByUserRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="GetUserResponse">
@@ -203,6 +233,14 @@
       <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:getUserSecurityServiceException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="getTripsByUser">
+      <wsdl:input message="axis2:GetTripsByUserRequest" wsaw:Action="urn:GetTripsByUserRequest">
+    </wsdl:input>
+      <wsdl:output message="axis2:GetTripsByUserResponse" wsaw:Action="urn:GetTripsByUserResponse">
+    </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:getTripsByUserServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="CarPoolServiceSOAP11Binding" type="axis2:CarPoolServicePortType">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
@@ -232,6 +270,18 @@
     </wsdl:operation>
     <wsdl:operation name="getUser">
       <soap:operation soapAction="urn:getUser" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException">
+        <soap:fault name="CarPoolServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTripsByUser">
+      <soap:operation soapAction="urn:getTripsByUser" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
       </wsdl:input>

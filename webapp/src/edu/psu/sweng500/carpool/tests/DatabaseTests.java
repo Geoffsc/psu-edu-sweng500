@@ -13,16 +13,19 @@ import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 
 import edu.psu.sweng500.carpool.beans.Address;
+import edu.psu.sweng500.carpool.beans.Trip;
+import edu.psu.sweng500.carpool.beans.TripUser;
 import edu.psu.sweng500.carpool.beans.User;
 import edu.psu.sweng500.carpool.data.FindCriteria;
 import edu.psu.sweng500.carpool.services.CarPoolLocationService;
+import edu.psu.sweng500.carpool.services.CarPoolTripService;
 import edu.psu.sweng500.carpool.services.CarPoolUserService;
 
 public class DatabaseTests
 {
 	private static final Log log = LogFactory.getLog(DatabaseTests.class);
 	
-	@Test
+	
 	public void testGetUser()
 	{
 		CarPoolUserService carPoolService = new CarPoolUserService();
@@ -42,7 +45,7 @@ public class DatabaseTests
 		}
 	}
 	
-	@Test
+	
 	public void testFindLocations()
 	{
 		CarPoolLocationService carPoolService = new CarPoolLocationService();
@@ -72,6 +75,41 @@ public class DatabaseTests
 			if (address != null)
 			{
 				System.out.println("Address line 1: " + address.getAddress1());
+			}
+		}
+	}
+	
+	@Test
+	public void testGetTripsByUser()
+	{
+		CarPoolTripService carPoolService = new CarPoolTripService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		FindCriteria criteria = new FindCriteria();
+		
+		Criterion[] allCriterion = new Criterion[1];
+		
+		Criterion userCriterion = Restrictions.eq("user.userName", "eborisow");
+		
+		allCriterion[0] = userCriterion;
+		criteria.setCriterion(allCriterion);
+		
+		List tripUsers = carPoolService.findTrips(criteria);
+		Iterator tripUsersIter = tripUsers.iterator();
+		while (tripUsersIter.hasNext())
+		{
+			TripUser tripUser = (TripUser) tripUsersIter.next();
+			if (tripUser != null)
+			{
+				Trip trip = tripUser.getTrip();
+				System.out.println("Trip id: " + trip.getId());
+				
+				Address startAddress = trip.getStartAddress();
+				System.out.println("Start address: " + startAddress.getAddress1());
+				
+				Address endAddress = trip.getEndAddress();
+				System.out.println("End address: " + endAddress.getAddress1());
 			}
 		}
 	}

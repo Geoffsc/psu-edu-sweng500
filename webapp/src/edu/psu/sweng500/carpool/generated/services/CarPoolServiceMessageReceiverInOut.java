@@ -36,22 +36,76 @@
 
         
 
+            if("getUser".equals(methodName)){
+                
+                edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse getUserResponse17 = null;
+	                        edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest wrappedParam =
+                                                             (edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest)fromOM(
+                                    msgContext.getEnvelope().getBody().getFirstElement(),
+                                    edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest.class,
+                                    getEnvelopeNamespaces(msgContext.getEnvelope()));
+                                                
+                                               getUserResponse17 =
+                                                   
+                                                   
+                                                         skel.getUser(wrappedParam)
+                                                    ;
+                                            
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), getUserResponse17, false);
+                                    } else 
+
+            if("findPlacesNearLocation".equals(methodName)){
+                
+                edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse findPlacesNearLocationResponse19 = null;
+	                        edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest wrappedParam =
+                                                             (edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest)fromOM(
+                                    msgContext.getEnvelope().getBody().getFirstElement(),
+                                    edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest.class,
+                                    getEnvelopeNamespaces(msgContext.getEnvelope()));
+                                                
+                                               findPlacesNearLocationResponse19 =
+                                                   
+                                                   
+                                                         skel.findPlacesNearLocation(wrappedParam)
+                                                    ;
+                                            
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), findPlacesNearLocationResponse19, false);
+                                    } else 
+
             if("findPlaces".equals(methodName)){
                 
-                edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesResponse findPlacesResponse5 = null;
+                edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesResponse findPlacesResponse21 = null;
 	                        edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesRequest wrappedParam =
                                                              (edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesRequest)fromOM(
                                     msgContext.getEnvelope().getBody().getFirstElement(),
                                     edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesRequest.class,
                                     getEnvelopeNamespaces(msgContext.getEnvelope()));
                                                 
-                                               findPlacesResponse5 =
+                                               findPlacesResponse21 =
                                                    
                                                    
                                                          skel.findPlaces(wrappedParam)
                                                     ;
                                             
-                                        envelope = toEnvelope(getSOAPFactory(msgContext), findPlacesResponse5, false);
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), findPlacesResponse21, false);
+                                    } else 
+
+            if("getTripsByUser".equals(methodName)){
+                
+                edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse getTripsByUserResponse23 = null;
+	                        edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest wrappedParam =
+                                                             (edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest)fromOM(
+                                    msgContext.getEnvelope().getBody().getFirstElement(),
+                                    edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest.class,
+                                    getEnvelopeNamespaces(msgContext.getEnvelope()));
+                                                
+                                               getTripsByUserResponse23 =
+                                                   
+                                                   
+                                                         skel.getTripsByUser(wrappedParam)
+                                                    ;
+                                            
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), getTripsByUserResponse23, false);
                                     
             } else {
               throw new java.lang.RuntimeException("method not found");
@@ -76,6 +130,76 @@
         }
         
         //
+            private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest param, boolean optimizeContent)
+            throws org.apache.axis2.AxisFault {
+
+            
+                        try{
+                             return param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest.MY_QNAME,
+                                          org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                        } catch(org.apache.axis2.databinding.ADBException e){
+                            throw org.apache.axis2.AxisFault.makeFault(e);
+                        }
+                    
+
+            }
+        
+            private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse param, boolean optimizeContent)
+            throws org.apache.axis2.AxisFault {
+
+            
+                        try{
+                             return param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse.MY_QNAME,
+                                          org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                        } catch(org.apache.axis2.databinding.ADBException e){
+                            throw org.apache.axis2.AxisFault.makeFault(e);
+                        }
+                    
+
+            }
+        
+            private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE param, boolean optimizeContent)
+            throws org.apache.axis2.AxisFault {
+
+            
+                        try{
+                             return param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE.MY_QNAME,
+                                          org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                        } catch(org.apache.axis2.databinding.ADBException e){
+                            throw org.apache.axis2.AxisFault.makeFault(e);
+                        }
+                    
+
+            }
+        
+            private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest param, boolean optimizeContent)
+            throws org.apache.axis2.AxisFault {
+
+            
+                        try{
+                             return param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest.MY_QNAME,
+                                          org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                        } catch(org.apache.axis2.databinding.ADBException e){
+                            throw org.apache.axis2.AxisFault.makeFault(e);
+                        }
+                    
+
+            }
+        
+            private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse param, boolean optimizeContent)
+            throws org.apache.axis2.AxisFault {
+
+            
+                        try{
+                             return param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse.MY_QNAME,
+                                          org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                        } catch(org.apache.axis2.databinding.ADBException e){
+                            throw org.apache.axis2.AxisFault.makeFault(e);
+                        }
+                    
+
+            }
+        
             private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesRequest param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
@@ -104,12 +228,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE.MY_QNAME,
+                             return param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -118,6 +242,58 @@
 
             }
         
+            private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse param, boolean optimizeContent)
+            throws org.apache.axis2.AxisFault {
+
+            
+                        try{
+                             return param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse.MY_QNAME,
+                                          org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                        } catch(org.apache.axis2.databinding.ADBException e){
+                            throw org.apache.axis2.AxisFault.makeFault(e);
+                        }
+                    
+
+            }
+        
+                    private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse param, boolean optimizeContent)
+                        throws org.apache.axis2.AxisFault{
+                      try{
+                          org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+                           
+                                    emptyEnvelope.getBody().addChild(param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse.MY_QNAME,factory));
+                                
+
+                         return emptyEnvelope;
+                    } catch(org.apache.axis2.databinding.ADBException e){
+                        throw org.apache.axis2.AxisFault.makeFault(e);
+                    }
+                    }
+                    
+                         private edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse wrapgetUser(){
+                                edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse wrappedElement = new edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse();
+                                return wrappedElement;
+                         }
+                    
+                    private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse param, boolean optimizeContent)
+                        throws org.apache.axis2.AxisFault{
+                      try{
+                          org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+                           
+                                    emptyEnvelope.getBody().addChild(param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse.MY_QNAME,factory));
+                                
+
+                         return emptyEnvelope;
+                    } catch(org.apache.axis2.databinding.ADBException e){
+                        throw org.apache.axis2.AxisFault.makeFault(e);
+                    }
+                    }
+                    
+                         private edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse wrapfindPlacesNearLocation(){
+                                edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse wrappedElement = new edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse();
+                                return wrappedElement;
+                         }
+                    
                     private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesResponse param, boolean optimizeContent)
                         throws org.apache.axis2.AxisFault{
                       try{
@@ -134,6 +310,25 @@
                     
                          private edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesResponse wrapfindPlaces(){
                                 edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesResponse wrappedElement = new edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesResponse();
+                                return wrappedElement;
+                         }
+                    
+                    private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse param, boolean optimizeContent)
+                        throws org.apache.axis2.AxisFault{
+                      try{
+                          org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+                           
+                                    emptyEnvelope.getBody().addChild(param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse.MY_QNAME,factory));
+                                
+
+                         return emptyEnvelope;
+                    } catch(org.apache.axis2.databinding.ADBException e){
+                        throw org.apache.axis2.AxisFault.makeFault(e);
+                    }
+                    }
+                    
+                         private edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse wrapgetTripsByUser(){
+                                edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse wrappedElement = new edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse();
                                 return wrappedElement;
                          }
                     
@@ -154,6 +349,48 @@
 
         try {
         
+                if (edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest.class.equals(type)){
+                
+                           return edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse.class.equals(type)){
+                
+                           return edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE.class.equals(type)){
+                
+                           return edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest.class.equals(type)){
+                
+                           return edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse.class.equals(type)){
+                
+                           return edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE.class.equals(type)){
+                
+                           return edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
                 if (edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesRequest.class.equals(type)){
                 
                            return edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesRequest.Factory.parse(param.getXMLStreamReaderWithoutCaching());
@@ -164,6 +401,27 @@
                 if (edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesResponse.class.equals(type)){
                 
                            return edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE.class.equals(type)){
+                
+                           return edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest.class.equals(type)){
+                
+                           return edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse.class.equals(type)){
+                
+                           return edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }

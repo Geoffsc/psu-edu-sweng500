@@ -6,9 +6,10 @@
     <session-factory>
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.gjt.mm.mysql.Driver</property>
-        <property name="connection.url">jdbc:mysql://geoffscholl.com/gscholl_sweng500</property>
-        <property name="connection.username">gscholl_eborisow</property>
-        <property name="connection.password">psusweng500</property>
+        <!-- <property name="connection.url">jdbc:mysql://geoffscholl.com/gscholl_sweng500</property> -->
+        <property name="connection.url">jdbc:mysql://localhost/sweng500</property>
+        <property name="connection.username">eborisow</property>
+        <property name="connection.password">password</property>
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>

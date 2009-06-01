@@ -15,6 +15,36 @@
         /**
          * Auto generated method signature
          * 
+                                    * @param getUserRequest
+             * @throws CarPoolServiceException : 
+         */
+
+        
+                public edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse getUser
+                (
+                  edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest getUserRequest
+                 )
+            throws CarPoolServiceException;
+        
+         
+        /**
+         * Auto generated method signature
+         * 
+                                    * @param findPlacesNearLocationRequest
+             * @throws CarPoolServiceException : 
+         */
+
+        
+                public edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse findPlacesNearLocation
+                (
+                  edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest findPlacesNearLocationRequest
+                 )
+            throws CarPoolServiceException;
+        
+         
+        /**
+         * Auto generated method signature
+         * 
                                     * @param findPlacesRequest
              * @throws CarPoolServiceException : 
          */
@@ -23,6 +53,21 @@
                 public edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesResponse findPlaces
                 (
                   edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesRequest findPlacesRequest
+                 )
+            throws CarPoolServiceException;
+        
+         
+        /**
+         * Auto generated method signature
+         * 
+                                    * @param getTripsByUserRequest
+             * @throws CarPoolServiceException : 
+         */
+
+        
+                public edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse getTripsByUser
+                (
+                  edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest getTripsByUserRequest
                  )
             throws CarPoolServiceException;
         

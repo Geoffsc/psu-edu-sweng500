@@ -11,6 +11,7 @@
     
     <bean id="carPoolService" class="edu.psu.sweng500.carpool.services.AdbCarPoolService">
     	<property name="carPoolLocationService"><ref bean="carPoolLocationService"/></property>
+    	<property name="carPoolTripService"><ref bean="carPoolTripService"/></property>
     </bean>
     	
     <bean id="urlMapping"

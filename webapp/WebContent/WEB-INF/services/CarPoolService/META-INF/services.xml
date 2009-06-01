@@ -37,5 +37,11 @@
             <faultActionMapping faultName="CarPoolServiceException">urn:getUserServiceException</faultActionMapping>
         </operation>
         
+        <operation name="getTripsByUser" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://services.generated.carpool.sweng500.psu.edu">
+            <actionMapping>urn:getTripsByUserRequest</actionMapping>
+            <outputActionMapping>urn:getTripsByUserResponse</outputActionMapping>
+            <faultActionMapping faultName="CarPoolServiceException">urn:getTripsByUserServiceException</faultActionMapping>
+        </operation>
+        
     </service>
 </serviceGroup>

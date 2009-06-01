@@ -18,13 +18,13 @@
         /* This type was generated from the piece of schema that had
                 name = Place
                 Namespace URI = http://beans.generated.carpool.sweng500.psu.edu/xsd
-                Namespace Prefix = ns6
+                Namespace Prefix = ns1
                 */
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://beans.generated.carpool.sweng500.psu.edu/xsd")){
-                return "ns6";
+                return "ns1";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -106,44 +106,88 @@
                             
 
                         /**
-                        * field for Address
+                        * field for Address1
                         */
 
                         
-                                    protected java.lang.String localAddress ;
+                                    protected java.lang.String localAddress1 ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
                            *   in the serialized XML
                            */
-                           protected boolean localAddressTracker = false ;
+                           protected boolean localAddress1Tracker = false ;
                            
 
                            /**
                            * Auto generated getter method
                            * @return java.lang.String
                            */
-                           public  java.lang.String getAddress(){
-                               return localAddress;
+                           public  java.lang.String getAddress1(){
+                               return localAddress1;
                            }
 
                            
                         
                             /**
                                * Auto generated setter method
-                               * @param param Address
+                               * @param param Address1
                                */
-                               public void setAddress(java.lang.String param){
+                               public void setAddress1(java.lang.String param){
                             
                                        if (param != null){
                                           //update the setting tracker
-                                          localAddressTracker = true;
+                                          localAddress1Tracker = true;
                                        } else {
-                                          localAddressTracker = true;
+                                          localAddress1Tracker = true;
                                               
                                        }
                                    
-                                            this.localAddress=param;
+                                            this.localAddress1=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for Address2
+                        */
+
+                        
+                                    protected java.lang.String localAddress2 ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localAddress2Tracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getAddress2(){
+                               return localAddress2;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param Address2
+                               */
+                               public void setAddress2(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localAddress2Tracker = true;
+                                       } else {
+                                          localAddress2Tracker = true;
+                                              
+                                       }
+                                   
+                                            this.localAddress2=param;
                                     
 
                                }
@@ -624,7 +668,7 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
-                             } if (localAddressTracker){
+                             } if (localAddress1Tracker){
                                     namespace = "http://beans.generated.carpool.sweng500.psu.edu/xsd";
                                     if (! namespace.equals("")) {
                                         prefix = xmlWriter.getPrefix(namespace);
@@ -632,20 +676,20 @@
                                         if (prefix == null) {
                                             prefix = generatePrefix(namespace);
 
-                                            xmlWriter.writeStartElement(prefix,"address", namespace);
+                                            xmlWriter.writeStartElement(prefix,"address1", namespace);
                                             xmlWriter.writeNamespace(prefix, namespace);
                                             xmlWriter.setPrefix(prefix, namespace);
 
                                         } else {
-                                            xmlWriter.writeStartElement(namespace,"address");
+                                            xmlWriter.writeStartElement(namespace,"address1");
                                         }
 
                                     } else {
-                                        xmlWriter.writeStartElement("address");
+                                        xmlWriter.writeStartElement("address1");
                                     }
                                 
 
-                                          if (localAddress==null){
+                                          if (localAddress1==null){
                                               // write the nil attribute
                                               
                                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
@@ -653,7 +697,41 @@
                                           }else{
 
                                         
-                                                   xmlWriter.writeCharacters(localAddress);
+                                                   xmlWriter.writeCharacters(localAddress1);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localAddress2Tracker){
+                                    namespace = "http://beans.generated.carpool.sweng500.psu.edu/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"address2", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"address2");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("address2");
+                                    }
+                                
+
+                                          if (localAddress2==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localAddress2);
                                             
                                           }
                                     
@@ -1058,12 +1136,18 @@
                                  
                                          elementList.add(localName==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localName));
-                                    } if (localAddressTracker){
+                                    } if (localAddress1Tracker){
                                       elementList.add(new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd",
-                                                                      "address"));
+                                                                      "address1"));
                                  
-                                         elementList.add(localAddress==null?null:
-                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localAddress));
+                                         elementList.add(localAddress1==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localAddress1));
+                                    } if (localAddress2Tracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd",
+                                                                      "address2"));
+                                 
+                                         elementList.add(localAddress2==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localAddress2));
                                     } if (localDescriptionTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd",
                                                                       "description"));
@@ -1231,14 +1315,41 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd","address").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd","address1").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
                                     java.lang.String content = reader.getElementText();
                                     
-                                              object.setAddress(
+                                              object.setAddress1(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd","address2").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setAddress2(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {

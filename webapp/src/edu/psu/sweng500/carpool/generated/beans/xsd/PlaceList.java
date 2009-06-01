@@ -18,13 +18,13 @@
         /* This type was generated from the piece of schema that had
                 name = PlaceList
                 Namespace URI = http://beans.generated.carpool.sweng500.psu.edu/xsd
-                Namespace Prefix = ns2
+                Namespace Prefix = ns1
                 */
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://beans.generated.carpool.sweng500.psu.edu/xsd")){
-                return "ns2";
+                return "ns1";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }

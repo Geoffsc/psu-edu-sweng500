@@ -20,6 +20,16 @@
               
                   if (
                   "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
+                  "Trip".equals(typeName)){
+                   
+                            return  edu.psu.sweng500.carpool.generated.beans.xsd.Trip.Factory.parse(reader);
+                        
+
+                  }
+
+              
+                  if (
+                  "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
                   "Organization".equals(typeName)){
                    
                             return  edu.psu.sweng500.carpool.generated.beans.xsd.Organization.Factory.parse(reader);
@@ -63,6 +73,26 @@
                   "CarPoolServiceException".equals(typeName)){
                    
                             return  edu.psu.sweng500.carpool.generated.exceptions.xsd.CarPoolServiceException.Factory.parse(reader);
+                        
+
+                  }
+
+              
+                  if (
+                  "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
+                  "Participant".equals(typeName)){
+                   
+                            return  edu.psu.sweng500.carpool.generated.beans.xsd.Participant.Factory.parse(reader);
+                        
+
+                  }
+
+              
+                  if (
+                  "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
+                  "TripList".equals(typeName)){
+                   
+                            return  edu.psu.sweng500.carpool.generated.beans.xsd.TripList.Factory.parse(reader);
                         
 
                   }

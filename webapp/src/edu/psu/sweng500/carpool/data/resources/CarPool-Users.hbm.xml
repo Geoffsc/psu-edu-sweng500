@@ -38,4 +38,29 @@
   	<property name="latitude" column="LATITUDE"/>
   	<property name="longitude" column="LONGITUDE"/>
   </class>
+  
+  <class name="Trip" table="TRIPS">
+	<id unsaved-value="null" column="ID" type="string" name="id"/>
+	<property name="startDate" column="START_DATE_TIME" type="date"/>
+	<property name="endDate" column="END_DATE_TIME" type="date"/>
+	
+	<many-to-one name="startAddress" column="START_ADDRESS" unique="true" insert="false" update="false" outer-join="false"/>
+	<many-to-one name="endAddress" column="END_ADDRESS" unique="true" insert="false" update="false" outer-join="false"/>
+	
+  </class>
+  
+  <class name="edu.psu.sweng500.carpool.beans.TripUser" table="TRIPS_MEMBERS">
+		<cache usage="read-write"/>
+		<composite-id>
+			<key-property name="tripId" column="TRIP_ID"></key-property>
+			<key-property name="userId" column="MEMBER_ID"></key-property>
+		</composite-id>
+		<!--<one-to-one name="person" class="com.spx.contacts.beans.SPXWorker" outer-join="false">
+		</one-to-one>
+	-->
+		
+		<many-to-one name="user" column="MEMBER_ID" unique="true" insert="false" update="false" outer-join="false"/>
+		<many-to-one name="trip" column="TRIP_ID" unique="true" insert="false" update="false" outer-join="false"/>
+		
+	</class>
 </hibernate-mapping>

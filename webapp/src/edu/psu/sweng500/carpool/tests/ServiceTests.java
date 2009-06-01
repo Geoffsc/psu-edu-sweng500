@@ -29,7 +29,7 @@ public class ServiceTests
         new EndpointReference(
                "http://localhost:6187/sweng500_car_pool/services/CarPoolService");
 	
-	@Test
+	
 	public void testLogin()
 	{
 		try
@@ -83,7 +83,7 @@ public class ServiceTests
 		}
 	}
 	
-	@Test
+	
 	public void testFindPlacesNearLocation()
 	{
 		try
@@ -135,6 +135,40 @@ public class ServiceTests
 		    		factory, method, omNs, "userName", "eborisow");
 		    method = ServiceUtilities.addValue(
                     factory, method, omNs, "type", "Start point");
+		    
+		    ServiceClient serviceClient = new ServiceClient();
+		
+		    Options options = new Options();
+		    serviceClient.setOptions(options);
+		    options.setTo(targetEPR1);
+		
+		    //Blocking invocation
+		    OMElement result = serviceClient.sendReceive(method);
+		
+		    StringWriter writer = new StringWriter();
+		    result.serialize(XMLOutputFactory.newInstance()
+		            .createXMLStreamWriter(writer));
+		    writer.flush();
+		
+		    System.out.println("Response: " + writer.toString());
+		} catch (Exception ex) {
+		    ex.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testFindTripsByUser()
+	{
+		try
+		{
+			OMFactory factory = OMAbstractFactory.getOMFactory();
+		    OMNamespace omNs = factory.createOMNamespace(
+		                "http://services.generated.carpool.sweng500.psu.edu/xsd", "xsd");
+		
+		    OMElement method = factory.createOMElement("getTripsByUser", omNs);
+		    
+		    method = ServiceUtilities.addValue(
+		    		factory, method, omNs, "userId", "eborisow");
 		    
 		    ServiceClient serviceClient = new ServiceClient();
 		
