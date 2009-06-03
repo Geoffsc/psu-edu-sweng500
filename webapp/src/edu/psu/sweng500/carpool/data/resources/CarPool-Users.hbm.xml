@@ -4,7 +4,7 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="edu.psu.sweng500.carpool.beans">
   <class name="User" table="USERS">
-	<id unsaved-value="null" column="ID" type="string" name="id"/>
+	<id column="ID" type="string" name="id"/>
 	
 	<property name="userName" column="USER_NAME" not-null="true"/>
 	<property name="password" column="PASSWORD"/>
@@ -23,12 +23,12 @@
   </class>
   
   <class name="Organization" table="ORGANIZATIONS">
-  	<id unsaved-value="null" column="ID" type="string" name="id"/>
+  	<id column="ID" type="string" name="id"/>
   	<property name="name" not-null="true" column="NAME"/>
   </class>
   
   <class name="Address" table="ADDRESSES">
-  	<id unsaved-value="null" column="ID" type="string" name="id"/>
+  	<id column="ID" type="string" name="id"/>
   	<property name="name" not-null="true" column="NAME"/>
   	<property name="address1" column="ADDRESS_LINE_1"/>
   	<property name="address2" column="ADDRESS_LINE_2"/>
@@ -40,12 +40,29 @@
   </class>
   
   <class name="Trip" table="TRIPS">
-	<id unsaved-value="null" column="ID" type="string" name="id"/>
-	<property name="startDate" column="START_DATE_TIME" type="date"/>
-	<property name="endDate" column="END_DATE_TIME" type="date"/>
+	<id column="ID" type="string" name="id"/>
+	<property name="startDate" column="START_DATE_TIME" type="timestamp"/>
+	<property name="endDate" column="END_DATE_TIME" type="timestamp"/>
+	<property name="title" column="TITLE"/>
 	
-	<many-to-one name="startAddress" column="START_ADDRESS" unique="true" insert="false" update="false" outer-join="false"/>
-	<many-to-one name="endAddress" column="END_ADDRESS" unique="true" insert="false" update="false" outer-join="false"/>
+	<many-to-one name="organization" column="ORGANIZATION_ID" unique="true" insert="true" update="true" outer-join="false"/>
+	
+	<many-to-one name="startAddress" column="START_ADDRESS" unique="true" insert="true" update="true" outer-join="false"/>
+	<many-to-one name="endAddress" column="END_ADDRESS" unique="true" insert="true" update="true" outer-join="false"/>
+	
+	<!-- 
+	<set name="members" table="TRIPS_MEMBERS">
+        <key column="TRIP_ID"/>
+        <many-to-many column="MEMBER_ID" unique="false" class="User"/>
+        
+    </set>
+    -->
+    <!-- 
+	<join table="TRIPS_MEMBERS" optional="true">
+        <key column="tripId" unique="true"/>
+        <many-to-one name="userId" column="userId" not-null="true"/>
+    </join>
+    -->
 	
   </class>
   
@@ -61,6 +78,7 @@
 		
 		<many-to-one name="user" column="MEMBER_ID" unique="true" insert="false" update="false" outer-join="false"/>
 		<many-to-one name="trip" column="TRIP_ID" unique="true" insert="false" update="false" outer-join="false"/>
+		<property name="type" column="TYPE"/>
 		
 	</class>
 </hibernate-mapping>

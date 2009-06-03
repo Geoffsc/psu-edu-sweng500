@@ -15,6 +15,21 @@
         /**
          * Auto generated method signature
          * 
+                                    * @param updateTripRequest
+             * @throws CarPoolServiceException : 
+         */
+
+        
+                public edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripResponse updateTrip
+                (
+                  edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripRequest updateTripRequest
+                 )
+            throws CarPoolServiceException;
+        
+         
+        /**
+         * Auto generated method signature
+         * 
                                     * @param getUserRequest
              * @throws CarPoolServiceException : 
          */

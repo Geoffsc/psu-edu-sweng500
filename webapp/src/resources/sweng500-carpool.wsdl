@@ -170,6 +170,22 @@
 				</xs:complexType>
 			</xs:element>
 			
+			<xs:element name="UpdateTripRequest">
+		        <xs:complexType>
+		            <xs:sequence>
+		                <xs:element minOccurs="1" name="trip" nillable="false" type="ax21:Trip"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+		    
+		    <xs:element name="UpdateTripResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="0" name="isSuccess" nillable="true" type="xs:boolean"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
 		</xs:schema>
   </wsdl:types>
   <wsdl:message name="CarPoolServiceException">
@@ -208,6 +224,14 @@
     <wsdl:part name="parameters" element="ns2:GetTripsByUserResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="UpdateTripRequest">
+    <wsdl:part name="parameters" element="ns2:UpdateTripRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateTripResponse">
+    <wsdl:part name="parameters" element="ns2:UpdateTripResponse">
+    </wsdl:part>
+  </wsdl:message>
   
   <wsdl:portType name="CarPoolServicePortType">
     <wsdl:operation name="findPlaces">
@@ -235,6 +259,13 @@
     	<wsdl:input message="axis2:GetTripsByUserRequest" wsaw:Action="urn:GetTripsByUserRequest"></wsdl:input>
       <wsdl:output message="axis2:GetTripsByUserResponse" wsaw:Action="urn:GetTripsByUserResponse"></wsdl:output>
       <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:getTripsByUserServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+    
+    <wsdl:operation name="updateTrip">
+    	<wsdl:input message="axis2:UpdateTripRequest" wsaw:Action="urn:UpdateTripRequest"></wsdl:input>
+      <wsdl:output message="axis2:UpdateTripResponse" wsaw:Action="urn:UpdateTripResponse"></wsdl:output>
+      <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:updateTripServiceException">
     </wsdl:fault>
     </wsdl:operation>
   </wsdl:portType>
@@ -282,6 +313,19 @@
     
     <wsdl:operation name="getTripsByUser">
       <soap:operation soapAction="urn:getTripsByUser" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException">
+        <soap:fault name="CarPoolServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    
+    <wsdl:operation name="updateTrip">
+      <soap:operation soapAction="urn:updateTrip" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
       </wsdl:input>

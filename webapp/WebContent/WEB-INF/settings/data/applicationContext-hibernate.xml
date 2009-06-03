@@ -69,4 +69,7 @@
 	<bean id="carPoolTripService" class="edu.psu.sweng500.carpool.services.CarPoolTripService">
 		<property name="sessionFactory"><ref local="sessionFactory"/></property>
 	</bean>
+	<bean id="carPoolTripUserService" class="edu.psu.sweng500.carpool.services.CarPoolTripUserService">
+		<property name="sessionFactory"><ref local="sessionFactory"/></property>
+	</bean>
 </beans>

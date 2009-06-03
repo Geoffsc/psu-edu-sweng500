@@ -10,6 +10,8 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import edu.psu.sweng500.carpool.beans.Trip;
@@ -21,8 +23,35 @@ public class CarPoolTripService extends HibernateDaoSupport implements
 
 	public boolean createOrUpdateTrip(Trip trip)
 	{
-		// TODO Auto-generated method stub
-		return false;
+        Session session = getSession(true);
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.saveOrUpdate(trip);
+        
+            tx.commit();
+            return true;
+        }
+        catch (HibernateException ex) {
+            // trap primary key violation since we don't really care
+            DataAccessException ae = convertHibernateAccessException(ex);
+            if (ae instanceof DataIntegrityViolationException)
+            {
+                // do nothing
+            }
+            else
+            {
+                throw convertHibernateAccessException(ex);
+            }
+        }
+        finally
+        {
+            if (session != null)
+            {
+                this.releaseSession(session);
+            }
+        }
+        return false;
 	}
 
 	public boolean deleteTrip(String id)

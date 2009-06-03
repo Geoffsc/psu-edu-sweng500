@@ -11,10 +11,12 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import edu.psu.sweng500.carpool.beans.Address;
+import edu.psu.sweng500.carpool.beans.Organization;
 import edu.psu.sweng500.carpool.beans.Trip;
 import edu.psu.sweng500.carpool.beans.TripUser;
 import edu.psu.sweng500.carpool.beans.User;
 import edu.psu.sweng500.carpool.data.FindCriteria;
+import edu.psu.sweng500.carpool.generated.beans.xsd.Participant;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Place;
 import edu.psu.sweng500.carpool.generated.beans.xsd.PlaceList;
 import edu.psu.sweng500.carpool.generated.beans.xsd.TripList;
@@ -28,6 +30,8 @@ import edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest;
 import edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse;
 import edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest;
 import edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse;
+import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripRequest;
+import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripResponse;
 import edu.psu.sweng500.carpool.services.utilities.ServiceObjectMapper;
 
 public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
@@ -37,6 +41,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 	private ICarPoolLocationService carPoolLocationService;
 	private ICarPoolUserService carPoolUserService;
 	private ICarPoolTripService carPoolTripService;
+	private ICarPoolTripUserService carPoolTripUserService;
 	
 	public void setCarPoolLocationService(
 			ICarPoolLocationService carPoolLocationService)
@@ -52,6 +57,12 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 	public void setCarPoolTripService(ICarPoolTripService carPoolTripService)
 	{
 		this.carPoolTripService = carPoolTripService;
+	}
+	
+	public void setCarPoolTripUserService(
+			ICarPoolTripUserService carPoolTripUserService)
+	{
+		this.carPoolTripUserService = carPoolTripUserService;
 	}
 
 	public FindPlacesResponse findPlaces(FindPlacesRequest findPlacesRequest)
@@ -209,6 +220,48 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		GetTripsByUserResponse response = new GetTripsByUserResponse();
 		response.setTrips(tripList);
 		
+		return response;
+	}
+	
+	public UpdateTripResponse updateTrip(UpdateTripRequest updateTripRequest)
+			throws CarPoolServiceException
+	{
+		Trip trip = new Trip();
+		edu.psu.sweng500.carpool.generated.beans.xsd.Trip serviceTrip = updateTripRequest.getTrip();
+		
+		trip.setId(serviceTrip.getId());
+		trip.setEndDate(serviceTrip.getEndDate().getTime());
+		trip.setStartDate(serviceTrip.getStartDate().getTime());
+		trip.setStartAddress(ServiceObjectMapper.convertToAddress(serviceTrip.getStartAddress()));
+		trip.setEndAddress(ServiceObjectMapper.convertToAddress(serviceTrip.getEndAddress()));
+		trip.setTitle(serviceTrip.getTitle());
+		
+		Organization organization = new Organization();
+		organization.setId(serviceTrip.getOrganization().getId());
+		trip.setOrganization(organization);
+		
+		carPoolTripService.createOrUpdateTrip(trip);
+		
+		// now, add the participants		
+		TripUser tripUser = new TripUser();
+		tripUser.setTripId(trip.getId());
+		
+		Participant[] participants = serviceTrip.getParticipants();
+		if (participants != null)
+		{
+			for (int i = 0; i < participants.length; i++)
+			{
+				Participant participant = participants[i];
+				edu.psu.sweng500.carpool.generated.beans.xsd.User serviceUser = participant.getUser();
+				tripUser.setUserId(serviceUser.getId());
+				tripUser.setType(participant.getType());
+			}
+		}
+		
+		carPoolTripUserService.createOrUpdate(tripUser);
+		
+		UpdateTripResponse response = new UpdateTripResponse();
+		response.setIsSuccess(true);
 		return response;
 	}
 

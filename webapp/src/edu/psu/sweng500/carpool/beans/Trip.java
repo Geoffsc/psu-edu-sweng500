@@ -2,15 +2,19 @@ package edu.psu.sweng500.carpool.beans;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class Trip
 {
 	private String id;
+	private String title;
 	private Address startAddress;
 	private Address endAddress;
 	private Date startDate;
 	private Date endDate;
-	private List users;
+	private Set members;
+	private String userId;
+	private Organization organization;
 	public String getId()
 	{
 		return id;
@@ -51,13 +55,37 @@ public class Trip
 	{
 		this.endDate = endDate;
 	}
-	public List getUsers()
+	public String getUserId()
 	{
-		return users;
+		return userId;
 	}
-	public void setUsers(List users)
+	public void setUserId(String userId)
 	{
-		this.users = users;
+		this.userId = userId;
+	}
+	public Set getMembers()
+	{
+		return members;
+	}
+	public void setMembers(Set members)
+	{
+		this.members = members;
+	}
+	public Organization getOrganization()
+	{
+		return organization;
+	}
+	public void setOrganization(Organization organization)
+	{
+		this.organization = organization;
+	}
+	public String getTitle()
+	{
+		return title;
+	}
+	public void setTitle(String title)
+	{
+		this.title = title;
 	}
 	
 }

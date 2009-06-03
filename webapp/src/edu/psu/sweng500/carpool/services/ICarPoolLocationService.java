@@ -9,4 +9,5 @@ public interface ICarPoolLocationService
 {
 	List getLocationsByUser(FindCriteria criteria);
 	List findLocationsNearLocation(FindCriteria criteria);
+	Address getAddress(String id);
 }

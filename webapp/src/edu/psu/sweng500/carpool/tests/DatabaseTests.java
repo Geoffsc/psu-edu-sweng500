@@ -1,7 +1,12 @@
 package edu.psu.sweng500.carpool.tests;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -13,13 +18,16 @@ import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 
 import edu.psu.sweng500.carpool.beans.Address;
+import edu.psu.sweng500.carpool.beans.Organization;
 import edu.psu.sweng500.carpool.beans.Trip;
 import edu.psu.sweng500.carpool.beans.TripUser;
 import edu.psu.sweng500.carpool.beans.User;
 import edu.psu.sweng500.carpool.data.FindCriteria;
 import edu.psu.sweng500.carpool.services.CarPoolLocationService;
 import edu.psu.sweng500.carpool.services.CarPoolTripService;
+import edu.psu.sweng500.carpool.services.CarPoolTripUserService;
 import edu.psu.sweng500.carpool.services.CarPoolUserService;
+import edu.psu.sweng500.carpool.services.utilities.UniqueIDGeneratorUtil;
 
 public class DatabaseTests
 {
@@ -79,7 +87,7 @@ public class DatabaseTests
 		}
 	}
 	
-	@Test
+	
 	public void testGetTripsByUser()
 	{
 		CarPoolTripService carPoolService = new CarPoolTripService();
@@ -111,6 +119,136 @@ public class DatabaseTests
 				Address endAddress = trip.getEndAddress();
 				System.out.println("End address: " + endAddress.getAddress1());
 			}
+		}
+	}
+	
+	
+	public void createTrip()
+	{
+		System.out.println("Executing createTrip test");
+		CarPoolTripService carPoolService = new CarPoolTripService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		Trip trip = new Trip();
+		trip.setId(UniqueIDGeneratorUtil.getUniqueId());
+		
+		trip.setTitle("Test Trip #" + UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 200));
+		
+		Organization organization = new Organization();
+		organization.setId("12345");
+		trip.setOrganization(organization);
+		
+		CarPoolLocationService carPoolLocationService = new CarPoolLocationService();
+		carPoolLocationService.setSessionFactory(sessionFactory);
+		Address startAddress = carPoolLocationService.getAddress("357847589");
+		trip.setStartAddress(startAddress);
+		
+		Address endAddress = carPoolLocationService.getAddress("745903905");
+		trip.setEndAddress(endAddress);
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 9);
+		calendar.set(Calendar.MINUTE, 30);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MONTH, 5);
+		calendar.set(Calendar.DAY_OF_MONTH, 12);
+		calendar.set(Calendar.YEAR, 2009);
+
+		trip.setStartDate(calendar.getTime());
+		
+		calendar.set(Calendar.HOUR_OF_DAY, 17);
+		calendar.set(Calendar.MINUTE, 45);
+		
+		trip.setEndDate(calendar.getTime());
+		
+		carPoolService.createOrUpdateTrip(trip);
+	}
+	
+	@Test
+	public void updateTrip()
+	{
+		System.out.println("Executing updateTrip test");
+		CarPoolTripService carPoolService = new CarPoolTripService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		Trip trip = new Trip();
+		trip.setId("3443202757641022279");
+		
+		trip.setTitle("Test Trip #" + UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 200));
+		
+		Organization organization = new Organization();
+		organization.setId("12345");
+		trip.setOrganization(organization);
+		
+		CarPoolLocationService carPoolLocationService = new CarPoolLocationService();
+		carPoolLocationService.setSessionFactory(sessionFactory);
+		Address startAddress = carPoolLocationService.getAddress("357847589");
+		trip.setStartAddress(startAddress);
+		
+		Address endAddress = carPoolLocationService.getAddress("745903905");
+		trip.setEndAddress(endAddress);
+		
+		Calendar calendar = Calendar.getInstance();
+		int randomHour = UniqueIDGeneratorUtil.getRandomInt(new Random(), 5, 9);
+		System.out.println("Random hour: " + randomHour);
+		calendar.set(Calendar.HOUR_OF_DAY, randomHour);
+		
+		int randomMinute = UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 59);
+		System.out.println("Random minute: " + randomMinute);
+		calendar.set(Calendar.MINUTE, randomMinute);
+		calendar.set(Calendar.SECOND, 0);
+		
+		int randomMonth = UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 11);
+		System.out.println("Random month: " + randomMonth);
+		calendar.set(Calendar.MONTH, randomMonth);
+		
+		int randomDay = UniqueIDGeneratorUtil.getRandomInt(new Random(), 1, 30);
+		System.out.println("Random day: " + randomDay);
+		calendar.set(Calendar.DAY_OF_MONTH, randomDay);
+		calendar.set(Calendar.YEAR, 2009);
+
+		trip.setStartDate(calendar.getTime());
+		
+		randomHour = UniqueIDGeneratorUtil.getRandomInt(new Random(), 5, 9);
+		System.out.println("Random hour: " + randomHour);
+		calendar.set(Calendar.HOUR_OF_DAY, randomHour);
+		
+		randomMinute = UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 59);
+		System.out.println("Random minute: " + randomMinute);
+		calendar.set(Calendar.MINUTE, randomMinute);
+		
+		trip.setEndDate(calendar.getTime());
+		
+		CarPoolUserService carPoolUserService = new CarPoolUserService();
+		carPoolUserService.setSessionFactory(sessionFactory);
+		User user = carPoolUserService.getUser("eborisow");
+		
+		TripUser tripUser = new TripUser();
+		tripUser.setTripId(trip.getId());
+		tripUser.setUserId(user.getId());
+		tripUser.setType("PASSENGER");
+		
+		CarPoolTripUserService carPoolTripUserService = new CarPoolTripUserService();
+		carPoolTripUserService.setSessionFactory(sessionFactory);
+		carPoolTripUserService.createOrUpdate(tripUser);
+		
+		/*
+		Set users = new HashSet();
+		users.add(user);
+		trip.setMembers(users);
+		*/
+		
+		carPoolService.createOrUpdateTrip(trip);
+	}
+	
+	public static void main(String[] args)
+	{
+		DatabaseTests tests = new DatabaseTests();
+		for (int i = 0; i < 12; i++)
+		{
+			System.out.println(UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 11));
 		}
 	}
 }

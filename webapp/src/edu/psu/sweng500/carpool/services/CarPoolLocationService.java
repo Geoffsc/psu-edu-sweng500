@@ -9,9 +9,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import edu.psu.sweng500.carpool.beans.Address;
+import edu.psu.sweng500.carpool.beans.User;
 import edu.psu.sweng500.carpool.data.FindCriteria;
 
 public class CarPoolLocationService extends HibernateDaoSupport implements ICarPoolLocationService
@@ -102,6 +104,31 @@ public class CarPoolLocationService extends HibernateDaoSupport implements ICarP
 	public List getLocationsByUser(FindCriteria criteria)
 	{
 		return null;
+	}
+	
+	public Address getAddress(String id)
+	{
+		Session session = getSession(true);
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            
+            Criteria criteria=session.createCriteria(edu.psu.sweng500.carpool.beans.Address.class);
+            criteria.add(Restrictions.eq("id", id));
+            
+            tx.commit();
+            return (Address) criteria.uniqueResult(); 
+        }
+        catch (HibernateException ex) {
+            throw convertHibernateAccessException(ex);
+        }
+        finally
+        {
+            if (session != null)
+            {
+                this.releaseSession(session);
+            }
+        }
 	}
 
 }

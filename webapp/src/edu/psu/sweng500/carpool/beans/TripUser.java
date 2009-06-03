@@ -12,8 +12,8 @@ public class TripUser implements Serializable
 	
 	private String userId;
 	private String tripId;
-	private Set trips;
-	private Set users;
+	// private Set trips;
+	// private Set users;
 	private User user;
 	private Trip trip;
 	private String type;
@@ -34,6 +34,7 @@ public class TripUser implements Serializable
 	{
 		this.tripId = tripId;
 	}
+	/*
 	public Set getTrips()
 	{
 		return trips;
@@ -50,6 +51,7 @@ public class TripUser implements Serializable
 	{
 		this.users = users;
 	}
+	*/
 	public String getType()
 	{
 		return type;
