@@ -5329,14 +5329,14 @@
                         */
 
                         
-                                    protected java.lang.String localLatitude ;
+                                    protected float localLatitude ;
                                 
 
                            /**
                            * Auto generated getter method
-                           * @return java.lang.String
+                           * @return float
                            */
-                           public  java.lang.String getLatitude(){
+                           public  float getLatitude(){
                                return localLatitude;
                            }
 
@@ -5346,7 +5346,7 @@
                                * Auto generated setter method
                                * @param param Latitude
                                */
-                               public void setLatitude(java.lang.String param){
+                               public void setLatitude(float param){
                             
                                             this.localLatitude=param;
                                     
@@ -5359,14 +5359,14 @@
                         */
 
                         
-                                    protected java.lang.String localLongitude ;
+                                    protected float localLongitude ;
                                 
 
                            /**
                            * Auto generated getter method
-                           * @return java.lang.String
+                           * @return float
                            */
-                           public  java.lang.String getLongitude(){
+                           public  float getLongitude(){
                                return localLongitude;
                            }
 
@@ -5376,7 +5376,7 @@
                                * Auto generated setter method
                                * @param param Longitude
                                */
-                               public void setLongitude(java.lang.String param){
+                               public void setLongitude(float param){
                             
                                             this.localLongitude=param;
                                     
@@ -5389,14 +5389,14 @@
                         */
 
                         
-                                    protected java.lang.String localNumMiles ;
+                                    protected int localNumMiles ;
                                 
 
                            /**
                            * Auto generated getter method
-                           * @return java.lang.String
+                           * @return int
                            */
-                           public  java.lang.String getNumMiles(){
+                           public  int getNumMiles(){
                                return localNumMiles;
                            }
 
@@ -5406,7 +5406,7 @@
                                * Auto generated setter method
                                * @param param NumMiles
                                */
-                               public void setNumMiles(java.lang.String param){
+                               public void setNumMiles(int param){
                             
                                             this.localNumMiles=param;
                                     
@@ -5530,18 +5530,13 @@
                                         xmlWriter.writeStartElement("latitude");
                                     }
                                 
-
-                                          if (localLatitude==null){
-                                              // write the nil attribute
-                                              
-                                                     throw new org.apache.axis2.databinding.ADBException("latitude cannot be null!!");
-                                                  
-                                          }else{
-
-                                        
-                                                   xmlWriter.writeCharacters(localLatitude);
-                                            
-                                          }
+                                               if (java.lang.Float.isNaN(localLatitude)) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("latitude cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localLatitude));
+                                               }
                                     
                                    xmlWriter.writeEndElement();
                              
@@ -5564,18 +5559,13 @@
                                         xmlWriter.writeStartElement("longitude");
                                     }
                                 
-
-                                          if (localLongitude==null){
-                                              // write the nil attribute
-                                              
-                                                     throw new org.apache.axis2.databinding.ADBException("longitude cannot be null!!");
-                                                  
-                                          }else{
-
-                                        
-                                                   xmlWriter.writeCharacters(localLongitude);
-                                            
-                                          }
+                                               if (java.lang.Float.isNaN(localLongitude)) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("longitude cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localLongitude));
+                                               }
                                     
                                    xmlWriter.writeEndElement();
                              
@@ -5598,18 +5588,13 @@
                                         xmlWriter.writeStartElement("numMiles");
                                     }
                                 
-
-                                          if (localNumMiles==null){
-                                              // write the nil attribute
-                                              
-                                                     throw new org.apache.axis2.databinding.ADBException("numMiles cannot be null!!");
-                                                  
-                                          }else{
-
-                                        
-                                                   xmlWriter.writeCharacters(localNumMiles);
-                                            
-                                          }
+                                               if (localNumMiles==java.lang.Integer.MIN_VALUE) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("numMiles cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localNumMiles));
+                                               }
                                     
                                    xmlWriter.writeEndElement();
                              
@@ -5778,30 +5763,21 @@
                                       elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
                                                                       "latitude"));
                                  
-                                        if (localLatitude != null){
-                                            elementList.add(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localLatitude));
-                                        } else {
-                                           throw new org.apache.axis2.databinding.ADBException("latitude cannot be null!!");
-                                        }
-                                    
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localLatitude));
+                            
                                       elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
                                                                       "longitude"));
                                  
-                                        if (localLongitude != null){
-                                            elementList.add(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localLongitude));
-                                        } else {
-                                           throw new org.apache.axis2.databinding.ADBException("longitude cannot be null!!");
-                                        }
-                                    
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localLongitude));
+                            
                                       elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
                                                                       "numMiles"));
                                  
-                                        if (localNumMiles != null){
-                                            elementList.add(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localNumMiles));
-                                        } else {
-                                           throw new org.apache.axis2.databinding.ADBException("numMiles cannot be null!!");
-                                        }
-                                    
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localNumMiles));
+                            
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
             
@@ -5885,7 +5861,7 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setLatitude(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToFloat(content));
                                               
                                         reader.next();
                                     
@@ -5904,7 +5880,7 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setLongitude(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToFloat(content));
                                               
                                         reader.next();
                                     
@@ -5923,7 +5899,7 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setNumMiles(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(content));
                                               
                                         reader.next();
                                     

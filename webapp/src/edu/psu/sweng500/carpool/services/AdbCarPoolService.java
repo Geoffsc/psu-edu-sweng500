@@ -1,5 +1,6 @@
 package edu.psu.sweng500.carpool.services;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -33,6 +34,7 @@ import edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse;
 import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripRequest;
 import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripResponse;
 import edu.psu.sweng500.carpool.services.utilities.ServiceObjectMapper;
+import edu.psu.sweng500.carpool.utilities.LocationUtils;
 
 public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 {
@@ -107,12 +109,30 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		allCriterion[1] = latGECriterion;
 		allCriterion[2] = longLECriterion;
 		allCriterion[3] = longGECriterion;
-		criteria.setCriterion(allCriterion);
+		// criteria.setCriterion(allCriterion);
 		
 		List addresses = this.carPoolLocationService.findLocationsNearLocation(criteria);
 		
-		Place[] places = new Place[addresses.size()];
+		int numMilesProp = findPlacesNearLocationRequest.getNumMiles();
+		
+		float lat1 = findPlacesNearLocationRequest.getLatitude();
+		float lon1 = findPlacesNearLocationRequest.getLongitude();
+		
+		List foundAddresses = new ArrayList();
+		// figure out which addresses are within our range
 		Iterator addrIter = addresses.iterator();
+		while (addrIter.hasNext())
+		{
+			Address address = (Address) addrIter.next();
+			double distance = LocationUtils.getDistance(lat1, lon1, address.getLatitude(), address.getLongitude(), 'M');
+			if (distance <= numMilesProp)
+			{
+				foundAddresses.add(address);
+			}
+		}
+		
+		Place[] places = new Place[foundAddresses.size()];
+		addrIter = foundAddresses.iterator();
 		int count = 0;
 		while (addrIter.hasNext())
 		{

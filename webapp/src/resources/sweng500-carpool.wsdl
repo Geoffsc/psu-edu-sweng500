@@ -123,9 +123,9 @@
 			<xs:element name="FindPlacesNearLocationRequest">
 		        <xs:complexType>
 		            <xs:sequence>
-		                <xs:element minOccurs="1" name="latitude" nillable="false" type="xs:string"/>
-		            	<xs:element minOccurs="1" name="longitude" nillable="false" type="xs:string"/>
-		            	<xs:element minOccurs="1" name="numMiles" nillable="false" type="xs:string"/>
+		                <xs:element minOccurs="1" name="latitude" nillable="false" type="xs:float"/>
+		            	<xs:element minOccurs="1" name="longitude" nillable="false" type="xs:float"/>
+		            	<xs:element minOccurs="1" name="numMiles" nillable="false" type="xs:int"/>
 		            </xs:sequence>
 		        </xs:complexType>
 		    </xs:element>

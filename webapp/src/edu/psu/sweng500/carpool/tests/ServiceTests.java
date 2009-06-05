@@ -83,7 +83,7 @@ public class ServiceTests
 		}
 	}
 	
-	
+	@Test
 	public void testFindPlacesNearLocation()
 	{
 		try
@@ -95,11 +95,11 @@ public class ServiceTests
 		    OMElement method = factory.createOMElement("findPlacesNearLocation", omNs);
 		    
 		    method = ServiceUtilities.addValue(
-		    		factory, method, omNs, "latitude", "0");
+		    		factory, method, omNs, "latitude", "40.2809");
 		    method = ServiceUtilities.addValue(
-                    factory, method, omNs, "longitude", "0");
+                    factory, method, omNs, "longitude", "-75.3705");
 		    method = ServiceUtilities.addValue(
-                    factory, method, omNs, "numMiles", "20");
+                    factory, method, omNs, "numMiles", "15");
 		    
 		    ServiceClient serviceClient = new ServiceClient();
 		
@@ -156,7 +156,7 @@ public class ServiceTests
 		}
 	}
 	
-	@Test
+	
 	public void testFindTripsByUser()
 	{
 		try
