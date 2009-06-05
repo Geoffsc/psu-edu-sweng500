@@ -18,7 +18,6 @@ public class LoginScreen extends MainScreen
 {
 	private EditField userNameField;
 	private PasswordEditField passwordField;
-	private CarPoolMainScreen mainScreen;
 	
 	private static PersistentObject store;
 	
@@ -28,9 +27,8 @@ public class LoginScreen extends MainScreen
        } 
     };
 	
-	public LoginScreen(CarPoolMainScreen mainScreen)
+	public LoginScreen()
 	{
-		this.mainScreen = mainScreen;
 		this.setTitle("Login");
 		userNameField = new EditField("User name:" ,"" ,256 ,EditField.USE_ALL_WIDTH);
 		passwordField = new PasswordEditField("Password:", "", 256, PasswordEditField.USE_ALL_WIDTH);
@@ -64,6 +62,8 @@ public class LoginScreen extends MainScreen
 				{
 					SessionSettings.setUserName(userName);
 					System.out.println("Session user name: " + SessionSettings.getUserName());
+					
+					CarPoolMainScreen mainScreen = new CarPoolMainScreen();
 					UiApplication.getUiApplication().pushScreen(mainScreen);
 					return;
 				}

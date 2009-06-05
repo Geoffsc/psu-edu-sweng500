@@ -8,9 +8,8 @@ public class CarPoolApplication extends UiApplication
 	public CarPoolApplication()
 	{
 		SessionSettings.setUserName("");
-		CarPoolMainScreen mainScreen = new CarPoolMainScreen();
 		
-		LoginScreen loginScreen = new LoginScreen(mainScreen);
+		LoginScreen loginScreen = new LoginScreen();
 		this.pushScreen(loginScreen);
 	}
 	
