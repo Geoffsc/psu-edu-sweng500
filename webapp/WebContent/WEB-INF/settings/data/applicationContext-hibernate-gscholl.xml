@@ -60,4 +60,16 @@
 	<bean id="securityService" class="edu.psu.sweng500.carpool.services.SecurityServiceWrapper">
 		<property name="sessionFactory"><ref local="sessionFactory"/></property>
 	</bean>
+	<bean id="carPoolLocationService" class="edu.psu.sweng500.carpool.services.CarPoolLocationService">
+		<property name="sessionFactory"><ref local="sessionFactory"/></property>
+	</bean>
+	<bean id="carPoolUserService" class="edu.psu.sweng500.carpool.services.CarPoolUserService">
+		<property name="sessionFactory"><ref local="sessionFactory"/></property>
+	</bean>
+	<bean id="carPoolTripService" class="edu.psu.sweng500.carpool.services.CarPoolTripService">
+		<property name="sessionFactory"><ref local="sessionFactory"/></property>
+	</bean>
+	<bean id="carPoolTripUserService" class="edu.psu.sweng500.carpool.services.CarPoolTripUserService">
+		<property name="sessionFactory"><ref local="sessionFactory"/></property>
+	</bean>
 </beans>
