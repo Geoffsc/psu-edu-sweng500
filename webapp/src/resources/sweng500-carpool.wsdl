@@ -55,8 +55,8 @@
                 <xs:element minOccurs="0" name="title" nillable="true" type="xs:string"/>
                 <xs:element minOccurs="0" name="startAddress" nillable="true" type="ax21:Place"/>
                 <xs:element minOccurs="0" name="endAddress" nillable="true" type="ax21:Place"/>
-                <xs:element minOccurs="0" name="startDate" nillable="true" type="xs:dateTime"/>
-                <xs:element minOccurs="0" name="endDate" nillable="true" type="xs:dateTime"/>
+                <xs:element minOccurs="0" name="startDate" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="endDate" nillable="true" type="xs:string"/>
                 <xs:element minOccurs="0" name="organization" nillable="true" type="ax21:Organization"/>
                 <xs:element maxOccurs="unbounded" minOccurs="0" name="participants" nillable="true" type="ax21:Participant"/>
             </xs:sequence>

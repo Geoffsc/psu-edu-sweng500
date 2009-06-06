@@ -1,7 +1,11 @@
 package edu.psu.sweng500.carpool.services;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -96,6 +100,10 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			FindPlacesNearLocationRequest findPlacesNearLocationRequest)
 			throws CarPoolServiceException
 	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("Starting findPlacesNearLocation");
+		}
 		FindCriteria criteria = new FindCriteria();
 		
 		Criterion[] allCriterion = new Criterion[4];
@@ -111,12 +119,27 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		allCriterion[3] = longGECriterion;
 		// criteria.setCriterion(allCriterion);
 		
-		List addresses = this.carPoolLocationService.findLocationsNearLocation(criteria);
+		FindPlacesNearLocationResponse response = new FindPlacesNearLocationResponse();
 		
 		int numMilesProp = findPlacesNearLocationRequest.getNumMiles();
+		if (numMilesProp <= 0)
+		{
+			return response; 
+		}
 		
 		float lat1 = findPlacesNearLocationRequest.getLatitude();
 		float lon1 = findPlacesNearLocationRequest.getLongitude();
+		if (lat1 < -90 || lat1 > 90 || lon1 < -180 || lon1 > 180)
+		{
+			return response;
+		}
+		
+		List addresses = this.carPoolLocationService.findLocationsNearLocation(criteria);
+		
+		if (addresses == null || addresses.size() <= 0)
+		{
+			return response;
+		}
 		
 		List foundAddresses = new ArrayList();
 		// figure out which addresses are within our range
@@ -148,7 +171,6 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		PlaceList placeList = new PlaceList();
 		placeList.setPlace(places);
 		
-		FindPlacesNearLocationResponse response = new FindPlacesNearLocationResponse();
 		response.setPlaces(placeList);
 		return response;
 	}
@@ -226,11 +248,11 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 				serviceTrip.setEndAddress(endPlace);
 				Calendar startCalendar = Calendar.getInstance();
 				startCalendar.setTime(trip.getStartDate());
-				serviceTrip.setStartDate(startCalendar);
+				serviceTrip.setStartDate(startCalendar.toString());
 				
 				Calendar endCalendar = Calendar.getInstance();
 				endCalendar.setTime(trip.getEndDate());
-				serviceTrip.setEndDate(endCalendar);
+				serviceTrip.setEndDate(endCalendar.toString());
 				
 				serviceTrips[count++] = serviceTrip;
 			}
@@ -250,8 +272,18 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		edu.psu.sweng500.carpool.generated.beans.xsd.Trip serviceTrip = updateTripRequest.getTrip();
 		
 		trip.setId(serviceTrip.getId());
-		trip.setEndDate(serviceTrip.getEndDate().getTime());
-		trip.setStartDate(serviceTrip.getStartDate().getTime());
+		// get the dates and convert to date/time
+		DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
+		try
+		{
+			trip.setEndDate(format.parse(serviceTrip.getEndDate()));
+			trip.setStartDate(format.parse(serviceTrip.getStartDate()));
+		}
+		catch (ParseException pe)
+		{
+			// do nothing - we just don't set the dates
+		}
+		
 		trip.setStartAddress(ServiceObjectMapper.convertToAddress(serviceTrip.getStartAddress()));
 		trip.setEndAddress(ServiceObjectMapper.convertToAddress(serviceTrip.getEndAddress()));
 		trip.setTitle(serviceTrip.getTitle());

@@ -1,7 +1,10 @@
 package edu.psu.sweng500.carpool.tests;
 
 import java.rmi.RemoteException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 import junit.framework.TestCase;
@@ -140,8 +143,12 @@ public class ServiceStubTests
 		endPlace.setId("859085052");
 		trip.setEndAddress(endPlace);
 		
-		trip.setStartDate(Calendar.getInstance());
-		trip.setEndDate(Calendar.getInstance());
+		Date startDate = Calendar.getInstance().getTime();
+		Date endDate = Calendar.getInstance().getTime();
+		DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
+		
+		trip.setStartDate(format.format(startDate));
+		trip.setEndDate(format.format(endDate));
 		
 		Participant[] participants = new Participant[1];
 		Participant participant = new Participant();

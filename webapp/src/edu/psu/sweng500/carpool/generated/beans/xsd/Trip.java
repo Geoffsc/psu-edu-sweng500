@@ -198,7 +198,7 @@
                         */
 
                         
-                                    protected java.util.Calendar localStartDate ;
+                                    protected java.lang.String localStartDate ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
@@ -209,9 +209,9 @@
 
                            /**
                            * Auto generated getter method
-                           * @return java.util.Calendar
+                           * @return java.lang.String
                            */
-                           public  java.util.Calendar getStartDate(){
+                           public  java.lang.String getStartDate(){
                                return localStartDate;
                            }
 
@@ -221,7 +221,7 @@
                                * Auto generated setter method
                                * @param param StartDate
                                */
-                               public void setStartDate(java.util.Calendar param){
+                               public void setStartDate(java.lang.String param){
                             
                                        if (param != null){
                                           //update the setting tracker
@@ -242,7 +242,7 @@
                         */
 
                         
-                                    protected java.util.Calendar localEndDate ;
+                                    protected java.lang.String localEndDate ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
@@ -253,9 +253,9 @@
 
                            /**
                            * Auto generated getter method
-                           * @return java.util.Calendar
+                           * @return java.lang.String
                            */
-                           public  java.util.Calendar getEndDate(){
+                           public  java.lang.String getEndDate(){
                                return localEndDate;
                            }
 
@@ -265,7 +265,7 @@
                                * Auto generated setter method
                                * @param param EndDate
                                */
-                               public void setEndDate(java.util.Calendar param){
+                               public void setEndDate(java.lang.String param){
                             
                                        if (param != null){
                                           //update the setting tracker
@@ -662,7 +662,7 @@
                                           }else{
 
                                         
-                                                   xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStartDate));
+                                                   xmlWriter.writeCharacters(localStartDate);
                                             
                                           }
                                     
@@ -696,7 +696,7 @@
                                           }else{
 
                                         
-                                                   xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localEndDate));
+                                                   xmlWriter.writeCharacters(localEndDate);
                                             
                                           }
                                     
@@ -1212,7 +1212,7 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setStartDate(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToDateTime(content));
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
                                            
@@ -1239,7 +1239,7 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setEndDate(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToDateTime(content));
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
                                            
