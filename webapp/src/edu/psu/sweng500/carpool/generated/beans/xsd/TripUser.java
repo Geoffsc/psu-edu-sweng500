@@ -1,6 +1,6 @@
 
 /**
- * TripList.java
+ * TripUser.java
  *
  * This file was auto-generated from WSDL
  * by the Apache Axis2 version: 1.4.1  Built on : Aug 19, 2008 (10:13:44 LKT)
@@ -10,13 +10,13 @@
             
 
             /**
-            *  TripList bean class
+            *  TripUser bean class
             */
         
-        public  class TripList
+        public  class TripUser
         implements org.apache.axis2.databinding.ADBBean{
         /* This type was generated from the piece of schema that had
-                name = TripList
+                name = TripUser
                 Namespace URI = http://beans.generated.carpool.sweng500.psu.edu/xsd
                 Namespace Prefix = ns1
                 */
@@ -32,86 +32,122 @@
         
 
                         /**
-                        * field for Trip
-                        * This was an Array!
+                        * field for Id
                         */
 
                         
-                                    protected edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] localTrip ;
+                                    protected java.lang.String localId ;
+                                
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getId(){
+                               return localId;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param Id
+                               */
+                               public void setId(java.lang.String param){
+                            
+                                            this.localId=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for GivenName
+                        */
+
+                        
+                                    protected java.lang.String localGivenName ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
                            *   in the serialized XML
                            */
-                           protected boolean localTripTracker = false ;
+                           protected boolean localGivenNameTracker = false ;
                            
 
                            /**
                            * Auto generated getter method
-                           * @return edu.psu.sweng500.carpool.generated.beans.xsd.Trip[]
+                           * @return java.lang.String
                            */
-                           public  edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] getTrip(){
-                               return localTrip;
+                           public  java.lang.String getGivenName(){
+                               return localGivenName;
                            }
 
                            
                         
-
-
-                               
-                              /**
-                               * validate the array for Trip
+                            /**
+                               * Auto generated setter method
+                               * @param param GivenName
                                */
-                              protected void validateTrip(edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] param){
-                             
-                              }
-
-
-                             /**
-                              * Auto generated setter method
-                              * @param param Trip
-                              */
-                              public void setTrip(edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] param){
-                              
-                                   validateTrip(param);
-
-                               
-                                          if (param != null){
-                                             //update the setting tracker
-                                             localTripTracker = true;
-                                          } else {
-                                             localTripTracker = true;
-                                                 
-                                          }
-                                      
-                                      this.localTrip=param;
-                              }
-
-                               
-                             
-                             /**
-                             * Auto generated add method for the array for convenience
-                             * @param param edu.psu.sweng500.carpool.generated.beans.xsd.Trip
-                             */
-                             public void addTrip(edu.psu.sweng500.carpool.generated.beans.xsd.Trip param){
-                                   if (localTrip == null){
-                                   localTrip = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip[]{};
-                                   }
-
+                               public void setGivenName(java.lang.String param){
                             
-                                 //update the setting tracker
-                                localTripTracker = true;
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localGivenNameTracker = true;
+                                       } else {
+                                          localGivenNameTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localGivenName=param;
+                                    
+
+                               }
                             
 
-                               java.util.List list =
-                            org.apache.axis2.databinding.utils.ConverterUtil.toList(localTrip);
-                               list.add(param);
-                               this.localTrip =
-                             (edu.psu.sweng500.carpool.generated.beans.xsd.Trip[])list.toArray(
-                            new edu.psu.sweng500.carpool.generated.beans.xsd.Trip[list.size()]);
+                        /**
+                        * field for SurName
+                        */
 
-                             }
-                             
+                        
+                                    protected java.lang.String localSurName ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localSurNameTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getSurName(){
+                               return localSurName;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param SurName
+                               */
+                               public void setSurName(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localSurNameTracker = true;
+                                       } else {
+                                          localSurNameTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localSurName=param;
+                                    
+
+                               }
+                            
 
      /**
      * isReaderMTOMAware
@@ -145,7 +181,7 @@
                        new org.apache.axis2.databinding.ADBDataSource(this,parentQName){
 
                  public void serialize(org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
-                       TripList.this.serialize(parentQName,factory,xmlWriter);
+                       TripUser.this.serialize(parentQName,factory,xmlWriter);
                  }
                };
                return new org.apache.axiom.om.impl.llom.OMSourcedElementImpl(
@@ -199,79 +235,119 @@
                    java.lang.String namespacePrefix = registerPrefix(xmlWriter,"http://beans.generated.carpool.sweng500.psu.edu/xsd");
                    if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)){
                        writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
-                           namespacePrefix+":TripList",
+                           namespacePrefix+":TripUser",
                            xmlWriter);
                    } else {
                        writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
-                           "TripList",
+                           "TripUser",
                            xmlWriter);
                    }
 
                
                    }
-                if (localTripTracker){
-                                       if (localTrip!=null){
-                                            for (int i = 0;i < localTrip.length;i++){
-                                                if (localTrip[i] != null){
-                                                 localTrip[i].serialize(new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd","trip"),
-                                                           factory,xmlWriter);
-                                                } else {
-                                                   
-                                                            // write null attribute
-                                                            java.lang.String namespace2 = "http://beans.generated.carpool.sweng500.psu.edu/xsd";
-                                                            if (! namespace2.equals("")) {
-                                                                java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
+               
+                                    namespace = "http://beans.generated.carpool.sweng500.psu.edu/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
 
-                                                                if (prefix2 == null) {
-                                                                    prefix2 = generatePrefix(namespace2);
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
 
-                                                                    xmlWriter.writeStartElement(prefix2,"trip", namespace2);
-                                                                    xmlWriter.writeNamespace(prefix2, namespace2);
-                                                                    xmlWriter.setPrefix(prefix2, namespace2);
+                                            xmlWriter.writeStartElement(prefix,"id", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
 
-                                                                } else {
-                                                                    xmlWriter.writeStartElement(namespace2,"trip");
-                                                                }
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"id");
+                                        }
 
-                                                            } else {
-                                                                xmlWriter.writeStartElement("trip");
-                                                            }
-
-                                                           // write the nil attribute
-                                                           writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                                           xmlWriter.writeEndElement();
-                                                    
-                                                }
-
-                                            }
-                                     } else {
-                                        
-                                                // write null attribute
-                                                java.lang.String namespace2 = "http://beans.generated.carpool.sweng500.psu.edu/xsd";
-                                                if (! namespace2.equals("")) {
-                                                    java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
-
-                                                    if (prefix2 == null) {
-                                                        prefix2 = generatePrefix(namespace2);
-
-                                                        xmlWriter.writeStartElement(prefix2,"trip", namespace2);
-                                                        xmlWriter.writeNamespace(prefix2, namespace2);
-                                                        xmlWriter.setPrefix(prefix2, namespace2);
-
-                                                    } else {
-                                                        xmlWriter.writeStartElement(namespace2,"trip");
-                                                    }
-
-                                                } else {
-                                                    xmlWriter.writeStartElement("trip");
-                                                }
-
-                                               // write the nil attribute
-                                               writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                               xmlWriter.writeEndElement();
-                                        
+                                    } else {
+                                        xmlWriter.writeStartElement("id");
                                     }
-                                 }
+                                
+
+                                          if (localId==null){
+                                              // write the nil attribute
+                                              
+                                                     throw new org.apache.axis2.databinding.ADBException("id cannot be null!!");
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localId);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                              if (localGivenNameTracker){
+                                    namespace = "http://beans.generated.carpool.sweng500.psu.edu/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"givenName", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"givenName");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("givenName");
+                                    }
+                                
+
+                                          if (localGivenName==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localGivenName);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localSurNameTracker){
+                                    namespace = "http://beans.generated.carpool.sweng500.psu.edu/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"surName", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"surName");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("surName");
+                                    }
+                                
+
+                                          if (localSurName==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localSurName);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             }
                     xmlWriter.writeEndElement();
                
 
@@ -433,32 +509,28 @@
                  java.util.ArrayList elementList = new java.util.ArrayList();
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
-                 if (localTripTracker){
-                             if (localTrip!=null) {
-                                 for (int i = 0;i < localTrip.length;i++){
-
-                                    if (localTrip[i] != null){
-                                         elementList.add(new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd",
-                                                                          "trip"));
-                                         elementList.add(localTrip[i]);
-                                    } else {
-                                        
-                                                elementList.add(new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd",
-                                                                          "trip"));
-                                                elementList.add(null);
-                                            
-                                    }
-
-                                 }
-                             } else {
+                
+                                      elementList.add(new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd",
+                                                                      "id"));
                                  
-                                        elementList.add(new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd",
-                                                                          "trip"));
-                                        elementList.add(localTrip);
-                                    
-                             }
-
-                        }
+                                        if (localId != null){
+                                            elementList.add(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
+                                        } else {
+                                           throw new org.apache.axis2.databinding.ADBException("id cannot be null!!");
+                                        }
+                                     if (localGivenNameTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd",
+                                                                      "givenName"));
+                                 
+                                         elementList.add(localGivenName==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localGivenName));
+                                    } if (localSurNameTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd",
+                                                                      "surName"));
+                                 
+                                         elementList.add(localSurName==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localSurName));
+                                    }
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
             
@@ -483,9 +555,9 @@
         * Postcondition: If this object is an element, the reader is positioned at its end element
         *                If this object is a complex type, the reader is positioned at the end element of its outer element
         */
-        public static TripList parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
-            TripList object =
-                new TripList();
+        public static TripUser parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
+            TripUser object =
+                new TripUser();
 
             int event;
             java.lang.String nillableValue = null;
@@ -509,10 +581,10 @@
 
                     java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":")+1);
                     
-                            if (!"TripList".equals(type)){
+                            if (!"TripUser".equals(type)){
                                 //find namespace for the prefix
                                 java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
-                                return (TripList)edu.psu.sweng500.carpool.generated.beans.xsd.ExtensionMapper.getTypeObject(
+                                return (TripUser)edu.psu.sweng500.carpool.generated.beans.xsd.ExtensionMapper.getTypeObject(
                                      nsUri,type,reader);
                               }
                         
@@ -534,60 +606,73 @@
                     
                     reader.next();
                 
-                        java.util.ArrayList list1 = new java.util.ArrayList();
-                    
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd","trip").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd","id").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setId(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                else{
+                                    // A start element we are not expecting indicates an invalid parameter was passed
+                                    throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getLocalName());
+                                }
+                            
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd","givenName").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setGivenName(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
                                 
                                     
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd","surName").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
-                                    // Process the array and step past its final element's end.
+                                    java.lang.String content = reader.getElementText();
                                     
-                                                          nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                                          if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                                              list1.add(null);
-                                                              reader.next();
-                                                          } else {
-                                                        list1.add(edu.psu.sweng500.carpool.generated.beans.xsd.Trip.Factory.parse(reader));
-                                                                }
-                                                        //loop until we find a start element that is not part of this array
-                                                        boolean loopDone1 = false;
-                                                        while(!loopDone1){
-                                                            // We should be at the end element, but make sure
-                                                            while (!reader.isEndElement())
-                                                                reader.next();
-                                                            // Step out of this element
-                                                            reader.next();
-                                                            // Step to next element event.
-                                                            while (!reader.isStartElement() && !reader.isEndElement())
-                                                                reader.next();
-                                                            if (reader.isEndElement()){
-                                                                //two continuous end elements means we are exiting the xml structure
-                                                                loopDone1 = true;
-                                                            } else {
-                                                                if (new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd","trip").equals(reader.getName())){
-                                                                    
-                                                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                                                          list1.add(null);
-                                                                          reader.next();
-                                                                      } else {
-                                                                    list1.add(edu.psu.sweng500.carpool.generated.beans.xsd.Trip.Factory.parse(reader));
-                                                                        }
-                                                                }else{
-                                                                    loopDone1 = true;
-                                                                }
-                                                            }
-                                                        }
-                                                        // call the converter utility  to convert and set the array
-                                                        
-                                                        object.setTrip((edu.psu.sweng500.carpool.generated.beans.xsd.Trip[])
-                                                            org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
-                                                                edu.psu.sweng500.carpool.generated.beans.xsd.Trip.class,
-                                                                list1));
-                                                            
+                                              object.setSurName(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
                               }  // End of if for expected property start element
                                 
                                     else {

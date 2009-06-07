@@ -40,5 +40,31 @@ public class CarPoolUserService extends HibernateDaoSupport implements ICarPoolU
             }
         }
 	}
+	
+	public User getUserById(String id)
+	{
+		Session session = getSession(true);
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            
+            Criteria criteria=session.createCriteria(edu.psu.sweng500.carpool.beans.User.class);
+            criteria.setFetchMode("savedAddresses", FetchMode.JOIN);
+            criteria.add(Restrictions.eq("id", id));
+
+            tx.commit();
+            return (User) criteria.uniqueResult(); 
+        }
+        catch (HibernateException ex) {
+            throw convertHibernateAccessException(ex);
+        }
+        finally
+        {
+            if (session != null)
+            {
+                this.releaseSession(session);
+            }
+        }
+	}
 
 }

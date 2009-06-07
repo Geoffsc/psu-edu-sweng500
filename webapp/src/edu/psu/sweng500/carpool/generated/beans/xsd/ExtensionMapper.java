@@ -40,16 +40,6 @@
               
                   if (
                   "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
-                  "PlaceList".equals(typeName)){
-                   
-                            return  edu.psu.sweng500.carpool.generated.beans.xsd.PlaceList.Factory.parse(reader);
-                        
-
-                  }
-
-              
-                  if (
-                  "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
                   "User".equals(typeName)){
                    
                             return  edu.psu.sweng500.carpool.generated.beans.xsd.User.Factory.parse(reader);
@@ -80,9 +70,9 @@
               
                   if (
                   "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
-                  "Participant".equals(typeName)){
+                  "TripUser".equals(typeName)){
                    
-                            return  edu.psu.sweng500.carpool.generated.beans.xsd.Participant.Factory.parse(reader);
+                            return  edu.psu.sweng500.carpool.generated.beans.xsd.TripUser.Factory.parse(reader);
                         
 
                   }
@@ -90,9 +80,9 @@
               
                   if (
                   "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
-                  "TripList".equals(typeName)){
+                  "Participant".equals(typeName)){
                    
-                            return  edu.psu.sweng500.carpool.generated.beans.xsd.TripList.Factory.parse(reader);
+                            return  edu.psu.sweng500.carpool.generated.beans.xsd.Participant.Factory.parse(reader);
                         
 
                   }

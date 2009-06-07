@@ -16,10 +16,12 @@ import edu.psu.sweng500.carpool.beans.Address;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceException;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.FindPlacesRequest;
+import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.GetTripsByUserRequest;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.Organization;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.Participant;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.Place;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.Trip;
+import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.TripUser;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.UpdateTripRequest;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.UpdateTripResponse;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.User;
@@ -30,7 +32,7 @@ import edu.psu.sweng500.security.generated.services.tests.SecurityServiceStub.Lo
 
 public class ServiceStubTests
 {
-	@Test
+	
 	public void testFindPlaces()
 	{
 		FindPlacesRequest request = new FindPlacesRequest();
@@ -58,7 +60,7 @@ public class ServiceStubTests
 		}
 	}
 	
-	@Test
+	
 	public void testLoginSuccess()
 	{
 		LoginElementRequest loginRequest = new LoginElementRequest();
@@ -90,7 +92,7 @@ public class ServiceStubTests
 		}
 	}
 	
-	@Test
+	
 	public void testLoginFailure()
 	{
 		LoginElementRequest loginRequest = new LoginElementRequest();
@@ -124,7 +126,7 @@ public class ServiceStubTests
 		}
 	}
 	
-	@Test
+	
 	public void testUpdateTrip()
 	{
 		Trip trip = new Trip();
@@ -152,7 +154,7 @@ public class ServiceStubTests
 		
 		Participant[] participants = new Participant[1];
 		Participant participant = new Participant();
-		User user1 = new User();
+		TripUser user1 = new TripUser();
 		user1.setId("11111");
 		participant.setUser(user1);
 		participant.setType("DRIVER");
@@ -179,6 +181,33 @@ public class ServiceStubTests
 			sse.printStackTrace();
 			
 			// TestCase.assertEquals(6000, errorCode);
+		}
+		catch (RemoteException re)
+		{
+			re.printStackTrace();
+			TestCase.fail(re.getMessage());
+		}
+	}
+	
+	@Test
+	public void testGetTripsByUser()
+	{
+		GetTripsByUserRequest request = new GetTripsByUserRequest();
+		request.setUserId("eborisow");
+		try
+		{
+			CarPoolServiceStub serviceStub = new CarPoolServiceStub();
+			serviceStub.getTripsByUser(request);
+		}
+		catch (AxisFault afe)
+		{
+			afe.printStackTrace();
+			TestCase.fail(afe.getMessage());
+		}
+		catch (CarPoolServiceException cpe)
+		{
+			cpe.printStackTrace();
+			TestCase.fail(cpe.getMessage());
 		}
 		catch (RemoteException re)
 		{

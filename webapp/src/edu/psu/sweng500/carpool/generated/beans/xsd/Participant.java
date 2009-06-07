@@ -36,7 +36,7 @@
                         */
 
                         
-                                    protected edu.psu.sweng500.carpool.generated.beans.xsd.User localUser ;
+                                    protected edu.psu.sweng500.carpool.generated.beans.xsd.TripUser localUser ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
@@ -47,9 +47,9 @@
 
                            /**
                            * Auto generated getter method
-                           * @return edu.psu.sweng500.carpool.generated.beans.xsd.User
+                           * @return edu.psu.sweng500.carpool.generated.beans.xsd.TripUser
                            */
-                           public  edu.psu.sweng500.carpool.generated.beans.xsd.User getUser(){
+                           public  edu.psu.sweng500.carpool.generated.beans.xsd.TripUser getUser(){
                                return localUser;
                            }
 
@@ -59,7 +59,7 @@
                                * Auto generated setter method
                                * @param param User
                                */
-                               public void setUser(edu.psu.sweng500.carpool.generated.beans.xsd.User param){
+                               public void setUser(edu.psu.sweng500.carpool.generated.beans.xsd.TripUser param){
                             
                                        if (param != null){
                                           //update the setting tracker
@@ -545,7 +545,7 @@
                                           
                                       }else{
                                     
-                                                object.setUser(edu.psu.sweng500.carpool.generated.beans.xsd.User.Factory.parse(reader));
+                                                object.setUser(edu.psu.sweng500.carpool.generated.beans.xsd.TripUser.Factory.parse(reader));
                                               
                                         reader.next();
                                     }

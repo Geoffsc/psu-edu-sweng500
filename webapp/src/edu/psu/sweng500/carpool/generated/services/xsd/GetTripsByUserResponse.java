@@ -33,48 +33,86 @@
         
 
                         /**
-                        * field for Trips
+                        * field for Trip
+                        * This was an Array!
                         */
 
                         
-                                    protected edu.psu.sweng500.carpool.generated.beans.xsd.TripList localTrips ;
+                                    protected edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] localTrip ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
                            *   in the serialized XML
                            */
-                           protected boolean localTripsTracker = false ;
+                           protected boolean localTripTracker = false ;
                            
 
                            /**
                            * Auto generated getter method
-                           * @return edu.psu.sweng500.carpool.generated.beans.xsd.TripList
+                           * @return edu.psu.sweng500.carpool.generated.beans.xsd.Trip[]
                            */
-                           public  edu.psu.sweng500.carpool.generated.beans.xsd.TripList getTrips(){
-                               return localTrips;
+                           public  edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] getTrip(){
+                               return localTrip;
                            }
 
                            
                         
-                            /**
-                               * Auto generated setter method
-                               * @param param Trips
-                               */
-                               public void setTrips(edu.psu.sweng500.carpool.generated.beans.xsd.TripList param){
-                            
-                                       if (param != null){
-                                          //update the setting tracker
-                                          localTripsTracker = true;
-                                       } else {
-                                          localTripsTracker = true;
-                                              
-                                       }
-                                   
-                                            this.localTrips=param;
-                                    
 
-                               }
+
+                               
+                              /**
+                               * validate the array for Trip
+                               */
+                              protected void validateTrip(edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] param){
+                             
+                              }
+
+
+                             /**
+                              * Auto generated setter method
+                              * @param param Trip
+                              */
+                              public void setTrip(edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] param){
+                              
+                                   validateTrip(param);
+
+                               
+                                          if (param != null){
+                                             //update the setting tracker
+                                             localTripTracker = true;
+                                          } else {
+                                             localTripTracker = true;
+                                                 
+                                          }
+                                      
+                                      this.localTrip=param;
+                              }
+
+                               
+                             
+                             /**
+                             * Auto generated add method for the array for convenience
+                             * @param param edu.psu.sweng500.carpool.generated.beans.xsd.Trip
+                             */
+                             public void addTrip(edu.psu.sweng500.carpool.generated.beans.xsd.Trip param){
+                                   if (localTrip == null){
+                                   localTrip = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip[]{};
+                                   }
+
                             
+                                 //update the setting tracker
+                                localTripTracker = true;
+                            
+
+                               java.util.List list =
+                            org.apache.axis2.databinding.utils.ConverterUtil.toList(localTrip);
+                               list.add(param);
+                               this.localTrip =
+                             (edu.psu.sweng500.carpool.generated.beans.xsd.Trip[])list.toArray(
+                            new edu.psu.sweng500.carpool.generated.beans.xsd.Trip[list.size()]);
+
+                             }
+                             
 
      /**
      * isReaderMTOMAware
@@ -172,38 +210,69 @@
 
                
                    }
-                if (localTripsTracker){
-                                    if (localTrips==null){
+                if (localTripTracker){
+                                       if (localTrip!=null){
+                                            for (int i = 0;i < localTrip.length;i++){
+                                                if (localTrip[i] != null){
+                                                 localTrip[i].serialize(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","trip"),
+                                                           factory,xmlWriter);
+                                                } else {
+                                                   
+                                                            // write null attribute
+                                                            java.lang.String namespace2 = "http://services.generated.carpool.sweng500.psu.edu/xsd";
+                                                            if (! namespace2.equals("")) {
+                                                                java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
 
-                                            java.lang.String namespace2 = "http://services.generated.carpool.sweng500.psu.edu/xsd";
+                                                                if (prefix2 == null) {
+                                                                    prefix2 = generatePrefix(namespace2);
 
-                                        if (! namespace2.equals("")) {
-                                            java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
+                                                                    xmlWriter.writeStartElement(prefix2,"trip", namespace2);
+                                                                    xmlWriter.writeNamespace(prefix2, namespace2);
+                                                                    xmlWriter.setPrefix(prefix2, namespace2);
 
-                                            if (prefix2 == null) {
-                                                prefix2 = generatePrefix(namespace2);
+                                                                } else {
+                                                                    xmlWriter.writeStartElement(namespace2,"trip");
+                                                                }
 
-                                                xmlWriter.writeStartElement(prefix2,"trips", namespace2);
-                                                xmlWriter.writeNamespace(prefix2, namespace2);
-                                                xmlWriter.setPrefix(prefix2, namespace2);
+                                                            } else {
+                                                                xmlWriter.writeStartElement("trip");
+                                                            }
 
-                                            } else {
-                                                xmlWriter.writeStartElement(namespace2,"trips");
+                                                           // write the nil attribute
+                                                           writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                           xmlWriter.writeEndElement();
+                                                    
+                                                }
+
                                             }
+                                     } else {
+                                        
+                                                // write null attribute
+                                                java.lang.String namespace2 = "http://services.generated.carpool.sweng500.psu.edu/xsd";
+                                                if (! namespace2.equals("")) {
+                                                    java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
 
-                                        } else {
-                                            xmlWriter.writeStartElement("trips");
-                                        }
+                                                    if (prefix2 == null) {
+                                                        prefix2 = generatePrefix(namespace2);
 
+                                                        xmlWriter.writeStartElement(prefix2,"trip", namespace2);
+                                                        xmlWriter.writeNamespace(prefix2, namespace2);
+                                                        xmlWriter.setPrefix(prefix2, namespace2);
 
-                                       // write the nil attribute
-                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                      xmlWriter.writeEndElement();
-                                    }else{
-                                     localTrips.serialize(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","trips"),
-                                        factory,xmlWriter);
+                                                    } else {
+                                                        xmlWriter.writeStartElement(namespace2,"trip");
+                                                    }
+
+                                                } else {
+                                                    xmlWriter.writeStartElement("trip");
+                                                }
+
+                                               // write the nil attribute
+                                               writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                               xmlWriter.writeEndElement();
+                                        
                                     }
-                                }
+                                 }
                     xmlWriter.writeEndElement();
                
 
@@ -365,14 +434,32 @@
                  java.util.ArrayList elementList = new java.util.ArrayList();
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
-                 if (localTripsTracker){
-                            elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
-                                                                      "trips"));
-                            
-                            
-                                    elementList.add(localTrips==null?null:
-                                    localTrips);
-                                }
+                 if (localTripTracker){
+                             if (localTrip!=null) {
+                                 for (int i = 0;i < localTrip.length;i++){
+
+                                    if (localTrip[i] != null){
+                                         elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
+                                                                          "trip"));
+                                         elementList.add(localTrip[i]);
+                                    } else {
+                                        
+                                                elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
+                                                                          "trip"));
+                                                elementList.add(null);
+                                            
+                                    }
+
+                                 }
+                             } else {
+                                 
+                                        elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
+                                                                          "trip"));
+                                        elementList.add(localTrip);
+                                    
+                             }
+
+                        }
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
             
@@ -448,24 +535,60 @@
                     
                     reader.next();
                 
+                        java.util.ArrayList list1 = new java.util.ArrayList();
+                    
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","trips").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","trip").equals(reader.getName())){
                                 
-                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                          object.setTrips(null);
-                                          reader.next();
-                                            
-                                            reader.next();
-                                          
-                                      }else{
                                     
-                                                object.setTrips(edu.psu.sweng500.carpool.generated.beans.xsd.TripList.Factory.parse(reader));
-                                              
-                                        reader.next();
-                                    }
+                                    
+                                    // Process the array and step past its final element's end.
+                                    
+                                                          nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                                          if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                                              list1.add(null);
+                                                              reader.next();
+                                                          } else {
+                                                        list1.add(edu.psu.sweng500.carpool.generated.beans.xsd.Trip.Factory.parse(reader));
+                                                                }
+                                                        //loop until we find a start element that is not part of this array
+                                                        boolean loopDone1 = false;
+                                                        while(!loopDone1){
+                                                            // We should be at the end element, but make sure
+                                                            while (!reader.isEndElement())
+                                                                reader.next();
+                                                            // Step out of this element
+                                                            reader.next();
+                                                            // Step to next element event.
+                                                            while (!reader.isStartElement() && !reader.isEndElement())
+                                                                reader.next();
+                                                            if (reader.isEndElement()){
+                                                                //two continuous end elements means we are exiting the xml structure
+                                                                loopDone1 = true;
+                                                            } else {
+                                                                if (new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","trip").equals(reader.getName())){
+                                                                    
+                                                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                                                          list1.add(null);
+                                                                          reader.next();
+                                                                      } else {
+                                                                    list1.add(edu.psu.sweng500.carpool.generated.beans.xsd.Trip.Factory.parse(reader));
+                                                                        }
+                                                                }else{
+                                                                    loopDone1 = true;
+                                                                }
+                                                            }
+                                                        }
+                                                        // call the converter utility  to convert and set the array
+                                                        
+                                                        object.setTrip((edu.psu.sweng500.carpool.generated.beans.xsd.Trip[])
+                                                            org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
+                                                                edu.psu.sweng500.carpool.generated.beans.xsd.Trip.class,
+                                                                list1));
+                                                            
                               }  // End of if for expected property start element
                                 
                                     else {

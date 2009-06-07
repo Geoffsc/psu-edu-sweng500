@@ -77,6 +77,8 @@ public class CarPoolTripService extends HibernateDaoSupport implements
             
             localCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
             localCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);
+            localCriteria.setFetchMode("trip.organization", FetchMode.JOIN);
+            localCriteria.setFetchMode("trip.members", FetchMode.JOIN);
 
             if (sortField != null && !sortField.equals(""))
             {

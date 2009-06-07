@@ -13,6 +13,7 @@
     	<property name="carPoolLocationService"><ref bean="carPoolLocationService"/></property>
     	<property name="carPoolTripService"><ref bean="carPoolTripService"/></property>
     	<property name="carPoolTripUserService"><ref bean="carPoolTripUserService"/></property>
+    	<property name="carPoolUserService"><ref bean="carPoolUserService"/></property>
     </bean>
     	
     <bean id="urlMapping"

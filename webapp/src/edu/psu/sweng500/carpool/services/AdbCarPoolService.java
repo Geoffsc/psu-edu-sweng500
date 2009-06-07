@@ -23,8 +23,6 @@ import edu.psu.sweng500.carpool.beans.User;
 import edu.psu.sweng500.carpool.data.FindCriteria;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Participant;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Place;
-import edu.psu.sweng500.carpool.generated.beans.xsd.PlaceList;
-import edu.psu.sweng500.carpool.generated.beans.xsd.TripList;
 import edu.psu.sweng500.carpool.generated.services.CarPoolServiceException;
 import edu.psu.sweng500.carpool.generated.services.CarPoolServiceSkeletonInterface;
 import edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest;
@@ -168,10 +166,10 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			}
 			places[count++] = place;
 		}
-		PlaceList placeList = new PlaceList();
-		placeList.setPlace(places);
+		// PlaceList placeList = new PlaceList();
+		// placeList.setPlace(places);
 		
-		response.setPlaces(placeList);
+		response.setPlace(places);
 		return response;
 	}
 	
@@ -225,8 +223,9 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		List tripUsers = carPoolTripService.findTrips(criteria);
 		Iterator tripUsersIter = tripUsers.iterator();
 		
-		TripList tripList = new TripList();
+		// TripList tripList = new TripList();
 		edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] serviceTrips = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip[tripUsers.size()];
+		GetTripsByUserResponse response = new GetTripsByUserResponse();
 		int count = 0;
 		while (tripUsersIter.hasNext())
 		{
@@ -234,33 +233,56 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			if (tripUser != null)
 			{
 				Trip trip = tripUser.getTrip();
-				System.out.println("Trip id: " + trip.getId());
-				
-				// map database Trip to service Trip
 				edu.psu.sweng500.carpool.generated.beans.xsd.Trip serviceTrip = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip();
-				serviceTrip.setId(trip.getId());
+				if (trip != null)
+				{
+					System.out.println("Trip id: " + trip.getId());
+					
+					// map database Trip to service Trip
+					serviceTrip.setId(trip.getId());
+					serviceTrip.setTitle(trip.getTitle());
+					serviceTrip.setOrganization(ServiceObjectMapper.convertToServiceOrganization(trip.getOrganization()));
+					
+					// use a class to map address to service address
+					Place startPlace = ServiceObjectMapper.convertToPlace(trip.getStartAddress());
+					Place endPlace = ServiceObjectMapper.convertToPlace(trip.getEndAddress());
+					
+					serviceTrip.setStartAddress(startPlace);
+					serviceTrip.setEndAddress(endPlace);
+					Calendar startCalendar = Calendar.getInstance();
+					if (trip.getStartDate() != null)
+					{
+						DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
+						serviceTrip.setStartDate(format.format(trip.getStartDate()));
+					}
+					
+					Calendar endCalendar = Calendar.getInstance();
+					if (trip.getEndDate() != null)
+					{
+						DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
+						serviceTrip.setEndDate(format.format(trip.getEndDate()));
+					}
+					
+					
+					serviceTrips[count++] = serviceTrip;
+				}
 				
-				// use a class to map address to service address
-				Place startPlace = ServiceObjectMapper.convertToPlace(trip.getStartAddress());
-				Place endPlace = ServiceObjectMapper.convertToPlace(trip.getEndAddress());
+				User user = carPoolUserService.getUserById(tripUser.getUserId());
+				edu.psu.sweng500.carpool.generated.beans.xsd.TripUser serviceTripUser = ServiceObjectMapper.convertToTripUser(user);
 				
-				serviceTrip.setStartAddress(startPlace);
-				serviceTrip.setEndAddress(endPlace);
-				Calendar startCalendar = Calendar.getInstance();
-				startCalendar.setTime(trip.getStartDate());
-				serviceTrip.setStartDate(startCalendar.toString());
+				Participant participant = new Participant();
+				participant.setUser(serviceTripUser);
+				participant.setType(tripUser.getType());
 				
-				Calendar endCalendar = Calendar.getInstance();
-				endCalendar.setTime(trip.getEndDate());
-				serviceTrip.setEndDate(endCalendar.toString());
+				serviceTrip.addParticipants(participant);
 				
-				serviceTrips[count++] = serviceTrip;
+				response.addTrip(serviceTrip);
 			}
 		}
-		tripList.setTrip(serviceTrips);
+		// tripList.setTrip(serviceTrips);
 		
-		GetTripsByUserResponse response = new GetTripsByUserResponse();
-		response.setTrips(tripList);
+		
+		// response.setTrips(tripList);
 		
 		return response;
 	}
@@ -304,7 +326,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			for (int i = 0; i < participants.length; i++)
 			{
 				Participant participant = participants[i];
-				edu.psu.sweng500.carpool.generated.beans.xsd.User serviceUser = participant.getUser();
+				edu.psu.sweng500.carpool.generated.beans.xsd.TripUser serviceUser = participant.getUser();
 				tripUser.setUserId(serviceUser.getId());
 				tripUser.setType(participant.getType());
 			}

@@ -1,10 +1,11 @@
 package edu.psu.sweng500.carpool.services.utilities;
 
 import edu.psu.sweng500.carpool.beans.Address;
-import edu.psu.sweng500.carpool.beans.TripUser;
 import edu.psu.sweng500.carpool.beans.User;
+import edu.psu.sweng500.carpool.generated.beans.xsd.Organization;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Participant;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Place;
+import edu.psu.sweng500.carpool.generated.beans.xsd.TripUser;
 
 public class ServiceObjectMapper
 {
@@ -21,6 +22,11 @@ public class ServiceObjectMapper
 		place.setLatitude(address.getLatitude());
 		place.setLongitude(address.getLongitude());
 		place.setName(address.getName());
+		place.setCategory("");
+		place.setDescription("");
+		place.setPhoneNumber("");
+		place.setUrl("");
+		place.setZoom(0);
 		
 		return place;
 	}
@@ -54,4 +60,23 @@ public class ServiceObjectMapper
 		user.setUserId(serviceUser.getId());
 	}
 	*/
+	
+	public static Organization convertToServiceOrganization(edu.psu.sweng500.carpool.beans.Organization organization)
+	{
+		Organization serviceOrg = new Organization();
+		serviceOrg.setId(organization.getId());
+		serviceOrg.setName(organization.getName());
+		return serviceOrg;
+	}
+	
+	public static TripUser convertToTripUser(User user)
+	{
+		TripUser tripUser = new TripUser();
+		tripUser.setId(user.getId());
+		tripUser.setGivenName(user.getGivenName());
+		tripUser.setSurName(user.getSurName());
+		
+		return tripUser;
+	}
+	
 }

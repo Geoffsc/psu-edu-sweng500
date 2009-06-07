@@ -5,4 +5,5 @@ import edu.psu.sweng500.carpool.beans.User;
 public interface ICarPoolUserService
 {
 	User getUser(String id);
+	User getUserById(String id);
 }

@@ -42,9 +42,17 @@
             </xs:sequence>
         </xs:complexType>
         
+        <xs:complexType name="TripUser">
+            <xs:sequence>
+            	<xs:element minOccurs="1" maxOccurs="1" name="id" nillable="false" type="xs:string"/>
+                <xs:element minOccurs="0" name="givenName" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="surName" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+        
         <xs:complexType name="Participant">
             <xs:sequence>
-                <xs:element minOccurs="0" name="user" nillable="true" type="ax21:User"/>
+                <xs:element minOccurs="0" name="user" nillable="true" type="ax21:TripUser"/>
                 <xs:element minOccurs="0" name="type" nillable="true" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
@@ -133,7 +141,8 @@
 			<xs:element name="FindPlacesNearLocationResponse">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element maxOccurs="1" minOccurs="0" name="places" nillable="true" type="ax21:PlaceList"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="place" nillable="true" type="ax21:Place"/>
+						<!-- <xs:element maxOccurs="1" minOccurs="0" name="places" nillable="true" type="ax21:PlaceList"/> -->
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -165,7 +174,7 @@
 		    <xs:element name="GetTripsByUserResponse">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element maxOccurs="1" minOccurs="0" name="trips" nillable="true" type="ax21:TripList"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="trip" nillable="true" type="ax21:Trip"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>

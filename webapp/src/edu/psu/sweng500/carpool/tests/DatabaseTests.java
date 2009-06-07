@@ -87,7 +87,7 @@ public class DatabaseTests
 		}
 	}
 	
-	
+	@Test
 	public void testGetTripsByUser()
 	{
 		CarPoolTripService carPoolService = new CarPoolTripService();
@@ -165,7 +165,7 @@ public class DatabaseTests
 		carPoolService.createOrUpdateTrip(trip);
 	}
 	
-	@Test
+	
 	public void updateTrip()
 	{
 		System.out.println("Executing updateTrip test");
