@@ -16,6 +16,7 @@ public class CarPoolMainScreen extends MainScreen
 	private MainScreenObjectListField menu;
 	
 	private MapScreen mapScreen;
+	private SearchScreen searchScreen;
 	
 	public CarPoolMainScreen()
 	{
@@ -38,7 +39,12 @@ public class CarPoolMainScreen extends MainScreen
         int selected = menu.getSelectedIndex();
         switch (selected) {
             case 0:
+            	if (null == searchScreen)
+                {
+            		searchScreen = new SearchScreen();
+                }
                 
+                UiApplication.getUiApplication().pushScreen(searchScreen);
             break;
             case 1:
             	if (null == mapScreen)

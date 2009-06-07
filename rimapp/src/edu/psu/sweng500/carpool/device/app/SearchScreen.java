@@ -1,0 +1,69 @@
+package edu.psu.sweng500.carpool.device.app;
+
+import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
+import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.ui.DrawStyle;
+import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.LabelField;
+import net.rim.device.api.ui.component.ListField;
+import net.rim.device.api.ui.component.ObjectListField;
+import net.rim.device.api.ui.container.MainScreen;
+
+public class SearchScreen extends MainScreen
+{
+	private String[] mainMenuItems;
+	private MainScreenObjectListField menu;
+	
+	private ShowAllResultsScreen showAllScreen;
+	
+	public SearchScreen()
+	{
+		this.setTitle("Search");
+        
+        menu = new MainScreenObjectListField();
+        String mnuSearch = "Show all";
+        mainMenuItems = new String[]{mnuSearch};
+        menu.set(mainMenuItems);
+        this.add(menu);
+	}
+	
+	protected boolean navigationClick(int status, int time)
+	{
+        // Determine which menu item was clicked.
+        int selected = menu.getSelectedIndex();
+        switch (selected) {
+            case 0:
+            	if (null == showAllScreen)
+                {
+            		showAllScreen = new ShowAllResultsScreen();
+                }
+            	
+            	showAllScreen.searchTrips();
+            	UiApplication.getUiApplication().pushScreen(showAllScreen); 
+            break;
+        }
+        
+        return true;
+    }
+	
+	private class MainScreenObjectListField extends ObjectListField {
+        
+        private Bitmap icon = Bitmap.getBitmapResource("edu/psu/sweng500/carpool/device/app/img/document.png");                
+        
+        // We are going to take care of drawing the item.
+        public void drawListRow(ListField listField, Graphics graphics, 
+                int index, int y, int width) {
+            if (null != icon) {
+                int offsetY = (this.getRowHeight() - icon.getHeight())/2;
+                graphics.drawBitmap(1,y + offsetY, icon.getWidth(),
+                        icon.getHeight(),icon,0,0);
+                graphics.drawText(mainMenuItems[index], 
+                    icon.getWidth() + 2, y, DrawStyle.ELLIPSIS, width);
+            } else {
+                graphics.drawText("- " + mainMenuItems[index], 0,
+                    y, DrawStyle.ELLIPSIS, width);
+            }
+        }
+    };
+}

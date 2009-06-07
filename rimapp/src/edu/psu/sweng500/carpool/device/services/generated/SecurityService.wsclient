@@ -7,6 +7,6 @@
         <property name="cldc11" value="true"/>
     </client>
     <services>
-        <service file="SecurityService.wsdl" url="http://plyw314928.internal.imsglobal.com:6187/sweng500_car_pool/services/SecurityService?wsdl"/>
+        <service file="SecurityService.wsdl" url="http://localhost:6180/sweng500_car_pool/services/SecurityService?wsdl"/>
     </services>
 </wsclientconfig>
