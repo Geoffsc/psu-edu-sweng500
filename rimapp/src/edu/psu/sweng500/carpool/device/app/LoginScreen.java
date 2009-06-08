@@ -2,22 +2,31 @@ package edu.psu.sweng500.carpool.device.app;
 
 import java.rmi.RemoteException;
 
+import com.thinkingblackberry.GridFieldManager;
+
 import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import edu.psu.sweng500.carpool.device.services.generated.SecurityService_Stub;
 import edu.psu.sweng500.carpool.device.services.generated.SimpleMessage;
 import net.rim.device.api.system.PersistentObject;
+import net.rim.device.api.ui.Field;
+import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.Manager;
 import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.BasicEditField;
+import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.EditField;
+import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.Menu;
 import net.rim.device.api.ui.component.PasswordEditField;
 import net.rim.device.api.ui.container.MainScreen;
 
 public class LoginScreen extends MainScreen
 {
-	private EditField userNameField;
+	private BasicEditField userNameField;
 	private PasswordEditField passwordField;
+	// private ButtonField loginButton;
 	
 	private static PersistentObject store;
 	
@@ -30,10 +39,37 @@ public class LoginScreen extends MainScreen
 	public LoginScreen()
 	{
 		this.setTitle("Login");
-		userNameField = new EditField("User name:" ,"" ,256 ,EditField.USE_ALL_WIDTH);
-		passwordField = new PasswordEditField("Password:", "", 256, PasswordEditField.USE_ALL_WIDTH);
-        this.add(userNameField);
-        this.add(passwordField);
+		
+		Manager gridFieldManager = new GridFieldManager(new int[] {100, 160}, 30, 0);  
+		// Row 1  
+		gridFieldManager.add(new LabelField("User name:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+		userNameField = new BasicEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER);
+		gridFieldManager.add(userNameField);  
+		   
+		// Row 2  
+		gridFieldManager.add(new LabelField("Password:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+		passwordField = new PasswordEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER);
+		gridFieldManager.add(passwordField);  
+		  
+		add(gridFieldManager); 
+		
+		ButtonField buttonField = new ButtonField("Login", Field.FIELD_HCENTER);
+		add(buttonField);
+		
+		FieldChangeListener listener = new FieldChangeListener() 
+		{
+	         public void fieldChanged(Field field, int context) 
+	         {
+	             ButtonField buttonField = (ButtonField) field;
+	             login();
+	         }
+	     };
+	     buttonField.setChangeListener(listener);
+	 
+		// loginButton = new ButtonField("Login", ButtonField.FIELD_HCENTER);
+        // this.add(userNameField);
+        // this.add(passwordField);
+        // this.add(buttonField);
 	}
 	
 	protected void makeMenu(Menu menu, int instance)
@@ -77,7 +113,13 @@ public class LoginScreen extends MainScreen
 		Dialog.alert("Login failed!");
 	}
 	
+	public boolean trackwheelClick(int status,int time){
+        login();
+        return true;
+    }
+	
 	protected boolean onSavePrompt() {
         return true;    // Ignore the onSave prompt.
     }
+
 }
