@@ -83,8 +83,27 @@ public class LoginScreen extends MainScreen
 	{
 		String userName = userNameField.getText().trim();
 		String password = passwordField.getText().trim();
-		Dialog.alert("User name: " + userName + "/Password: " + password);
+		// Dialog.alert("User name: " + userName + "/Password: " + password);
 		System.out.println("login: " + userName + "/" + password);
+		
+		StringBuffer errorMessages = new StringBuffer();
+		if (userName == null || userName.equals(""))
+		{
+			errorMessages.append("- User name is required\n");
+		}
+		if (password == null || password.equals(""))
+		{
+			errorMessages.append("- Password is required\n");
+		}
+		if (errorMessages != null)
+		{
+			String errorMessagesString = errorMessages.toString();
+			if (errorMessagesString.trim().length() > 0)
+			{
+				Dialog.alert("The following error(s) occurred:\n\n" + errorMessagesString);
+				return;
+			}
+		}
 		
 		SecurityService_Stub serviceStub = new SecurityService_Stub();
 		try
@@ -101,6 +120,11 @@ public class LoginScreen extends MainScreen
 					
 					CarPoolMainScreen mainScreen = new CarPoolMainScreen();
 					UiApplication.getUiApplication().pushScreen(mainScreen);
+					return;
+				}
+				else
+				{
+					Dialog.alert("The following error(s) occurred:\n\n" + message.getErrorDescription());
 					return;
 				}
 			}
