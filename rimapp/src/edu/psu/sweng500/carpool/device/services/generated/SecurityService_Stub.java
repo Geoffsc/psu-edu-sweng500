@@ -14,7 +14,7 @@ public class SecurityService_Stub implements SecurityService, javax.xml.rpc.Stub
 
     public SecurityService_Stub() {
         _propertyNames = new String[] { ENDPOINT_ADDRESS_PROPERTY };
-        _propertyValues = new Object[] { "http://192.168.1.5:6187/sweng500_car_pool/services/SecurityService/" };
+        _propertyValues = new Object[] { "http://192.168.1.4:6187/sweng500_car_pool/services/SecurityService/" };
     }
 
     public void _setProperty( String name, Object value ) {
@@ -94,8 +94,8 @@ public class SecurityService_Stub implements SecurityService, javax.xml.rpc.Stub
     protected static final QName _qname_operation_login = new QName( "http://services.generated.security.sweng500.psu.edu", "login" );
     protected static final QName _qname_loginElementResponse = new QName( "http://services.generated.security.sweng500.psu.edu/xsd", "loginElementResponse" );
     protected static final QName _qname_loginElementRequest = new QName( "http://services.generated.security.sweng500.psu.edu/xsd", "loginElementRequest" );
-    protected static final Element _type_loginElementResponse;
     protected static final Element _type_loginElementRequest;
+    protected static final Element _type_loginElementResponse;
 
     static {
         _type_loginElementResponse = new Element( _qname_loginElementResponse, _complexType( new Element[] {

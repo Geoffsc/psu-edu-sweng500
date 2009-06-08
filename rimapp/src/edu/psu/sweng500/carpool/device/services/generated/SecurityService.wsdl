@@ -96,7 +96,7 @@
   </wsdl:binding>
   <wsdl:service name="SecurityService">
     <wsdl:port name="SecurityServiceSOAP11port_http" binding="axis2:SecurityServiceSOAP11Binding">
-      <soap:address location="http://192.168.1.5:6180/sweng500_car_pool/services/SecurityService/"/>
+      <soap:address location="http://192.168.1.4:6187/sweng500_car_pool/services/SecurityService/"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -348,7 +348,7 @@
   </wsdl:binding>
   <wsdl:service name="CarPoolService">
     <wsdl:port name="CarPoolServiceSOAP11port_http" binding="axis2:CarPoolServiceSOAP11Binding">
-      <soap:address location="http://192.168.1.5:6187/sweng500_car_pool/services/CarPoolService/"/>
+      <soap:address location="http://192.168.1.4:6187/sweng500_car_pool/services/CarPoolService/"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
