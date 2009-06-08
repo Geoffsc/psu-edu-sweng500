@@ -16,6 +16,7 @@ public class SearchScreen extends MainScreen
 	private MainScreenObjectListField menu;
 	
 	private ShowAllResultsScreen showAllScreen;
+	private FindByDateScreen findByDateScreen;
 	
 	public SearchScreen()
 	{
@@ -23,7 +24,8 @@ public class SearchScreen extends MainScreen
         
         menu = new MainScreenObjectListField();
         String mnuSearch = "Show all";
-        mainMenuItems = new String[]{mnuSearch};
+        String mnuFindByDate = "Find by Date";
+        mainMenuItems = new String[]{mnuSearch, mnuFindByDate};
         menu.set(mainMenuItems);
         this.add(menu);
 	}
@@ -41,6 +43,14 @@ public class SearchScreen extends MainScreen
             	
             	showAllScreen.searchTrips();
             	UiApplication.getUiApplication().pushScreen(showAllScreen); 
+            break;
+            case 1:
+            	if (null == findByDateScreen)
+                {
+            		findByDateScreen = new FindByDateScreen();
+                }
+            	
+            	UiApplication.getUiApplication().pushScreen(findByDateScreen); 
             break;
         }
         

@@ -33,6 +33,12 @@ public class CarPoolMainScreen extends MainScreen
         this.add(menu);
 	}
 	
+	public boolean onClose()
+	{
+		System.exit(0);
+		return true;
+	}
+	
 	protected boolean navigationClick(int status, int time)
 	{
         // Determine which menu item was clicked.

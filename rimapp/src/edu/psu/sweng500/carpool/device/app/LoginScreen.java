@@ -2,6 +2,8 @@ package edu.psu.sweng500.carpool.device.app;
 
 import java.rmi.RemoteException;
 
+import javax.microedition.lcdui.Spacer;
+
 import com.thinkingblackberry.GridFieldManager;
 
 import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
@@ -53,14 +55,14 @@ public class LoginScreen extends MainScreen
 		  
 		add(gridFieldManager); 
 		
-		ButtonField buttonField = new ButtonField("Login", Field.FIELD_HCENTER);
+		ButtonField buttonField = new ButtonField("Login", Field.FIELD_HCENTER | ButtonField.CONSUME_CLICK);
 		add(buttonField);
 		
 		FieldChangeListener listener = new FieldChangeListener() 
 		{
 	         public void fieldChanged(Field field, int context) 
 	         {
-	             ButtonField buttonField = (ButtonField) field;
+	             // ButtonField buttonField = (ButtonField) field;
 	             login();
 	         }
 	     };
@@ -70,6 +72,7 @@ public class LoginScreen extends MainScreen
         // this.add(userNameField);
         // this.add(passwordField);
         // this.add(buttonField);
+	     userNameField.setFocus();
 	}
 	
 	protected void makeMenu(Menu menu, int instance)
