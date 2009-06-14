@@ -1,9 +1,0 @@
-MIDlet-Name: sweng500-carpool
-MIDlet-Version: 0.0
-MIDlet-Vendor: <unknown>
-MIDlet-Jar-URL: sweng500-carpool.jar
-MIDlet-Jar-Size: 0
-MicroEdition-Profile: MIDP-2.0
-MicroEdition-Configuration: CLDC-1.1
-MIDlet-1: ,,
-RIM-MIDlet-Flags-1: 0
