@@ -1,5 +1,7 @@
 package edu.psu.sweng500.carpool.device.app;
 
+import java.io.IOException;
+
 import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.DrawStyle;
@@ -17,9 +19,10 @@ public class CarPoolMainScreen extends MainScreen
 	
 	private MapScreen mapScreen;
 	private SearchScreen searchScreen;
+	private SplashScreen splashScreen;
 	
 	public CarPoolMainScreen()
-	{
+	{	
 		this.setTitle("Car Pool");
         
 		LabelField label1 = new LabelField("You are logged in as: " + SessionSettings.getUserName(), LabelField.READONLY);
