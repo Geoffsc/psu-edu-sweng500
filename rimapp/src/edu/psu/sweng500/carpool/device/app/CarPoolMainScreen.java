@@ -18,6 +18,7 @@ public class CarPoolMainScreen extends MainScreen
 	private MainScreenObjectListField menu;
 	
 	private MapScreen mapScreen;
+	private CreateTripScreen1 createTripScreen;
 	private SearchScreen searchScreen;
 	private SplashScreen splashScreen;
 	
@@ -56,12 +57,12 @@ public class CarPoolMainScreen extends MainScreen
                 UiApplication.getUiApplication().pushScreen(searchScreen);
             break;
             case 1:
-            	if (null == mapScreen)
+            	if (null == createTripScreen)
                 {
-                	mapScreen = new MapScreen();
+            		createTripScreen = new CreateTripScreen1();
                 }
                 
-                UiApplication.getUiApplication().pushScreen(mapScreen);
+                UiApplication.getUiApplication().pushScreen(createTripScreen);
             break;
         }
         

@@ -225,6 +225,7 @@ class TestPlacemark implements Placemark
 	public void paint(com.nutiteq.wrappers.rimui.Graphics g, int x, int y,
 			int zoom)
 	{
+		
 		g.setColor(0xFFFF0000);
 		g.fillRect(x, y, 20, 20);
 	}

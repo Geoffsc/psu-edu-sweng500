@@ -14,7 +14,7 @@ public class CarPoolService_Stub implements CarPoolService, javax.xml.rpc.Stub {
 
     public CarPoolService_Stub() {
         _propertyNames = new String[] { ENDPOINT_ADDRESS_PROPERTY };
-        _propertyValues = new Object[] { "http://162.44.84.143:6187/sweng500_car_pool/services/CarPoolService/" };
+        _propertyValues = new Object[] { "http://192.168.1.4:6187/sweng500_car_pool/services/CarPoolService/" };
     }
 
     public void _setProperty( String name, Object value ) {
@@ -55,6 +55,37 @@ public class CarPoolService_Stub implements CarPoolService, javax.xml.rpc.Stub {
         for (int i = 0; i < _propertyNames.length; ++i) {
             op.setProperty(_propertyNames[i], _propertyValues[i].toString());
         }
+    }
+
+    public Trip[] findSimilarTrips(String id, String title, String startAddress, String endAddress, String startDate, String endDate, String latitude, String longitude, String organizationId, int numMiles) throws java.rmi.RemoteException {
+        Object inputObject[] = new Object[] {
+            id,
+            title,
+            startAddress,
+            endAddress,
+            startDate,
+            endDate,
+            latitude,
+            longitude,
+            organizationId,
+            new Integer(numMiles)
+        };
+
+        Operation op = Operation.newInstance( _qname_operation_findSimilarTrips, _type_FindSimilarTripsRequest, _type_GetTripsByUserResponse );
+        _prepOperation( op );
+        op.setProperty( Operation.SOAPACTION_URI_PROPERTY, "urn:findSimilarTrips" );
+        Object resultObj;
+        try {
+            resultObj = op.invoke( inputObject );
+        } catch( JAXRPCException e ) {
+            Throwable cause = e.getLinkedCause();
+            if( cause instanceof java.rmi.RemoteException ) {
+                throw (java.rmi.RemoteException) cause;
+            }
+            throw e;
+        }
+
+        return Trip_ArrayfromObject((Object[])((Object[]) resultObj)[0]);
     }
 
     public Boolean updateTrip(Trip trip) throws java.rmi.RemoteException {
@@ -125,6 +156,28 @@ public class CarPoolService_Stub implements CarPoolService, javax.xml.rpc.Stub {
         return User_fromObject((Object[])((Object[]) resultObj)[0]);
     }
 
+    public Trip[] findTrips(Parameter[] searchParameters) throws java.rmi.RemoteException {
+        Object inputObject[] = new Object[] {
+            Parameter_ArraytoObject( searchParameters )
+        };
+
+        Operation op = Operation.newInstance( _qname_operation_findTrips, _type_SearchTripsRequest, _type_GetTripsByUserResponse );
+        _prepOperation( op );
+        op.setProperty( Operation.SOAPACTION_URI_PROPERTY, "urn:findTrips" );
+        Object resultObj;
+        try {
+            resultObj = op.invoke( inputObject );
+        } catch( JAXRPCException e ) {
+            Throwable cause = e.getLinkedCause();
+            if( cause instanceof java.rmi.RemoteException ) {
+                throw (java.rmi.RemoteException) cause;
+            }
+            throw e;
+        }
+
+        return Trip_ArrayfromObject((Object[])((Object[]) resultObj)[0]);
+    }
+
     public Place[] findPlaces(String userName, String type) throws java.rmi.RemoteException {
         Object inputObject[] = new Object[] {
             userName,
@@ -182,17 +235,20 @@ public class CarPoolService_Stub implements CarPoolService, javax.xml.rpc.Stub {
         return result;
     }
 
-    private static Object Trip_toObject( Trip obj ) {
+    private static Object Organization_toObject( Organization obj ) {
         if(obj == null) return null;
-        Object result[] = new Object[ 8 ];
+        Object result[] = new Object[ 2 ];
         result[0] = obj.getId();
-        result[1] = obj.getTitle();
-        result[2] = Place_toObject( obj.getStartAddress());
-        result[3] = Place_toObject( obj.getEndAddress());
-        result[4] = obj.getStartDate();
-        result[5] = obj.getEndDate();
-        result[6] = Organization_toObject( obj.getOrganization());
-        result[7] = Participant_ArraytoObject( obj.getParticipants());
+        result[1] = obj.getName();
+        return result;
+    }
+
+    private static Object TripUser_toObject( TripUser obj ) {
+        if(obj == null) return null;
+        Object result[] = new Object[ 3 ];
+        result[0] = obj.getId();
+        result[1] = obj.getGivenName();
+        result[2] = obj.getSurName();
         return result;
     }
 
@@ -213,20 +269,29 @@ public class CarPoolService_Stub implements CarPoolService, javax.xml.rpc.Stub {
         return result;
     }
 
-    private static Object Organization_toObject( Organization obj ) {
+    private static Object Parameter_ArraytoObject( Parameter[] obj ) {
         if(obj == null) return null;
-        Object result[] = new Object[ 2 ];
-        result[0] = obj.getId();
-        result[1] = obj.getName();
+        Object result[] = new Object[ obj.length ];
+        for( int i = 0; i < obj.length; i++ ) {
+            Object[] resultArray = new Object[ 2 ];
+            resultArray[0] = obj[i].getName();
+            resultArray[1] = obj[i].getValue();
+            result[i] = resultArray;
+        }
         return result;
     }
 
-    private static Object TripUser_toObject( TripUser obj ) {
+    private static Object Trip_toObject( Trip obj ) {
         if(obj == null) return null;
-        Object result[] = new Object[ 3 ];
+        Object result[] = new Object[ 8 ];
         result[0] = obj.getId();
-        result[1] = obj.getGivenName();
-        result[2] = obj.getSurName();
+        result[1] = obj.getTitle();
+        result[2] = Place_toObject( obj.getStartAddress());
+        result[3] = Place_toObject( obj.getEndAddress());
+        result[4] = obj.getStartDate();
+        result[5] = obj.getEndDate();
+        result[6] = Organization_toObject( obj.getOrganization());
+        result[7] = Participant_ArraytoObject( obj.getParticipants());
         return result;
     }
 
@@ -239,6 +304,61 @@ public class CarPoolService_Stub implements CarPoolService, javax.xml.rpc.Stub {
             result[i].setUser(TripUser_fromObject((Object[]) oo[0] ));
             result[i].setType((String )oo[1]);
         }
+        return result;
+    }
+
+    private static Place[] Place_ArrayfromObject( Object obj[] ) {
+        if(obj == null) return null;
+        Place result[] = new Place[obj.length];
+        for( int i = 0; i < obj.length; i++ ) {
+            result[i] = new Place();
+            Object[] oo = (Object[]) obj[i];
+            result[i].setId((String )oo[0]);
+            result[i].setName((String )oo[1]);
+            result[i].setAddress1((String )oo[2]);
+            result[i].setAddress2((String )oo[3]);
+            result[i].setDescription((String )oo[4]);
+            result[i].setCategory((String )oo[5]);
+            result[i].setLatitude((Float )oo[6]);
+            result[i].setLongitude((Float )oo[7]);
+            result[i].setPhoneNumber((String )oo[8]);
+            result[i].setUrl((String )oo[9]);
+            result[i].setZoom((Integer )oo[10]);
+        }
+        return result;
+    }
+
+    private static Organization Organization_fromObject( Object obj[] ) {
+        if(obj == null) return null;
+        Organization result = new Organization();
+        result.setId((String )obj[0]);
+        result.setName((String )obj[1]);
+        return result;
+    }
+
+    private static TripUser TripUser_fromObject( Object obj[] ) {
+        if(obj == null) return null;
+        TripUser result = new TripUser();
+        result.setId((String )obj[0]);
+        result.setGivenName((String )obj[1]);
+        result.setSurName((String )obj[2]);
+        return result;
+    }
+
+    private static Place Place_fromObject( Object obj[] ) {
+        if(obj == null) return null;
+        Place result = new Place();
+        result.setId((String )obj[0]);
+        result.setName((String )obj[1]);
+        result.setAddress1((String )obj[2]);
+        result.setAddress2((String )obj[3]);
+        result.setDescription((String )obj[4]);
+        result.setCategory((String )obj[5]);
+        result.setLatitude((Float )obj[6]);
+        result.setLongitude((Float )obj[7]);
+        result.setPhoneNumber((String )obj[8]);
+        result.setUrl((String )obj[9]);
+        result.setZoom((Integer )obj[10]);
         return result;
     }
 
@@ -272,86 +392,37 @@ public class CarPoolService_Stub implements CarPoolService, javax.xml.rpc.Stub {
         return result;
     }
 
-    private static Place[] Place_ArrayfromObject( Object obj[] ) {
-        if(obj == null) return null;
-        Place result[] = new Place[obj.length];
-        for( int i = 0; i < obj.length; i++ ) {
-            result[i] = new Place();
-            Object[] oo = (Object[]) obj[i];
-            result[i].setId((String )oo[0]);
-            result[i].setName((String )oo[1]);
-            result[i].setAddress1((String )oo[2]);
-            result[i].setAddress2((String )oo[3]);
-            result[i].setDescription((String )oo[4]);
-            result[i].setCategory((String )oo[5]);
-            result[i].setLatitude((Float )oo[6]);
-            result[i].setLongitude((Float )oo[7]);
-            result[i].setPhoneNumber((String )oo[8]);
-            result[i].setUrl((String )oo[9]);
-            result[i].setZoom((Integer )oo[10]);
-        }
-        return result;
-    }
-
-    private static Place Place_fromObject( Object obj[] ) {
-        if(obj == null) return null;
-        Place result = new Place();
-        result.setId((String )obj[0]);
-        result.setName((String )obj[1]);
-        result.setAddress1((String )obj[2]);
-        result.setAddress2((String )obj[3]);
-        result.setDescription((String )obj[4]);
-        result.setCategory((String )obj[5]);
-        result.setLatitude((Float )obj[6]);
-        result.setLongitude((Float )obj[7]);
-        result.setPhoneNumber((String )obj[8]);
-        result.setUrl((String )obj[9]);
-        result.setZoom((Integer )obj[10]);
-        return result;
-    }
-
-    private static Organization Organization_fromObject( Object obj[] ) {
-        if(obj == null) return null;
-        Organization result = new Organization();
-        result.setId((String )obj[0]);
-        result.setName((String )obj[1]);
-        return result;
-    }
-
-    private static TripUser TripUser_fromObject( Object obj[] ) {
-        if(obj == null) return null;
-        TripUser result = new TripUser();
-        result.setId((String )obj[0]);
-        result.setGivenName((String )obj[1]);
-        result.setSurName((String )obj[2]);
-        return result;
-    }
-
+    protected static final QName _qname_operation_findTrips = new QName( "http://services.generated.carpool.sweng500.psu.edu", "findTrips" );
     protected static final QName _qname_operation_getTripsByUser = new QName( "http://services.generated.carpool.sweng500.psu.edu", "getTripsByUser" );
     protected static final QName _qname_operation_findPlaces = new QName( "http://services.generated.carpool.sweng500.psu.edu", "findPlaces" );
     protected static final QName _qname_operation_updateTrip = new QName( "http://services.generated.carpool.sweng500.psu.edu", "updateTrip" );
+    protected static final QName _qname_operation_findSimilarTrips = new QName( "http://services.generated.carpool.sweng500.psu.edu", "findSimilarTrips" );
     protected static final QName _qname_operation_getUser = new QName( "http://services.generated.carpool.sweng500.psu.edu", "getUser" );
     protected static final QName _qname_operation_findPlacesNearLocation = new QName( "http://services.generated.carpool.sweng500.psu.edu", "findPlacesNearLocation" );
     protected static final QName _qname_GetUserResponse = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "GetUserResponse" );
     protected static final QName _qname_UpdateTripRequest = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "UpdateTripRequest" );
     protected static final QName _qname_GetUserRequest = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "GetUserRequest" );
+    protected static final QName _qname_SearchTripsRequest = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "SearchTripsRequest" );
     protected static final QName _qname_GetTripsByUserResponse = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "GetTripsByUserResponse" );
     protected static final QName _qname_FindPlacesNearLocationRequest = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "FindPlacesNearLocationRequest" );
     protected static final QName _qname_FindPlacesNearLocationResponse = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "FindPlacesNearLocationResponse" );
+    protected static final QName _qname_FindSimilarTripsRequest = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "FindSimilarTripsRequest" );
     protected static final QName _qname_GetTripsByUserRequest = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "GetTripsByUserRequest" );
     protected static final QName _qname_FindPlacesResponse = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "FindPlacesResponse" );
     protected static final QName _qname_UpdateTripResponse = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "UpdateTripResponse" );
     protected static final QName _qname_FindPlacesRequest = new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "FindPlacesRequest" );
-    protected static final Element _type_FindPlacesResponse;
     protected static final Element _type_FindPlacesRequest;
-    protected static final Element _type_GetUserRequest;
-    protected static final Element _type_GetUserResponse;
     protected static final Element _type_UpdateTripRequest;
-    protected static final Element _type_FindPlacesNearLocationResponse;
-    protected static final Element _type_UpdateTripResponse;
     protected static final Element _type_FindPlacesNearLocationRequest;
+    protected static final Element _type_SearchTripsRequest;
+    protected static final Element _type_FindSimilarTripsRequest;
+    protected static final Element _type_FindPlacesResponse;
+    protected static final Element _type_GetUserResponse;
     protected static final Element _type_GetTripsByUserResponse;
+    protected static final Element _type_UpdateTripResponse;
     protected static final Element _type_GetTripsByUserRequest;
+    protected static final Element _type_GetUserRequest;
+    protected static final Element _type_FindPlacesNearLocationResponse;
 
     static {
         _type_GetUserResponse = new Element( _qname_GetUserResponse, _complexType( new Element[] {
@@ -414,6 +485,10 @@ public class CarPoolService_Stub implements CarPoolService, javax.xml.rpc.Stub {
                         new Element( new QName( "http://beans.generated.carpool.sweng500.psu.edu/xsd", "givenName" ), Type.STRING, 0, 1, true ),
                         new Element( new QName( "http://beans.generated.carpool.sweng500.psu.edu/xsd", "surName" ), Type.STRING, 0, 1, true )}), 0, 1, true ),
                         new Element( new QName( "http://beans.generated.carpool.sweng500.psu.edu/xsd", "type" ), Type.STRING, 0, 1, true )}), 0, Element.UNBOUNDED, true )}), 1, 1, false )}), 1, 1, false );
+        _type_SearchTripsRequest = new Element( _qname_SearchTripsRequest, _complexType( new Element[] {
+            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "searchParameters" ), _complexType( new Element[] {
+                new Element( new QName( "http://beans.generated.carpool.sweng500.psu.edu/xsd", "name" ), Type.STRING, 0, 1, false ),
+                new Element( new QName( "http://beans.generated.carpool.sweng500.psu.edu/xsd", "value" ), Type.STRING, 0, 1, false )}), 0, Element.UNBOUNDED, true )}), 1, 1, false );
         _type_GetUserRequest = new Element( _qname_GetUserRequest, _complexType( new Element[] {
             new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "userId" ), Type.STRING )}), 1, 1, false );
         _type_GetTripsByUserResponse = new Element( _qname_GetTripsByUserResponse, _complexType( new Element[] {
@@ -474,6 +549,17 @@ public class CarPoolService_Stub implements CarPoolService, javax.xml.rpc.Stub {
                 new Element( new QName( "http://beans.generated.carpool.sweng500.psu.edu/xsd", "zoom" ), Type.INT, 0, 1, true )}), 0, Element.UNBOUNDED, true )}), 1, 1, false );
         _type_GetTripsByUserRequest = new Element( _qname_GetTripsByUserRequest, _complexType( new Element[] {
             new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "userId" ), Type.STRING )}), 1, 1, false );
+        _type_FindSimilarTripsRequest = new Element( _qname_FindSimilarTripsRequest, _complexType( new Element[] {
+            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "id" ), Type.STRING, 0, 1, true ),
+            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "title" ), Type.STRING, 0, 1, true ),
+            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "startAddress" ), Type.STRING, 0, 1, true ),
+            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "endAddress" ), Type.STRING, 0, 1, true ),
+            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "startDate" ), Type.STRING, 0, 1, true ),
+            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "endDate" ), Type.STRING, 0, 1, true ),
+            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "latitude" ), Type.STRING, 0, 1, true ),
+            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "longitude" ), Type.STRING, 0, 1, true ),
+            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "organizationId" ), Type.STRING, 0, 1, true ),
+            new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "numMiles" ), Type.INT )}), 1, 1, false );
         _type_FindPlacesResponse = new Element( _qname_FindPlacesResponse, _complexType( new Element[] {
             new Element( new QName( "http://services.generated.carpool.sweng500.psu.edu/xsd", "places" ), _complexType( new Element[] {
                 new Element( new QName( "http://beans.generated.carpool.sweng500.psu.edu/xsd", "id" ), Type.STRING ),

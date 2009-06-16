@@ -2,10 +2,15 @@ package edu.psu.sweng500.carpool.device.app;
 
 import java.rmi.RemoteException;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.Vector;
 
 import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import edu.psu.sweng500.carpool.device.services.generated.CarPoolService_Stub;
+import edu.psu.sweng500.carpool.device.services.generated.Parameter;
 import edu.psu.sweng500.carpool.device.services.generated.Trip;
+import net.rim.device.api.collection.List;
+import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Graphics;
@@ -25,6 +30,11 @@ public class ShowAllResultsScreen extends MainScreen
 	
 	private Date searchStartDate;
 	
+	public void setSearchStartDate(Date searchStartDate)
+	{
+		this.searchStartDate = searchStartDate;
+	}
+	
 	public ShowAllResultsScreen()
 	{
 		this.setTitle("Results");
@@ -37,10 +47,54 @@ public class ShowAllResultsScreen extends MainScreen
 	
 	public void searchTrips()
 	{
+		/*
 		CarPoolService_Stub service = new CarPoolService_Stub();
 		try
 		{
 			trips = service.getTripsByUser(SessionSettings.getUserName());
+			
+			tripList.set(trips);
+			UiApplication.getUiApplication().getActiveScreen().invalidate();
+		}
+		catch (RemoteException rme)
+		{
+			rme.printStackTrace();
+			Dialog.alert("A remote exception occurred: " + rme.getMessage());
+		}
+		*/
+		
+		Vector parameterVec = new Vector();
+		
+		Parameter param1 = new Parameter();
+		param1.setName("userName");
+		param1.setValue(SessionSettings.getUserName());
+		parameterVec.addElement(param1);
+		// parameters[0] = param1;
+		
+		if (searchStartDate != null)
+		{
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			
+			Parameter param2 = new Parameter();
+			param2.setName("startDate");
+			param2.setValue(format.format(searchStartDate));
+			// parameters[1] = param2;
+			parameterVec.addElement(param2);
+		}
+		
+		Parameter[] parameters = new Parameter[parameterVec.size()];
+		Enumeration paramEnum = parameterVec.elements();
+		int paramCount = 0;
+		while (paramEnum.hasMoreElements())
+		{
+			Parameter param = (Parameter) paramEnum.nextElement();
+			parameters[paramCount++] = param;
+		}
+		
+		try
+		{
+			CarPoolService_Stub serviceStub = new CarPoolService_Stub();
+			trips = serviceStub.findTrips(parameters);
 			
 			tripList.set(trips);
 			UiApplication.getUiApplication().getActiveScreen().invalidate();

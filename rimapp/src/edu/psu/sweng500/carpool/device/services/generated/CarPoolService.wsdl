@@ -57,6 +57,20 @@
             </xs:sequence>
         </xs:complexType>
         
+        <!-- 
+        <xs:complexType name="BasicTrip">
+            <xs:sequence>
+            	<xs:element minOccurs="0" maxOccurs="1" name="id" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="title" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="startAddress" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="endAddress" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="startDate" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="endDate" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="organizationId" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+        -->
+        
         <xs:complexType name="Trip">
             <xs:sequence>
             	<xs:element maxOccurs="1" minOccurs="1" name="id" nillable="false" type="xs:string"/>
@@ -85,6 +99,19 @@
                     <xs:element minOccurs="0" name="traceMessage" nillable="true" type="xs:string"/>
                 </xs:sequence>
 		    </xs:complexType>
+		
+		<xs:complexType name="Parameter">
+			<xs:sequence>
+				<xs:element minOccurs="0" name="name" nillable="false" type="xs:string"/>
+				<xs:element minOccurs="0" name="value" nillable="false" type="xs:string"/>
+			</xs:sequence>
+	    </xs:complexType>
+		
+	    <xs:complexType name="SearchCriteria">
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" minOccurs="0" name="searchParameters" nillable="true" type="ax21:Parameter"/>
+			</xs:sequence>
+	    </xs:complexType>
   	</xs:schema>
     <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://exceptions.generated.carpool.sweng500.psu.edu/xsd" xmlns:ax22="http://exceptions.generated.carpool.sweng500.psu.edu/xsd">
 		
@@ -195,26 +222,59 @@
 				</xs:complexType>
 			</xs:element>
 			
+			<xs:element name="SearchTripsRequest">
+		        <xs:complexType>
+		            <xs:sequence>
+		                <xs:element maxOccurs="unbounded" minOccurs="0" name="searchParameters" nillable="true" type="ax21:Parameter"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+		    
+		    <xs:element name="FindSimilarTripsRequest">
+		        <xs:complexType>
+		            <xs:sequence>
+		                <xs:element maxOccurs="1" minOccurs="0" name="id" nillable="true" type="xs:string"/>
+		                <xs:element minOccurs="0" name="title" nillable="true" type="xs:string"/>
+		                <xs:element minOccurs="0" name="startAddress" nillable="true" type="xs:string"/>
+		                <xs:element minOccurs="0" name="endAddress" nillable="true" type="xs:string"/>
+		                <xs:element minOccurs="0" name="startDate" nillable="true" type="xs:string"/>
+		                <xs:element minOccurs="0" name="endDate" nillable="true" type="xs:string"/>
+		                <xs:element minOccurs="0" name="latitude" nillable="true" type="xs:string"/>
+		                <xs:element minOccurs="0" name="longitude" nillable="true" type="xs:string"/>
+		                <xs:element minOccurs="0" name="organizationId" nillable="true" type="xs:string"/>
+		                <xs:element minOccurs="1" name="numMiles" nillable="false" type="xs:int"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+			
 		</xs:schema>
   </wsdl:types>
+  <wsdl:message name="CarPoolServiceException">
+    <wsdl:part name="parameters" element="ns2:CarPoolServiceException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetUserRequest">
+    <wsdl:part name="parameters" element="ns2:GetUserRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="FindPlacesNearLocationRequest">
+    <wsdl:part name="parameters" element="ns2:FindPlacesNearLocationRequest">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="GetTripsByUserResponse">
     <wsdl:part name="parameters" element="ns2:GetTripsByUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="FindSimilarTripsRequest">
+    <wsdl:part name="parameters" element="ns2:FindSimilarTripsRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="FindPlacesNearLocationResponse">
     <wsdl:part name="parameters" element="ns2:FindPlacesNearLocationResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="CarPoolServiceException">
-    <wsdl:part name="parameters" element="ns2:CarPoolServiceException">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="FindPlacesResponse">
     <wsdl:part name="parameters" element="ns2:FindPlacesResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="GetUserRequest">
-    <wsdl:part name="parameters" element="ns2:GetUserRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="GetTripsByUserRequest">
@@ -233,12 +293,12 @@
     <wsdl:part name="parameters" element="ns2:GetUserResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="FindPlacesRequest">
-    <wsdl:part name="parameters" element="ns2:FindPlacesRequest">
+  <wsdl:message name="SearchTripsRequest">
+    <wsdl:part name="parameters" element="ns2:SearchTripsRequest">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="FindPlacesNearLocationRequest">
-    <wsdl:part name="parameters" element="ns2:FindPlacesNearLocationRequest">
+  <wsdl:message name="FindPlacesRequest">
+    <wsdl:part name="parameters" element="ns2:FindPlacesRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="CarPoolServicePortType">
@@ -274,12 +334,28 @@
       <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:getTripsByUserServiceException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="findTrips">
+      <wsdl:input message="axis2:SearchTripsRequest" wsaw:Action="urn:SearchTripsRequest">
+    </wsdl:input>
+      <wsdl:output message="axis2:GetTripsByUserResponse" wsaw:Action="urn:GetTripsByUserResponse">
+    </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:findTripsServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="updateTrip">
       <wsdl:input message="axis2:UpdateTripRequest" wsaw:Action="urn:UpdateTripRequest">
     </wsdl:input>
       <wsdl:output message="axis2:UpdateTripResponse" wsaw:Action="urn:UpdateTripResponse">
     </wsdl:output>
       <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:updateTripServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="findSimilarTrips">
+      <wsdl:input message="axis2:FindSimilarTripsRequest" wsaw:Action="urn:FindSimilarTripsRequest">
+    </wsdl:input>
+      <wsdl:output message="axis2:GetTripsByUserResponse" wsaw:Action="urn:GetTripsByUserResponse">
+    </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:findSimilarTripsServiceException">
     </wsdl:fault>
     </wsdl:operation>
   </wsdl:portType>
@@ -333,8 +409,32 @@
         <soap:fault name="CarPoolServiceException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="findTrips">
+      <soap:operation soapAction="urn:findTrips" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException">
+        <soap:fault name="CarPoolServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="updateTrip">
       <soap:operation soapAction="urn:updateTrip" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException">
+        <soap:fault name="CarPoolServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="findSimilarTrips">
+      <soap:operation soapAction="urn:findSimilarTrips" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
       </wsdl:input>
@@ -348,7 +448,7 @@
   </wsdl:binding>
   <wsdl:service name="CarPoolService">
     <wsdl:port name="CarPoolServiceSOAP11port_http" binding="axis2:CarPoolServiceSOAP11Binding">
-      <soap:address location="http://192.168.1.4:6187/sweng500_car_pool/services/CarPoolService/"/>
+      <soap:address location="http://162.44.84.143:6187/sweng500_car_pool/services/CarPoolService/"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
