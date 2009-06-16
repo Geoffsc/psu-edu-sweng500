@@ -1,10 +1,14 @@
 package edu.psu.sweng500.carpool.services.utilities;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import edu.psu.sweng500.carpool.beans.Address;
 import edu.psu.sweng500.carpool.beans.User;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Organization;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Participant;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Place;
+import edu.psu.sweng500.carpool.generated.beans.xsd.Trip;
 import edu.psu.sweng500.carpool.generated.beans.xsd.TripUser;
 
 public class ServiceObjectMapper
@@ -77,6 +81,25 @@ public class ServiceObjectMapper
 		tripUser.setSurName(user.getSurName());
 		
 		return tripUser;
+	}
+	
+	public static Trip convertToTrip(edu.psu.sweng500.carpool.beans.Trip trip)
+	{
+		Trip serviceTrip = new Trip();
+		serviceTrip.setId(trip.getId());
+		serviceTrip.setTitle(trip.getTitle());
+		
+		DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
+		serviceTrip.setStartDate(format.format(trip.getStartDate()));
+		serviceTrip.setEndDate(format.format(trip.getEndDate()));
+		
+		edu.psu.sweng500.carpool.beans.Organization organization = trip.getOrganization();
+		serviceTrip.setOrganization(ServiceObjectMapper.convertToServiceOrganization(organization));
+		
+		serviceTrip.setEndAddress(ServiceObjectMapper.convertToPlace(trip.getEndAddress()));
+		serviceTrip.setStartAddress(ServiceObjectMapper.convertToPlace(trip.getStartAddress()));
+		
+		return serviceTrip;
 	}
 	
 }

@@ -13,19 +13,26 @@ import org.apache.axis2.AxisFault;
 import org.junit.Test;
 
 import edu.psu.sweng500.carpool.beans.Address;
+
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceException;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.FindPlacesRequest;
+import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.FindSimilarTripsRequest;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.GetTripsByUserRequest;
+import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.GetUserRequest;
+import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.GetUserResponse;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.Organization;
+import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.Parameter;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.Participant;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.Place;
+import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.SearchTripsRequest;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.Trip;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.TripUser;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.UpdateTripRequest;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.UpdateTripResponse;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.User;
 import edu.psu.sweng500.carpool.services.utilities.UniqueIDGeneratorUtil;
+import edu.psu.sweng500.carpool.utilities.LocationUtils;
 import edu.psu.sweng500.security.generated.services.tests.SecurityServiceException;
 import edu.psu.sweng500.security.generated.services.tests.SecurityServiceStub;
 import edu.psu.sweng500.security.generated.services.tests.SecurityServiceStub.LoginElementRequest;
@@ -189,7 +196,7 @@ public class ServiceStubTests
 		}
 	}
 	
-	@Test
+	
 	public void testGetTripsByUser()
 	{
 		GetTripsByUserRequest request = new GetTripsByUserRequest();
@@ -214,5 +221,126 @@ public class ServiceStubTests
 			re.printStackTrace();
 			TestCase.fail(re.getMessage());
 		}
+	}
+	
+	
+	public void testFindTrips()
+	{
+		SearchTripsRequest request = new SearchTripsRequest();
+		
+		Parameter[] parameters = new Parameter[2];
+		Parameter param1 = new Parameter();
+		param1.setName("userName");
+		param1.setValue("eborisow");
+		parameters[0] = param1;
+		
+		Parameter param2 = new Parameter();
+		param2.setName("startDate");
+		param2.setValue("2009-05-31");
+		parameters[1] = param2;
+		
+		// SearchCriteria searchCriteria = new SearchCriteria();
+		// searchCriteria.setSearchParameters(parameters);
+		// request.setCriteria(searchCriteria);
+		request.setSearchParameters(parameters);
+		try
+		{
+			CarPoolServiceStub serviceStub = new CarPoolServiceStub();
+			serviceStub.findTrips(request);
+		}
+		catch (AxisFault afe)
+		{
+			afe.printStackTrace();
+			TestCase.fail(afe.getMessage());
+		}
+		catch (CarPoolServiceException cpe)
+		{
+			cpe.printStackTrace();
+			TestCase.fail(cpe.getMessage());
+		}
+		catch (RemoteException re)
+		{
+			re.printStackTrace();
+			TestCase.fail(re.getMessage());
+		}
+	}
+	
+	
+	public void testFindSimilarTrips()
+	{
+		FindSimilarTripsRequest findSimilarTripsRequest = new FindSimilarTripsRequest();
+		// findSimilarTripsRequest.setStartAddress("357847589");
+		// findSimilarTripsRequest.setStartDate("2009-05-31");
+		findSimilarTripsRequest.setOrganizationId("12345");
+		findSimilarTripsRequest.setLatitude("40.123343");
+		findSimilarTripsRequest.setLongitude("-75.284260");
+		findSimilarTripsRequest.setNumMiles(5);
+		try
+		{
+			CarPoolServiceStub serviceStub = new CarPoolServiceStub();
+			serviceStub.findSimilarTrips(findSimilarTripsRequest);
+		}
+		catch (AxisFault afe)
+		{
+			afe.printStackTrace();
+			TestCase.fail(afe.getMessage());
+		}
+		catch (CarPoolServiceException cpe)
+		{
+			cpe.printStackTrace();
+			TestCase.fail(cpe.getMessage());
+		}
+		catch (RemoteException re)
+		{
+			re.printStackTrace();
+			TestCase.fail(re.getMessage());
+		}
+	}
+	
+	@Test
+	public void testGetUser()
+	{
+		try
+		{
+			GetUserRequest userRequest = new GetUserRequest();
+			userRequest.setUserId("eborisow");
+			CarPoolServiceStub serviceStub = new CarPoolServiceStub();
+			GetUserResponse userResponse = serviceStub.getUser(userRequest);
+			if (userResponse != null)
+			{
+				User user = userResponse.getUser();
+				if (user != null)
+				{
+					System.out.println("Given name: " + user.getGivenName());
+				}
+			}
+		}
+		catch (AxisFault afe)
+		{
+			afe.printStackTrace();
+			TestCase.fail(afe.getMessage());
+		}
+		catch (CarPoolServiceException cpe)
+		{
+			cpe.printStackTrace();
+			TestCase.fail(cpe.getMessage());
+		}
+		catch (RemoteException re)
+		{
+			re.printStackTrace();
+			TestCase.fail(re.getMessage());
+		}
+	}
+	
+	
+	public void testDistance()
+	{
+		float lat1 = 40.282016f;
+		float lon1 = -75.377212f;
+		
+		float lat2 = 40.2809f;
+		float lon2 = -75.3705f;
+		
+		System.out.println("The distance is: " + LocationUtils.getDistance(lat1, lon1, lat2, lon2, 'M'));
 	}
 }

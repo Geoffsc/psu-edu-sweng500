@@ -24,6 +24,8 @@ public class CarPoolUserService extends HibernateDaoSupport implements ICarPoolU
             
             Criteria criteria=session.createCriteria(edu.psu.sweng500.carpool.beans.User.class);
             criteria.setFetchMode("savedAddresses", FetchMode.JOIN);
+            criteria.setFetchMode("savedAddresses.address", FetchMode.JOIN);
+            criteria.setFetchMode("organization", FetchMode.JOIN);
             criteria.add(Restrictions.eq("userName", id));
 
             tx.commit();
@@ -50,6 +52,8 @@ public class CarPoolUserService extends HibernateDaoSupport implements ICarPoolU
             
             Criteria criteria=session.createCriteria(edu.psu.sweng500.carpool.beans.User.class);
             criteria.setFetchMode("savedAddresses", FetchMode.JOIN);
+            criteria.setFetchMode("savedAddresses.address", FetchMode.JOIN);
+            criteria.setFetchMode("organization", FetchMode.JOIN);
             criteria.add(Restrictions.eq("id", id));
 
             tx.commit();

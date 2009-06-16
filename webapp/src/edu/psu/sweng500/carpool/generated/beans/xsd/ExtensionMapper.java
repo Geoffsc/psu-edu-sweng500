@@ -59,6 +59,16 @@
 
               
                   if (
+                  "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
+                  "Parameter".equals(typeName)){
+                   
+                            return  edu.psu.sweng500.carpool.generated.beans.xsd.Parameter.Factory.parse(reader);
+                        
+
+                  }
+
+              
+                  if (
                   "http://exceptions.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
                   "CarPoolServiceException".equals(typeName)){
                    

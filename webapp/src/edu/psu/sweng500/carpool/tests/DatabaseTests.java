@@ -1,5 +1,8 @@
 package edu.psu.sweng500.carpool.tests;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -8,6 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+
+import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,7 +27,9 @@ import edu.psu.sweng500.carpool.beans.Organization;
 import edu.psu.sweng500.carpool.beans.Trip;
 import edu.psu.sweng500.carpool.beans.TripUser;
 import edu.psu.sweng500.carpool.beans.User;
+import edu.psu.sweng500.carpool.beans.UserAddress;
 import edu.psu.sweng500.carpool.data.FindCriteria;
+import edu.psu.sweng500.carpool.generated.beans.xsd.Parameter;
 import edu.psu.sweng500.carpool.services.CarPoolLocationService;
 import edu.psu.sweng500.carpool.services.CarPoolTripService;
 import edu.psu.sweng500.carpool.services.CarPoolTripUserService;
@@ -33,22 +40,27 @@ public class DatabaseTests
 {
 	private static final Log log = LogFactory.getLog(DatabaseTests.class);
 	
-	
+	@Test
 	public void testGetUser()
 	{
 		CarPoolUserService carPoolService = new CarPoolUserService();
 		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
 		carPoolService.setSessionFactory(sessionFactory);
 		
-		User user = carPoolService.getUser("11111");
+		User user = carPoolService.getUser("eborisow");
 		Set savedAddresses = user.getSavedAddresses();
 		Iterator addrIter = savedAddresses.iterator();
 		while (addrIter.hasNext())
 		{
-			Address address = (Address) addrIter.next();
-			if (address != null)
+			UserAddress userAddress = (UserAddress) addrIter.next();
+			if (userAddress != null)
 			{
-				System.out.println("Address line 1: " + address.getAddress1());
+				Address address = userAddress.getAddress();
+				if (address != null)
+				{
+					System.out.println("Address line 1: " + address.getAddress1());
+				}
+				System.out.println("Type: " + userAddress.getType());
 			}
 		}
 	}
@@ -87,7 +99,7 @@ public class DatabaseTests
 		}
 	}
 	
-	@Test
+	
 	public void testGetTripsByUser()
 	{
 		CarPoolTripService carPoolService = new CarPoolTripService();
@@ -241,6 +253,140 @@ public class DatabaseTests
 		*/
 		
 		carPoolService.createOrUpdateTrip(trip);
+	}
+	
+	
+	public void findTrips()
+	{
+		CarPoolTripService carPoolService = new CarPoolTripService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		FindCriteria criteria = new FindCriteria();
+		
+		Criterion[] allCriterion = new Criterion[3];
+		Criterion userCriterion = Restrictions.eq("user.userName", "eborisow");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+		try
+		{
+			Date theDate = dateFormat.parse("5/1/09 00:00:00");
+			Date theDate2 = dateFormat.parse("7/1/09 11:59:59");
+			dateFormat.applyPattern("yyyy-MM-dd");
+			log.debug("First date: " + dateFormat.format(theDate));
+			log.debug("Second date: " + dateFormat.format(theDate2));
+			// Criterion startDateCriterion = Restrictions.ge("trip.startDate", dateFormat.format(theDate) + " 00:00:00");
+			// Criterion endDateCriterion = Restrictions.le("trip.startDate", dateFormat.format(theDate2) + " 11:59:59");
+			Criterion startDateCriterion = Restrictions.ge("trip.startDate", theDate);
+			Criterion endDateCriterion = Restrictions.le("trip.startDate", theDate2);
+			allCriterion[0] = userCriterion;
+			allCriterion[1] = startDateCriterion;
+			allCriterion[2] = endDateCriterion;
+			criteria.setCriterion(allCriterion);
+			
+			criteria.setSortField("trip.title");
+			criteria.setAscending(true);
+			
+			criteria.setCriterion(allCriterion);
+			
+			List tripUsers = carPoolService.findTrips(criteria);
+		}
+		catch (ParseException pe)
+		{}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			TestCase.fail(e.getMessage());
+		}
+	}
+	
+	
+	public void testSimilarTripSearch()
+	{
+		/*
+		Trip trip = new Trip();
+		String startAddress = "357847589";
+		String startDate = "2009-05-31";
+		String orgId = "12345";
+		
+		List criterionList = new ArrayList();
+		if (startAddress != null)
+		{
+			Criterion criterion = Restrictions.eq("trip.startAddress.id", startAddress);
+			criterionList.add(criterion);
+		}
+		
+		if (endAddress != null)
+		{
+			Criterion criterion = Restrictions.eq("trip.endAddress.id", trip.getStartAddress());
+			criterionList.add(criterion);
+		}
+		
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		if (trip.getStartDate() != null)
+		{
+			try
+			{
+				Date theDateBegin = format.parse(trip.getStartDate() + " 00:00:00");
+				Date theDateEnd = format.parse(trip.getStartDate() + " 23:59:59");
+				Criterion startDateCriterion = Restrictions.ge("trip.startDate", theDateBegin);
+				Criterion endDateCriterion = Restrictions.le("trip.startDate", theDateEnd);
+				
+				criterionList.add(startDateCriterion);
+				criterionList.add(endDateCriterion);
+			}
+			catch (ParseException pe)
+			{
+				pe.printStackTrace();
+			}
+		}
+		
+		if (trip.getEndDate() != null)
+		{
+			try
+			{
+				Date theDateBegin = format.parse(trip.getEndDate() + " 00:00:00");
+				Date theDateEnd = format.parse(trip.getEndDate() + " 23:59:59");
+				Criterion startDateCriterion = Restrictions.ge("trip.endDate", theDateBegin);
+				Criterion endDateCriterion = Restrictions.le("trip.endDate", theDateEnd);
+				
+				criterionList.add(startDateCriterion);
+				criterionList.add(endDateCriterion);
+			}
+			catch (ParseException pe)
+			{
+				pe.printStackTrace();
+			}
+		}
+		
+		if (trip.getOrganizationId() != null)
+		{
+			Criterion criterion = Restrictions.eq("trip.organization.id", trip.getOrganizationId());
+			criterionList.add(criterion);
+		}
+		
+		Criterion[] criterion = new Criterion[criterionList.size()];
+		Iterator criterionListIter = criterionList.iterator();
+		int count = 0;
+		while (criterionListIter.hasNext())
+		{
+			criterion[count++] = (Criterion) criterionListIter.next();
+		}
+		FindCriteria criteria = new FindCriteria();
+		criteria.setCriterion(criterion);
+		
+		CarPoolTripService carPoolTripService = new CarPoolTripService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory();
+		carPoolTripService.setSessionFactory(sessionFactory);
+		List trips = carPoolTripService.findTrips(criteria);
+		Iterator tripsIter = trips.iterator();
+		while (tripsIter.hasNext())
+		{
+			TripUser resultTripUser = (TripUser) tripsIter.next();
+			Trip resultTrip = resultTripUser.getTrip();
+			log.debug("Trip id: " + resultTrip.getId());
+		}
+		*/
 	}
 	
 	public static void main(String[] args)

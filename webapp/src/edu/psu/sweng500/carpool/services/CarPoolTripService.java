@@ -148,6 +148,93 @@ public class CarPoolTripService extends HibernateDaoSupport implements
             }
         }
 	}
+	
+	public List findTripsOnly(FindCriteria criteria)
+	{
+		Session session = getSession(true);
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            
+            String sortField = criteria.getSortField();
+            boolean isAscending = criteria.isAscending();
+            
+            Criteria localCriteria=session.createCriteria(edu.psu.sweng500.carpool.beans.Trip.class);
+            // localCriteria.setFetchMode("savedAddresses", FetchMode.JOIN);
+            
+            localCriteria.setFetchMode("startAddress", FetchMode.JOIN);
+            localCriteria.setFetchMode("endAddress", FetchMode.JOIN);
+            localCriteria.setFetchMode("organization", FetchMode.JOIN);
+            localCriteria.setFetchMode("members", FetchMode.JOIN);
+
+            if (sortField != null && !sortField.equals(""))
+            {
+                if (isAscending)
+                {
+                	localCriteria.addOrder(Order.asc(sortField).ignoreCase());
+                }
+                else
+                {
+                	localCriteria.addOrder(Order.desc(sortField).ignoreCase());
+                }
+                // localCriteria.addOrder(Order.asc("stateOrProvince").ignoreCase());
+                // localCriteria.addOrder(Order.asc("city").ignoreCase());
+            }
+            
+            else
+            {
+                if (isAscending)
+                {
+                	// localCriteria.addOrder(Order.asc("stateOrProvince").ignoreCase());
+                    // localCriteria.addOrder(Order.asc("city").ignoreCase());
+                }
+                else
+                {
+                	// localCriteria.addOrder(Order.desc("stateOrProvince").ignoreCase());
+                    // localCriteria.addOrder(Order.asc("city").ignoreCase());
+                }
+            }
+            
+            int offset = criteria.getOffset();
+            if (offset >= 0)
+            {
+            	localCriteria.setFirstResult(offset);
+            }
+            int size = criteria.getSize();
+            if (size > 0)
+            {
+            	localCriteria.setMaxResults(size);
+            }
+            
+            Criterion[] criterionArray = criteria.getCriterion();
+
+            if (criterionArray != null)
+            {
+                for (int i = 0; i < criterionArray.length; i++)
+                {
+                    Criterion thisCriterion = (Criterion) criterionArray[i];
+
+                    if (thisCriterion != null)
+                    {
+                    	localCriteria.add(thisCriterion);
+                    }
+                }
+            }
+        
+            tx.commit();
+            return localCriteria.list(); 
+        }
+        catch (HibernateException ex) {
+            throw convertHibernateAccessException(ex);
+        }
+        finally
+        {
+            if (session != null)
+            {
+                this.releaseSession(session);
+            }
+        }
+	}
 
 	public Trip getTrip(String id)
 	{

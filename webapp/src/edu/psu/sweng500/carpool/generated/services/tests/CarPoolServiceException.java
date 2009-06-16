@@ -10,7 +10,7 @@ package edu.psu.sweng500.carpool.generated.services.tests;
 
 public class CarPoolServiceException extends java.lang.Exception{
     
-    private edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE faultMessage;
+    private edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.CarPoolServiceExceptionE faultMessage;
     
     public CarPoolServiceException() {
         super("CarPoolServiceException");
@@ -24,11 +24,11 @@ public class CarPoolServiceException extends java.lang.Exception{
       super(s, ex);
     }
     
-    public void setFaultMessage(edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE msg){
+    public void setFaultMessage(edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.CarPoolServiceExceptionE msg){
        faultMessage = msg;
     }
     
-    public edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE getFaultMessage(){
+    public edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.CarPoolServiceExceptionE getFaultMessage(){
        return faultMessage;
     }
 }

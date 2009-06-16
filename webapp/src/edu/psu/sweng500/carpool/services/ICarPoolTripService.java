@@ -11,4 +11,5 @@ public interface ICarPoolTripService
 	Trip getTrip(String id);
 	boolean deleteTrip(String id);
 	List findTrips(FindCriteria criteria);
+	List findTripsOnly(FindCriteria criteria);
 }

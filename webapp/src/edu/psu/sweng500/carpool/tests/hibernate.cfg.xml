@@ -19,7 +19,7 @@
 
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
-        <property name="hibernate.format_sql">true</property>
+        <property name="format_sql">true</property>
 
         <!-- Mapping files -->
         <mapping resource="edu/psu/sweng500/carpool/data/resources/CarPool-Users.hbm.xml"/>

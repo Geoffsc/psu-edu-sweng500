@@ -45,6 +45,21 @@
         /**
          * Auto generated method signature
          * 
+                                    * @param findSimilarTripsRequest
+             * @throws CarPoolServiceException : 
+         */
+
+        
+                public edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse findSimilarTrips
+                (
+                  edu.psu.sweng500.carpool.generated.services.xsd.FindSimilarTripsRequest findSimilarTripsRequest
+                 )
+            throws CarPoolServiceException;
+        
+         
+        /**
+         * Auto generated method signature
+         * 
                                     * @param findPlacesNearLocationRequest
              * @throws CarPoolServiceException : 
          */
@@ -53,6 +68,21 @@
                 public edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse findPlacesNearLocation
                 (
                   edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest findPlacesNearLocationRequest
+                 )
+            throws CarPoolServiceException;
+        
+         
+        /**
+         * Auto generated method signature
+         * 
+                                    * @param searchTripsRequest
+             * @throws CarPoolServiceException : 
+         */
+
+        
+                public edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse findTrips
+                (
+                  edu.psu.sweng500.carpool.generated.services.xsd.SearchTripsRequest searchTripsRequest
                  )
             throws CarPoolServiceException;
         

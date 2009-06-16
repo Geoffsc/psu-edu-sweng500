@@ -12,9 +12,16 @@ import org.apache.axis2.AxisFault;
 import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.junit.Test;
 
 import edu.psu.sweng500.carpool.exceptions.SecurityException;
+import edu.psu.sweng500.carpool.generated.services.CarPoolServiceException;
+import edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest;
+import edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse;
+import edu.psu.sweng500.carpool.services.AdbCarPoolService;
+import edu.psu.sweng500.carpool.services.CarPoolUserService;
 import edu.psu.sweng500.carpool.services.utilities.ServiceUtilities;
 import edu.psu.sweng500.security.generated.services.SecurityServiceException;
 import edu.psu.sweng500.security.generated.services.xsd.SecurityServiceExceptionE;
@@ -83,7 +90,7 @@ public class ServiceTests
 		}
 	}
 	
-	@Test
+	
 	public void testFindPlacesNearLocation()
 	{
 		try
@@ -189,4 +196,61 @@ public class ServiceTests
 		    ex.printStackTrace();
 		}
 	}
+	
+	
+	public void testGetUser()
+	{
+		try
+		{
+			OMFactory factory = OMAbstractFactory.getOMFactory();
+		    OMNamespace omNs = factory.createOMNamespace(
+		                "http://services.generated.carpool.sweng500.psu.edu/xsd", "xsd");
+		
+		    OMElement method = factory.createOMElement("getUser", omNs);
+		    
+		    method = ServiceUtilities.addValue(
+		    		factory, method, omNs, "userId", "eborisow");
+		    
+		    ServiceClient serviceClient = new ServiceClient();
+		
+		    Options options = new Options();
+		    serviceClient.setOptions(options);
+		    options.setTo(targetEPR1);
+		
+		    //Blocking invocation
+		    OMElement result = serviceClient.sendReceive(method);
+		
+		    StringWriter writer = new StringWriter();
+		    result.serialize(XMLOutputFactory.newInstance()
+		            .createXMLStreamWriter(writer));
+		    writer.flush();
+		
+		    System.out.println("Response: " + writer.toString());
+		} catch (Exception ex) {
+		    ex.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testAdbGetUser()
+	{
+		GetUserRequest request = new GetUserRequest();
+		request.setUserId("eborisow");
+		
+		AdbCarPoolService carPoolService = new AdbCarPoolService();
+		CarPoolUserService userService = new CarPoolUserService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory();
+		userService.setSessionFactory(sessionFactory);
+		carPoolService.setCarPoolUserService(userService);
+		try
+		{
+			GetUserResponse response = carPoolService.getUser(request);
+			System.out.println("response: " + response.getUser().getGivenName());
+		}
+		catch (CarPoolServiceException cse)
+		{
+			cse.printStackTrace();
+		}
+	}
+	
 }

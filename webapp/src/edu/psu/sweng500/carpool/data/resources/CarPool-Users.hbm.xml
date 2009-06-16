@@ -13,13 +13,26 @@
 	
 	<many-to-one name="organization" column="ORGANIZATION_ID" unique="true" insert="false" update="false" outer-join="false"/>
 	
+	<set name="savedAddresses" lazy="true" table="USERS_ADDRESSES" cascade="all" >
+        <key column="USER_ID" />
+        <composite-element class="UserAddress" >
+           <parent name="user"/>
+           <property name="type" type="java.lang.String" column="TYPE"/>
+           <many-to-one name="address" class="Address">
+              <column name="ADDRESS_ID"/>
+           </many-to-one>
+        </composite-element>
+    </set>
+	
+	<!-- 
 	<set name="savedAddresses" table="USERS_ADDRESSES">
         <key column="USER_ID"/>
         <many-to-many column="ADDRESS_ID"
             unique="true"
-            class="Address"/>
+            class="Address">
+        </many-to-many>
     </set>
-	
+	-->
   </class>
   
   <class name="Organization" table="ORGANIZATIONS">
@@ -37,6 +50,7 @@
   	<property name="postalCode" column="POSTAL_CODE"/>
   	<property name="latitude" column="LATITUDE"/>
   	<property name="longitude" column="LONGITUDE"/>
+  
   </class>
   
   <class name="Trip" table="TRIPS">
