@@ -1,8 +1,11 @@
 package edu.psu.sweng500.carpool.device.app.beans;
 
+import net.rim.device.api.i18n.DateFormat;
+import net.rim.device.api.i18n.SimpleDateFormat;
 import java.util.Date;
 
 import net.rim.device.api.collection.util.LongHashtableCollection;
+import net.rim.device.api.system.EventLogger;
 import net.rim.device.api.system.PersistentObject;
 import net.rim.device.api.system.PersistentStore;
 
@@ -77,33 +80,48 @@ public class TripData
 	public static void setTripDate(Date tripDate)
 	{
 		Long tripDateLong = new Long(tripDate.getTime());
-		getInstance().set(KEY_TRIP_DATE, tripDateLong.toString().getBytes());
+		getInstance().set(KEY_TRIP_DATE, tripDateLong.toString());
 	}
 	
 	public static Date getTripStartTime()
 	{
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Starting getTripStartTime").getBytes(), EventLogger.ALWAYS_LOG);
 		String startLongString = (String) getInstance().get(KEY_TRIP_START_TIME);
 		Date startDate = new Date(Long.parseLong(startLongString));
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Returning start time: " + startDate.getTime()).getBytes(), EventLogger.ALWAYS_LOG);
 		return startDate;
 	}
 
 	public static void setTripStartTime(Date tripStartTime)
 	{
+		/*
+		DateFormat format = SimpleDateFormat.getInstance(DateFormat.DATE_SHORT | DateFormat.TIME_LONG);
+		String startTime = format.format(tripStartTime);
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Incoming start time is: " + startTime).getBytes(), EventLogger.ALWAYS_LOG);
+		*/
 		Long startLong = new Long(tripStartTime.getTime());
-		getInstance().set(KEY_TRIP_START_TIME, startLong.toString().getBytes());
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Incoming start time is: " + startLong.toString()).getBytes(), EventLogger.ALWAYS_LOG);
+		getInstance().set(KEY_TRIP_START_TIME, startLong.toString());
 	}
 	
 	public static Date getTripEndTime()
 	{
 		String endLongString = (String) getInstance().get(KEY_TRIP_END_TIME);
 		Date endDate = new Date(Long.parseLong(endLongString));
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Returning end time: " + endDate.getTime()).getBytes(), EventLogger.ALWAYS_LOG);
 		return endDate;
 	}
 
 	public static void setTripEndTime(Date tripEndTime)
 	{
+		/*
+		DateFormat format = SimpleDateFormat.getInstance(DateFormat.DATE_SHORT | DateFormat.TIME_LONG);
+		String endTime = format.format(tripEndTime);
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Incoming end time is: " + endTime).getBytes(), EventLogger.ALWAYS_LOG);
+		*/
 		Long endLong = new Long(tripEndTime.getTime());
-		getInstance().set(KEY_TRIP_END_TIME, endLong.toString().getBytes());
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Incoming end time is: " + endLong.toString()).getBytes(), EventLogger.ALWAYS_LOG);
+		getInstance().set(KEY_TRIP_END_TIME, endLong.toString());
 	}
 	
 	public static String getTripUserType()
