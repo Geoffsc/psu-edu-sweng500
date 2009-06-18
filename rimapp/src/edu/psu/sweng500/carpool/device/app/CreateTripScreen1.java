@@ -98,7 +98,7 @@ public class CreateTripScreen1 extends MainScreen
 		}
 		
     	nextTripScreen.initialize();
-		UiApplication.getUiApplication().pushScreen(nextTripScreen); 
+		UiApplication.getUiApplication().pushScreen(nextTripScreen);
 	}
 	
 }
