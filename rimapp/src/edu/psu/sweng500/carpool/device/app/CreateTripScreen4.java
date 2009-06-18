@@ -11,6 +11,7 @@ import edu.psu.sweng500.carpool.device.services.generated.Parameter;
 
 import net.rim.device.api.i18n.DateFormat;
 import net.rim.device.api.i18n.SimpleDateFormat;
+import net.rim.device.api.system.EventLogger;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
@@ -78,12 +79,33 @@ public class CreateTripScreen4 extends MainScreen
         {
 			nextTripScreen = new CreateTripScreen5();
         }
-		SimpleDateFormat dateFormat = new SimpleDateFormat(SimpleDateFormat.DATE_SHORT);
-		TripData.setTripDate(new Date(tripDate.getDate()));
+		SimpleDateFormat dateFormat = new SimpleDateFormat(SimpleDateFormat.DATE_SHORT | SimpleDateFormat.TIME_SHORT);
+		Calendar cal = Calendar.getInstance();
+		Date tripDateTime = new Date(tripDate.getDate());
+		cal.setTime(tripDateTime);
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Raw start date is: " + dateFormat.format(cal)).getBytes(), EventLogger.ALWAYS_LOG);
+		TripData.setTripDate(tripDateTime);
 		
-		SimpleDateFormat timeFormat = new SimpleDateFormat(SimpleDateFormat.TIME_SHORT);
-		TripData.setTripStartTime(new Date(startTime.getDate()));
-		TripData.setTripEndTime(new Date(startTime.getDate()));
+		SimpleDateFormat timeFormat = new SimpleDateFormat(SimpleDateFormat.DATE_SHORT | SimpleDateFormat.TIME_SHORT);
+		Date startDateTime = new Date(startTime.getDate());
+		Calendar cal1 = Calendar.getInstance();
+		cal1.setTime(startDateTime);
+		cal1.set(Calendar.YEAR, cal.get(Calendar.YEAR));
+		cal1.set(Calendar.MONTH, cal.get(Calendar.MONTH));
+		cal1.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH));
+		cal1.set(Calendar.SECOND, 0);
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Raw start time is: " + timeFormat.format(cal1)).getBytes(), EventLogger.ALWAYS_LOG);
+		TripData.setTripStartTime(cal1.getTime());
+		
+		Date endDateTime = new Date(endTime.getDate());
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime(endDateTime);
+		cal2.set(Calendar.YEAR, cal.get(Calendar.YEAR));
+		cal2.set(Calendar.MONTH, cal.get(Calendar.MONTH));
+		cal2.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH));
+		cal2.set(Calendar.SECOND, 0);
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Raw end time is: " + timeFormat.format(cal2)).getBytes(), EventLogger.ALWAYS_LOG);
+		TripData.setTripEndTime(cal2.getTime());
     	
 		UiApplication.getUiApplication().pushScreen(nextTripScreen); 
 	}

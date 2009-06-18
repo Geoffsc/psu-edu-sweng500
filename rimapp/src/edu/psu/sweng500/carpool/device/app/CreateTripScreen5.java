@@ -9,9 +9,11 @@ import edu.psu.sweng500.carpool.device.app.beans.TripData;
 import edu.psu.sweng500.carpool.device.app.utilities.UniqueIDGeneratorUtil;
 import edu.psu.sweng500.carpool.device.services.generated.CarPoolService_Stub;
 import edu.psu.sweng500.carpool.device.services.generated.Parameter;
+import edu.psu.sweng500.carpool.device.services.generated.Trip;
 
 import net.rim.device.api.i18n.DateFormat;
 import net.rim.device.api.i18n.SimpleDateFormat;
+import net.rim.device.api.system.EventLogger;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.UiApplication;
@@ -26,7 +28,7 @@ import net.rim.device.api.ui.container.MainScreen;
 
 public class CreateTripScreen5 extends MainScreen
 {
-	private CreateTripScreen2 nextTripScreen;
+	private CreateTripScreen6 createTripScreen6;
 	private ObjectChoiceField tripUserType;
 	
 	private String[] USER_TYPES = {"DRIVER", "PASSENGER"};
@@ -57,24 +59,46 @@ public class CreateTripScreen5 extends MainScreen
 	
 	public void performSearch()
 	{
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Starting performSearch: ").getBytes(), EventLogger.ALWAYS_LOG);
 		// check to see if there are any trips that match this one
 		CarPoolService_Stub service = new CarPoolService_Stub();
 		String id = UniqueIDGeneratorUtil.getUniqueId();
 		String title = TripData.getTripTitle();
 		String startAddress = TripData.getTripStartPlace();
 		String endAddress = TripData.getTripEndPlace();
+		
+		// format the start and end date for the search
 		Date startDate = TripData.getTripStartTime();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
 		Date endDate = TripData.getTripEndTime();
-		int numMiles = 10;
-		int latitude = -999;
-		int longitude = -999;
-		Trip[] trips = service.findSimilarTrips(id, title, startAddress, endAddress, startDate, endDate, latitude, longitude, organizationId, numMiles);
-		if (trips != null)
+		int numMiles = 0;
+		String latitude = "";
+		String longitude = "";
+		try
 		{
-			// go to screen 6 - select an existing trip
+			Trip[] trips = service.findSimilarTrips("", "", startAddress, endAddress, dateFormat.format(startDate), dateFormat.format(endDate), latitude, longitude, "12345", numMiles);
+			if (trips != null)
+			{
+				// go to screen 6 - select an existing trip
+				if (null == createTripScreen6)
+	            {
+	        		createTripScreen6 = new CreateTripScreen6();
+	            }
+	        	
+				createTripScreen6.setTrips(trips);
+	        	UiApplication.getUiApplication().pushScreen(createTripScreen6); 
+	        	return;
+			}
+		}
+		catch (RemoteException rme)
+		{
+			Dialog.alert("A remote exception occurred: " + rme.getMessage());
 		}
 		// otherwise, create the new trip
 		
+		return;
+		/*
 		if (null == nextTripScreen)
         {
 			nextTripScreen = new CreateTripScreen2();
@@ -82,6 +106,7 @@ public class CreateTripScreen5 extends MainScreen
 		TripData.setTripUserType(Integer.toString(tripUserType.getSelectedIndex()));
 		
 		UiApplication.getUiApplication().pushScreen(nextTripScreen); 
+		*/
 	}
 	
 	

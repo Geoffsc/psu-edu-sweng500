@@ -17,7 +17,6 @@ public class CarPoolMainScreen extends MainScreen
 	private String[] mainMenuItems;
 	private MainScreenObjectListField menu;
 	
-	private MapScreen mapScreen;
 	private CreateTripScreen1 createTripScreen;
 	private SearchScreen searchScreen;
 	private SplashScreen splashScreen;
