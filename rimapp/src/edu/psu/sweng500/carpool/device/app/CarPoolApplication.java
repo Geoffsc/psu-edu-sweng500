@@ -12,10 +12,11 @@ public class CarPoolApplication extends UiApplication
 		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Starting CarPool Application").getBytes(), EventLogger.ALWAYS_LOG);
 		SessionSettings.setUserName("");
 		
-		SplashScreen splashScreen = new SplashScreen();
+		// SplashScreen splashScreen = new SplashScreen();
 		//SplashScreen splashScreen = new SplashScreen();
 		//this.pushScreen(loginScreen);
-		this.pushScreen(splashScreen);
+		// this.pushScreen(splashScreen);
+		NewSplashScreen splashScreen = new NewSplashScreen();
 	}
 	
 	public static void main(String[] args)

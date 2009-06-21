@@ -143,10 +143,10 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 			// 	new WgsPoint(-75.3705, 40.2809));
 		// mapComponent.addPlace(testPlace);
 		
-		// mapComponent.setScreenBounds(0, 10, SCREEN_WIDTH, SCREEN_HEIGHT-10);
-		// mapComponent.setSize(SCREEN_WIDTH, SCREEN_HEIGHT-10);
-		
 		mapComponent.startMapping();
+		
+		mapComponent.setScreenBounds(0, 20, SCREEN_WIDTH, SCREEN_HEIGHT-20);
+		// mapComponent.setSize(SCREEN_WIDTH, SCREEN_HEIGHT-10);
 		
 		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Setting middle point: " + this.getStartLat() + "/" + this.getStartLon()).getBytes(), EventLogger.ALWAYS_LOG);
 		WgsPoint startPoint = new WgsPoint(this.getStartLon(), this.getStartLat());
@@ -167,6 +167,11 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 	{
 		this.type = type;
 	}
+	
+	public String getType()
+	{
+		return this.type;
+	}
 
 	public void paint(final Graphics g)
 	{
@@ -175,6 +180,14 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 		{
 			wrapped = g;
 			graphicsWrapper = new com.nutiteq.wrappers.rimui.Graphics(g);
+		}
+		if (this.getType().equalsIgnoreCase("start"))
+		{
+			wrapped.drawText("Select a start location", 0, 0);
+		}
+		if (this.getType().equalsIgnoreCase("end"))
+		{
+			wrapped.drawText("Select an end location", 0, 0);
 		}
 
 		// paint on wrapper (in effect painting on native graphics)
