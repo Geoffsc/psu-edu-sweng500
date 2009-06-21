@@ -26,7 +26,17 @@ public interface CarPoolService extends java.rmi.Remote {
     /**
      *
      */
+    public SimpleMessage updateTripUser(String tripId, Participant participant) throws java.rmi.RemoteException;
+
+    /**
+     *
+     */
     public Trip[] findTrips(Parameter[] searchParameters) throws java.rmi.RemoteException;
+
+    /**
+     *
+     */
+    public Trip getTrip(String tripId) throws java.rmi.RemoteException;
 
     /**
      *

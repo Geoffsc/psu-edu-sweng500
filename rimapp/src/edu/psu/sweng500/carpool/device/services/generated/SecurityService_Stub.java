@@ -14,7 +14,7 @@ public class SecurityService_Stub implements SecurityService, javax.xml.rpc.Stub
 
     public SecurityService_Stub() {
         _propertyNames = new String[] { ENDPOINT_ADDRESS_PROPERTY };
-        _propertyValues = new Object[] { "http://192.168.1.4:6187/sweng500_car_pool/services/SecurityService/" };
+        _propertyValues = new Object[] { "http://192.168.1.6:6187/sweng500_car_pool/services/SecurityService/" };
     }
 
     public void _setProperty( String name, Object value ) {
