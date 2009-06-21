@@ -222,6 +222,23 @@
 				</xs:complexType>
 			</xs:element>
 			
+			<!--  20090619 Geoff -->
+			<xs:element name="GetTripRequest">
+		        <xs:complexType>
+		            <xs:sequence>
+		                <xs:element maxOccurs="1" minOccurs="1" name="tripId" nillable="false" type="xs:string"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+		    <!--  20090619 Geoff -->
+		    <xs:element name="GetTripResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" name="trip" nillable="true" type="ax21:Trip"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
 			<xs:element name="SearchTripsRequest">
 		        <xs:complexType>
 		            <xs:sequence>
@@ -243,6 +260,23 @@
 		                <xs:element minOccurs="0" name="longitude" nillable="true" type="xs:string"/>
 		                <xs:element minOccurs="0" name="organizationId" nillable="true" type="xs:string"/>
 		                <xs:element minOccurs="1" name="numMiles" nillable="false" type="xs:int"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+		    
+		    <xs:element name="UpdateTripUserRequest">
+		        <xs:complexType>
+		            <xs:sequence>
+		            	<xs:element minOccurs="1" name="tripId" nillable="false" type="xs:string"/>
+		                <xs:element minOccurs="1" name="participant" nillable="false" type="ax21:Participant"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+		    
+		    <xs:element name="SimpleMessageResponse">
+		        <xs:complexType>
+		            <xs:sequence>
+		                <xs:element minOccurs="1" name="message" nillable="false" type="ax21:SimpleMessage"/>
 		            </xs:sequence>
 		        </xs:complexType>
 		    </xs:element>
@@ -301,6 +335,23 @@
     <wsdl:part name="parameters" element="ns2:FindSimilarTripsRequest">
     </wsdl:part>
   </wsdl:message>
+  <!-- 20090619 Geoff -->
+  <wsdl:message name="GetTripRequest">
+    <wsdl:part name="parameters" element="ns2:GetTripRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetTripResponse">
+    <wsdl:part name="parameters" element="ns2:GetTripResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateTripUserRequest">
+    <wsdl:part name="parameters" element="ns2:UpdateTripUserRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SimpleMessageResponse">
+    <wsdl:part name="parameters" element="ns2:SimpleMessageResponse">
+    </wsdl:part>
+  </wsdl:message>
   
   <wsdl:portType name="CarPoolServicePortType">
     <wsdl:operation name="findPlaces">
@@ -345,10 +396,25 @@
     </wsdl:fault>
     </wsdl:operation>
     
+    <!-- 20090619 Geoff -->
+    <wsdl:operation name="getTrip">
+    	<wsdl:input message="axis2:GetTripRequest" wsaw:Action="urn:GetTripRequest"></wsdl:input>
+      <wsdl:output message="axis2:GetTripResponse" wsaw:Action="urn:GetTripResponse"></wsdl:output>
+      <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:getTripServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+    
     <wsdl:operation name="findSimilarTrips">
     	<wsdl:input message="axis2:FindSimilarTripsRequest" wsaw:Action="urn:FindSimilarTripsRequest"></wsdl:input>
       <wsdl:output message="axis2:GetTripsByUserResponse" wsaw:Action="urn:GetTripsByUserResponse"></wsdl:output>
       <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:findSimilarTripsServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+    
+    <wsdl:operation name="updateTripUser">
+    	<wsdl:input message="axis2:UpdateTripUserRequest" wsaw:Action="urn:UpdateTripUserRequest"></wsdl:input>
+      <wsdl:output message="axis2:SimpleMessageResponse" wsaw:Action="urn:SimpleMessageResponse"></wsdl:output>
+      <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:UpdateTripUserServiceException">
     </wsdl:fault>
     </wsdl:operation>
     
@@ -434,8 +500,35 @@
       </wsdl:fault>
     </wsdl:operation>
     
+    <!-- 20090619 Geoff  -->
+    <wsdl:operation name="getTrip">
+      <soap:operation soapAction="urn:getTrip" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException">
+        <soap:fault name="CarPoolServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    
     <wsdl:operation name="findSimilarTrips">
       <soap:operation soapAction="urn:findSimilarTrips" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException">
+        <soap:fault name="CarPoolServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    
+    <wsdl:operation name="updateTripUser">
+      <soap:operation soapAction="urn:updateTripUser" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
       </wsdl:input>
