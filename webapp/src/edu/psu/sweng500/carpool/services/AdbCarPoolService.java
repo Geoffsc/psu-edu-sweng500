@@ -14,9 +14,11 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
@@ -30,6 +32,7 @@ import edu.psu.sweng500.carpool.data.FindCriteria;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Parameter;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Participant;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Place;
+import edu.psu.sweng500.carpool.generated.beans.xsd.SimpleMessage;
 import edu.psu.sweng500.carpool.generated.services.CarPoolServiceException;
 import edu.psu.sweng500.carpool.generated.services.CarPoolServiceSkeletonInterface;
 import edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest;
@@ -37,13 +40,17 @@ import edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRes
 import edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesRequest;
 import edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesResponse;
 import edu.psu.sweng500.carpool.generated.services.xsd.FindSimilarTripsRequest;
+import edu.psu.sweng500.carpool.generated.services.xsd.GetTripRequest;
+import edu.psu.sweng500.carpool.generated.services.xsd.GetTripResponse;
 import edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest;
 import edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse;
 import edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest;
 import edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse;
 import edu.psu.sweng500.carpool.generated.services.xsd.SearchTripsRequest;
+import edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse;
 import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripRequest;
 import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripResponse;
+import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest;
 import edu.psu.sweng500.carpool.services.utilities.ServiceObjectMapper;
 import edu.psu.sweng500.carpool.utilities.LocationUtils;
 
@@ -290,6 +297,13 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		allCriterion[0] = userCriterion;
 		criteria.setCriterion(allCriterion);
 		
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(edu.psu.sweng500.carpool.beans.Trip.class);
+		detachedCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("trip.organization", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
+		criteria.setDetachedCriteria(detachedCriteria);
+		
 		List tripUsers = carPoolTripService.findTrips(criteria);
 		if (tripUsers == null || tripUsers.size() == 0)
 		{
@@ -422,6 +436,13 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		
 		criteria.setCriterion(allCriterion);
 		
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(edu.psu.sweng500.carpool.beans.Trip.class);
+		detachedCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("trip.organization", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
+		criteria.setDetachedCriteria(detachedCriteria);
+		
 		List tripUsers = carPoolTripService.findTrips(criteria);
 		if (tripUsers == null || tripUsers.size() == 0)
 		{
@@ -501,7 +522,8 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		
 		trip.setId(serviceTrip.getId());
 		// get the dates and convert to date/time
-		DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		// DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
 		try
 		{
 			trip.setEndDate(format.parse(serviceTrip.getEndDate()));
@@ -551,8 +573,16 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 	{
 		// BasicTrip trip = findSimilarTripsRequest.getTrip();
 		
-		float latitude = Float.parseFloat(findSimilarTripsRequest.getLatitude());
-		float longitude = Float.parseFloat(findSimilarTripsRequest.getLongitude());
+		float latitude = 0;
+		if (findSimilarTripsRequest.getLatitude() != null && findSimilarTripsRequest.getLatitude().trim().length() != 0)
+		{
+			latitude = Float.parseFloat(findSimilarTripsRequest.getLatitude());
+		}
+		float longitude = 0;
+		if (findSimilarTripsRequest.getLongitude() != null && findSimilarTripsRequest.getLongitude().trim().length() != 0)
+		{
+			longitude = Float.parseFloat(findSimilarTripsRequest.getLongitude());
+		}
 		log.debug("Incoming lat/lon: " + latitude + "/" + longitude);
 		
 		List criterionList = new ArrayList();
@@ -622,6 +652,12 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		FindCriteria criteria = new FindCriteria();
 		criteria.setCriterion(criterion);
 		
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(edu.psu.sweng500.carpool.beans.Trip.class);
+		detachedCriteria.setFetchMode("startAddress", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("endAddress", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("organization", FetchMode.JOIN);
+		criteria.setDetachedCriteria(detachedCriteria);
+		
 		// CarPoolTripService carPoolTripService = new CarPoolTripService();
 		// SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory();
 		// carPoolTripService.setSessionFactory(sessionFactory);
@@ -670,8 +706,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			}
 			trips.clear();
 			trips = foundTrips;
-		}
-		
+		}		
 		
 		Iterator tripUsersIter = trips.iterator();
 		edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] serviceTrips = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip[trips.size()];
@@ -688,6 +723,41 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		GetTripsByUserResponse response = new GetTripsByUserResponse();
 		response.setTrip(serviceTrips);
 		
+		return response;
+	}
+	
+	public GetTripResponse getTrip(GetTripRequest getTripRequest)
+			throws CarPoolServiceException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public SimpleMessageResponse updateTripUser(
+			UpdateTripUserRequest updateTripUserRequest)
+			throws CarPoolServiceException
+	{
+		Participant participant = updateTripUserRequest.getParticipant();
+		edu.psu.sweng500.carpool.generated.beans.xsd.TripUser serviceTripUser = participant.getUser();
+		String tripId = updateTripUserRequest.getTripId();
+		
+		TripUser tripUser = new TripUser();
+		User user = new User();
+		user.setId(serviceTripUser.getId());
+		tripUser.setTripId(tripId);
+		tripUser.setType(participant.getType());
+		tripUser.setUserId(serviceTripUser.getId());
+		
+		carPoolTripUserService.createOrUpdate(tripUser);
+		SimpleMessageResponse response = new SimpleMessageResponse();
+		SimpleMessage message = new SimpleMessage();
+		message.setIsSuccess(true);
+		message.setErrorCode(0);
+		message.setErrorDescription("");
+		message.setMessage("");
+		message.setTraceMessage("");
+		
+		response.setMessage(message);
 		return response;
 	}
 

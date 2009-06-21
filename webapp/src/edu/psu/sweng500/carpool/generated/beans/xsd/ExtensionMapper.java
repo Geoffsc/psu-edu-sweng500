@@ -30,6 +30,16 @@
               
                   if (
                   "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
+                  "SimpleMessage".equals(typeName)){
+                   
+                            return  edu.psu.sweng500.carpool.generated.beans.xsd.SimpleMessage.Factory.parse(reader);
+                        
+
+                  }
+
+              
+                  if (
+                  "http://beans.generated.carpool.sweng500.psu.edu/xsd".equals(namespaceURI) &&
                   "Organization".equals(typeName)){
                    
                             return  edu.psu.sweng500.carpool.generated.beans.xsd.Organization.Factory.parse(reader);

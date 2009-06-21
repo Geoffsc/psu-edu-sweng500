@@ -2,6 +2,8 @@ package edu.psu.sweng500.carpool.services;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.HibernateException;
@@ -9,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,6 +23,7 @@ import edu.psu.sweng500.carpool.data.FindCriteria;
 public class CarPoolTripService extends HibernateDaoSupport implements
 		ICarPoolTripService
 {
+	private static final Log log = LogFactory.getLog(CarPoolTripService.class);
 
 	public boolean createOrUpdateTrip(Trip trip)
 	{
@@ -75,10 +79,27 @@ public class CarPoolTripService extends HibernateDaoSupport implements
             localCriteria.createAlias("user", "user", CriteriaSpecification.INNER_JOIN);
             localCriteria.createAlias("trip", "trip", CriteriaSpecification.INNER_JOIN);
             
-            localCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
-            localCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);
-            localCriteria.setFetchMode("trip.organization", FetchMode.JOIN);
-            localCriteria.setFetchMode("trip.members", FetchMode.JOIN);
+            DetachedCriteria detachedCriteria = criteria.getDetachedCriteria();
+            if (detachedCriteria != null)
+            {
+            	if (log.isDebugEnabled())
+            	{
+            		log.debug("Detached criteria is in the FindCriteria");
+            	}
+            	localCriteria = detachedCriteria.getExecutableCriteria(session);
+            }
+            else
+            {
+            	if (log.isDebugEnabled())
+            	{
+            		log.debug("There is no detached criteria set");
+            	}
+            }
+            
+            // localCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
+            // localCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);
+            // localCriteria.setFetchMode("trip.organization", FetchMode.JOIN);
+            // localCriteria.setFetchMode("trip.members", FetchMode.JOIN);
 
             if (sortField != null && !sortField.equals(""))
             {
@@ -162,10 +183,29 @@ public class CarPoolTripService extends HibernateDaoSupport implements
             Criteria localCriteria=session.createCriteria(edu.psu.sweng500.carpool.beans.Trip.class);
             // localCriteria.setFetchMode("savedAddresses", FetchMode.JOIN);
             
+            DetachedCriteria detachedCriteria = criteria.getDetachedCriteria();
+            if (detachedCriteria != null)
+            {
+            	if (log.isDebugEnabled())
+            	{
+            		log.debug("Detached criteria is in the FindCriteria");
+            	}
+            	localCriteria = detachedCriteria.getExecutableCriteria(session);
+            }
+            else
+            {
+            	if (log.isDebugEnabled())
+            	{
+            		log.debug("There is no detached criteria set");
+            	}
+            }
+            
+            /*
             localCriteria.setFetchMode("startAddress", FetchMode.JOIN);
             localCriteria.setFetchMode("endAddress", FetchMode.JOIN);
             localCriteria.setFetchMode("organization", FetchMode.JOIN);
             localCriteria.setFetchMode("members", FetchMode.JOIN);
+            */
 
             if (sortField != null && !sortField.equals(""))
             {

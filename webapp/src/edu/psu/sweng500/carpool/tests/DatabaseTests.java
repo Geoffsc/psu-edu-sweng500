@@ -16,9 +16,11 @@ import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 
@@ -40,7 +42,7 @@ public class DatabaseTests
 {
 	private static final Log log = LogFactory.getLog(DatabaseTests.class);
 	
-	@Test
+	
 	public void testGetUser()
 	{
 		CarPoolUserService carPoolService = new CarPoolUserService();
@@ -255,7 +257,7 @@ public class DatabaseTests
 		carPoolService.createOrUpdateTrip(trip);
 	}
 	
-	
+	@Test
 	public void findTrips()
 	{
 		CarPoolTripService carPoolService = new CarPoolTripService();
@@ -264,31 +266,54 @@ public class DatabaseTests
 		
 		FindCriteria criteria = new FindCriteria();
 		
-		Criterion[] allCriterion = new Criterion[3];
-		Criterion userCriterion = Restrictions.eq("user.userName", "eborisow");
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+		Criterion[] allCriterion = new Criterion[5];
+		// Criterion userCriterion = Restrictions.eq("user.userName", "eborisow");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
 		try
 		{
-			Date theDate = dateFormat.parse("5/1/09 00:00:00");
-			Date theDate2 = dateFormat.parse("7/1/09 11:59:59");
-			dateFormat.applyPattern("yyyy-MM-dd");
+			Date theDate = dateFormat.parse("6/10/09 08:15:00");
+			Date theDate2 = dateFormat.parse("6/10/09 16:30:00");
+			dateFormat.applyPattern("yyyy-MM-dd HH:mm:ss");
 			log.debug("First date: " + dateFormat.format(theDate));
 			log.debug("Second date: " + dateFormat.format(theDate2));
 			// Criterion startDateCriterion = Restrictions.ge("trip.startDate", dateFormat.format(theDate) + " 00:00:00");
 			// Criterion endDateCriterion = Restrictions.le("trip.startDate", dateFormat.format(theDate2) + " 11:59:59");
-			Criterion startDateCriterion = Restrictions.ge("trip.startDate", theDate);
-			Criterion endDateCriterion = Restrictions.le("trip.startDate", theDate2);
-			allCriterion[0] = userCriterion;
-			allCriterion[1] = startDateCriterion;
-			allCriterion[2] = endDateCriterion;
+			// Criterion startDateCriterion = Restrictions.ge("trip.startDate", theDate);
+			// Criterion endDateCriterion = Restrictions.le("trip.startDate", theDate2);
+			
+			Criterion startDateCriterion = Restrictions.eq("startDate", theDate);
+			Criterion endDateCriterion = Restrictions.eq("endDate", theDate2);
+			Criterion orgCriterion = Restrictions.eq("organization.id", "12345");
+			Criterion startAddrCriterion = Restrictions.eq("startAddress.id", "357847589");
+			Criterion endAddrCriterion = Restrictions.eq("endAddress.id", "745903905");
+			
+			// allCriterion[0] = userCriterion;
+			allCriterion[0] = startDateCriterion;
+			allCriterion[1] = endDateCriterion;
+			allCriterion[2] = orgCriterion;
+			allCriterion[3] = startAddrCriterion;
+			allCriterion[4] = endAddrCriterion;
 			criteria.setCriterion(allCriterion);
 			
-			criteria.setSortField("trip.title");
+			criteria.setSortField("title");
 			criteria.setAscending(true);
 			
+			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(edu.psu.sweng500.carpool.beans.Trip.class);
+			detachedCriteria.setFetchMode("startAddress", FetchMode.JOIN);
+			detachedCriteria.setFetchMode("endAddress", FetchMode.JOIN);
+			detachedCriteria.setFetchMode("organization", FetchMode.JOIN);
+			criteria.setDetachedCriteria(detachedCriteria);
+			
 			criteria.setCriterion(allCriterion);
 			
-			List tripUsers = carPoolService.findTrips(criteria);
+			List tripUsers = carPoolService.findTripsOnly(criteria);
+			
+			Iterator tripUsersIter = tripUsers.iterator();
+			while (tripUsersIter.hasNext())
+			{
+				Trip trip = (Trip) tripUsersIter.next();
+				log.debug("Start address: " + trip.getStartAddress().getAddress1());
+			}
 		}
 		catch (ParseException pe)
 		{}
@@ -299,12 +324,12 @@ public class DatabaseTests
 		}
 	}
 	
-	
+	/*
 	public void testSimilarTripSearch()
 	{
-		/*
 		Trip trip = new Trip();
 		String startAddress = "357847589";
+		String endAddress = "745903905";
 		String startDate = "2009-05-31";
 		String orgId = "12345";
 		
@@ -386,8 +411,9 @@ public class DatabaseTests
 			Trip resultTrip = resultTripUser.getTrip();
 			log.debug("Trip id: " + resultTrip.getId());
 		}
-		*/
+		-- comment
 	}
+*/
 	
 	public static void main(String[] args)
 	{

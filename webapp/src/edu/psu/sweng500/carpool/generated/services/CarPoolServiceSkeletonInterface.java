@@ -30,6 +30,36 @@
         /**
          * Auto generated method signature
          * 
+                                    * @param updateTripUserRequest
+             * @throws CarPoolServiceException : 
+         */
+
+        
+                public edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse updateTripUser
+                (
+                  edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest updateTripUserRequest
+                 )
+            throws CarPoolServiceException;
+        
+         
+        /**
+         * Auto generated method signature
+         * 
+                                    * @param getTripRequest
+             * @throws CarPoolServiceException : 
+         */
+
+        
+                public edu.psu.sweng500.carpool.generated.services.xsd.GetTripResponse getTrip
+                (
+                  edu.psu.sweng500.carpool.generated.services.xsd.GetTripRequest getTripRequest
+                 )
+            throws CarPoolServiceException;
+        
+         
+        /**
+         * Auto generated method signature
+         * 
                                     * @param getUserRequest
              * @throws CarPoolServiceException : 
          */

@@ -30,7 +30,9 @@ import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.Trip
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.TripUser;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.UpdateTripRequest;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.UpdateTripResponse;
+import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.UpdateTripUserRequest;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.User;
+import edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse;
 import edu.psu.sweng500.carpool.services.utilities.UniqueIDGeneratorUtil;
 import edu.psu.sweng500.carpool.utilities.LocationUtils;
 import edu.psu.sweng500.security.generated.services.tests.SecurityServiceException;
@@ -154,7 +156,8 @@ public class ServiceStubTests
 		
 		Date startDate = Calendar.getInstance().getTime();
 		Date endDate = Calendar.getInstance().getTime();
-		DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
+		// DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		trip.setStartDate(format.format(startDate));
 		trip.setEndDate(format.format(endDate));
@@ -298,6 +301,41 @@ public class ServiceStubTests
 	}
 	
 	@Test
+	public void testFindMatchingTrip()
+	{
+		FindSimilarTripsRequest findSimilarTripsRequest = new FindSimilarTripsRequest();
+		// findSimilarTripsRequest.setStartAddress("357847589");
+		// findSimilarTripsRequest.setStartDate("2009-05-31");
+		findSimilarTripsRequest.setOrganizationId("12345");
+		// findSimilarTripsRequest.setLatitude("40.123343");
+		// findSimilarTripsRequest.setLongitude("-75.284260");
+		findSimilarTripsRequest.setStartAddress("357847589");
+		findSimilarTripsRequest.setEndAddress("745903905");
+		findSimilarTripsRequest.setStartDate("2009-06-10 08:15:00");
+		findSimilarTripsRequest.setEndDate("2009-06-10 16:30:00");
+		findSimilarTripsRequest.setNumMiles(0);
+		try
+		{
+			CarPoolServiceStub serviceStub = new CarPoolServiceStub();
+			serviceStub.findSimilarTrips(findSimilarTripsRequest);
+		}
+		catch (AxisFault afe)
+		{
+			afe.printStackTrace();
+			TestCase.fail(afe.getMessage());
+		}
+		catch (CarPoolServiceException cpe)
+		{
+			cpe.printStackTrace();
+			TestCase.fail(cpe.getMessage());
+		}
+		catch (RemoteException re)
+		{
+			re.printStackTrace();
+			TestCase.fail(re.getMessage());
+		}
+	}
+	
 	public void testGetUser()
 	{
 		try
@@ -314,6 +352,41 @@ public class ServiceStubTests
 					System.out.println("Given name: " + user.getGivenName());
 				}
 			}
+		}
+		catch (AxisFault afe)
+		{
+			afe.printStackTrace();
+			TestCase.fail(afe.getMessage());
+		}
+		catch (CarPoolServiceException cpe)
+		{
+			cpe.printStackTrace();
+			TestCase.fail(cpe.getMessage());
+		}
+		catch (RemoteException re)
+		{
+			re.printStackTrace();
+			TestCase.fail(re.getMessage());
+		}
+	}
+	
+	
+	public void testUpdateTripUser()
+	{
+		try
+		{
+			CarPoolServiceStub service = new CarPoolServiceStub();
+			UpdateTripUserRequest request = new UpdateTripUserRequest();
+			request.setTripId("238912391");
+			Participant participant = new Participant();
+			participant.setType("PASSENGER");
+			TripUser tripUser = new TripUser();
+			tripUser.setId("11111");
+			participant.setUser(tripUser);
+			request.setParticipant(participant);
+			
+			edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.SimpleMessageResponse response = service.updateTripUser(request);
+			System.out.println("Response is: " + response.getMessage().getIsSuccess());
 		}
 		catch (AxisFault afe)
 		{

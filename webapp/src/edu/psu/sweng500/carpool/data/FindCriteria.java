@@ -1,6 +1,7 @@
 package edu.psu.sweng500.carpool.data;
 
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
 
 public class FindCriteria {
  
@@ -15,6 +16,8 @@ public class FindCriteria {
 	private Criterion[] criterion;
 	 
 	private String searchTerm;
+	
+	private DetachedCriteria detachedCriteria;
 
     public Criterion[] getCriterion()
     {
@@ -75,5 +78,15 @@ public class FindCriteria {
     {
         this.sortField = sortField;
     }
+    
+    public DetachedCriteria getDetachedCriteria()
+	{
+		return detachedCriteria;
+	}
+    
+    public void setDetachedCriteria(DetachedCriteria detachedCriteria)
+	{
+		this.detachedCriteria = detachedCriteria;
+	}
 	 
 }
