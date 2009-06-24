@@ -735,9 +735,15 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 	{
 		String id = getTripRequest.getTripId();
 		CarPoolTripService TripService = new CarPoolTripService();
-		TripService.getTrip(id);
 		GetTripResponse response = new GetTripResponse(); 
 		edu.psu.sweng500.carpool.generated.beans.xsd.Trip myTrip = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip();
+		
+		Trip trip = TripService.getTrip(id);
+		
+		if (trip != null) {
+			myTrip = ServiceObjectMapper.convertToTrip(trip);
+		}
+		
 		myTrip.setId(id);
 		response.setTrip(myTrip);
 		return response;
