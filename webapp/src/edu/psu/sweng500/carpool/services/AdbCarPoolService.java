@@ -14,8 +14,12 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
@@ -729,8 +733,14 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 	public GetTripResponse getTrip(GetTripRequest getTripRequest)
 			throws CarPoolServiceException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		String id = getTripRequest.getTripId();
+		CarPoolTripService TripService = new CarPoolTripService();
+		TripService.getTrip(id);
+		GetTripResponse response = new GetTripResponse(); 
+		edu.psu.sweng500.carpool.generated.beans.xsd.Trip myTrip = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip();
+		myTrip.setId(id);
+		response.setTrip(myTrip);
+		return response;
 	}
 	
 	public SimpleMessageResponse updateTripUser(

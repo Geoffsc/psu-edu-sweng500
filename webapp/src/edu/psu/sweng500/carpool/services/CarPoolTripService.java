@@ -13,10 +13,12 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import edu.psu.sweng500.carpool.beans.Address;
 import edu.psu.sweng500.carpool.beans.Trip;
 import edu.psu.sweng500.carpool.data.FindCriteria;
 
@@ -278,8 +280,27 @@ public class CarPoolTripService extends HibernateDaoSupport implements
 
 	public Trip getTrip(String id)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		Session session = getSession(true);
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            
+            Criteria criteria=session.createCriteria(edu.psu.sweng500.carpool.beans.Trip.class);
+            criteria.add(Restrictions.eq("id", id));
+            
+            tx.commit();
+            return (Trip) criteria.uniqueResult(); 
+        }
+        catch (HibernateException ex) {
+            throw convertHibernateAccessException(ex);
+        }
+        finally
+        {
+            if (session != null)
+            {
+                this.releaseSession(session);
+            }
+        }
 	}
 
 }
