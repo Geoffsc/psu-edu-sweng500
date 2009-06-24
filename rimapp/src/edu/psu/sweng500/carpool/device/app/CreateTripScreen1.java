@@ -3,6 +3,7 @@ package edu.psu.sweng500.carpool.device.app;
 import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Hashtable;
 
 import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import edu.psu.sweng500.carpool.device.app.beans.TripData;
@@ -61,6 +62,7 @@ public class CreateTripScreen1 extends MainScreen
 	
 	public void performSearch()
 	{
+		Hashtable screenParameters = new Hashtable();
 		if (null == nextTripScreen)
         {
 			nextTripScreen = new CreateTripScreen2();
@@ -85,9 +87,13 @@ public class CreateTripScreen1 extends MainScreen
 						notFound = false;
 						EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("The incoming latitude is: " + thePlace.getLatitude().toString()).getBytes(), EventLogger.ALWAYS_LOG);
 						EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("The incoming longitude is: " + thePlace.getLongitude().toString()).getBytes(), EventLogger.ALWAYS_LOG);
-						nextTripScreen.setStartLat(thePlace.getLatitude().doubleValue());
-						nextTripScreen.setStartLon(thePlace.getLongitude().doubleValue());
-						nextTripScreen.setType("START");
+						screenParameters.put("latitude", thePlace.getLatitude());
+						screenParameters.put("longitude", thePlace.getLongitude());
+						screenParameters.put("type", "START");
+						
+						// nextTripScreen.setStartLat(thePlace.getLatitude().doubleValue());
+						// nextTripScreen.setStartLon(thePlace.getLongitude().doubleValue());
+						// nextTripScreen.setType("START");
 					}
 				}
 			}
@@ -97,8 +103,10 @@ public class CreateTripScreen1 extends MainScreen
 			Dialog.alert("A remote exception occurred: " + rme.getMessage());
 		}
 		
-    	nextTripScreen.initialize();
-		UiApplication.getUiApplication().pushScreen(nextTripScreen);
+    	// nextTripScreen.initialize();
+		// UiApplication.getUiApplication().pushScreen(nextTripScreen);
+		CreateTripController controller = CreateTripController.getInstance();
+		controller.execute(this, screenParameters);
 	}
 	
 }

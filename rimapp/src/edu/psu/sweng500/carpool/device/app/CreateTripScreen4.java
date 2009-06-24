@@ -75,10 +75,6 @@ public class CreateTripScreen4 extends MainScreen
 	
 	public void performSearch()
 	{
-		if (null == nextTripScreen)
-        {
-			nextTripScreen = new CreateTripScreen5();
-        }
 		SimpleDateFormat dateFormat = new SimpleDateFormat(SimpleDateFormat.DATE_SHORT | SimpleDateFormat.TIME_SHORT);
 		Calendar cal = Calendar.getInstance();
 		Date tripDateTime = new Date(tripDate.getDate());
@@ -107,7 +103,15 @@ public class CreateTripScreen4 extends MainScreen
 		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Raw end time is: " + timeFormat.format(cal2)).getBytes(), EventLogger.ALWAYS_LOG);
 		TripData.setTripEndTime(cal2.getTime());
     	
-		UiApplication.getUiApplication().pushScreen(nextTripScreen); 
+		/*
+		if (null == nextTripScreen)
+        {
+			nextTripScreen = new CreateTripScreen5();
+        }
+		UiApplication.getUiApplication().pushScreen(nextTripScreen);
+		*/
+		CreateTripController createTripController = CreateTripController.getInstance();
+		createTripController.execute(this, null);
 	}
 	
 	

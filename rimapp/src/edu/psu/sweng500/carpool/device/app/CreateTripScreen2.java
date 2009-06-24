@@ -1,6 +1,7 @@
 package edu.psu.sweng500.carpool.device.app;
 
 import java.rmi.RemoteException;
+import java.util.Hashtable;
 
 import net.rim.blackberry.api.mail.Address;
 import net.rim.device.api.system.EventLogger;
@@ -266,6 +267,12 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 		{
 			TripData.setTripEndPlace(Integer.toString(p.getId()));
 			
+			CreateTripController createTripController = CreateTripController.getInstance();
+			Hashtable parameters = new Hashtable();
+			parameters.put("type", "END");
+			createTripController.execute(this, parameters);
+			
+			/*
 			if (nextTripScreen == null)
 			{
 				nextTripScreen = new CreateTripScreen4();
@@ -273,6 +280,7 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 			System.out.println("Finished initializing screen 4");
 			
 			UiApplication.getUiApplication().pushScreen(nextTripScreen);
+			*/
 		}
 		
 		// mapComponent.stopMapping();
@@ -295,6 +303,8 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 			UiApplication.getUiApplication().pushScreen(nextTripScreen);
 			*/
 			
+			Hashtable parameters = new Hashtable();
+			
 			CarPoolService_Stub serviceStub = new CarPoolService_Stub();
 			try
 			{
@@ -313,9 +323,12 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 							notFound = false;
 							EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("The incoming latitude is: " + thePlace.getLatitude().toString()).getBytes(), EventLogger.ALWAYS_LOG);
 							EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("The incoming longitude is: " + thePlace.getLongitude().toString()).getBytes(), EventLogger.ALWAYS_LOG);
-							this.setStartLat(thePlace.getLatitude().doubleValue());
-							this.setStartLon(thePlace.getLongitude().doubleValue());
-							this.setType("END");
+							parameters.put("latitude", thePlace.getLatitude());
+							parameters.put("longitude", thePlace.getLongitude());
+							parameters.put("type", "START");
+							// this.setStartLat(thePlace.getLatitude().doubleValue());
+							// this.setStartLon(thePlace.getLongitude().doubleValue());
+							// this.setType("END");
 						}
 					}
 				}
@@ -325,7 +338,10 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 				Dialog.alert("A remote exception occurred: " + rme.getMessage());
 			}
 			
-			this.initialize();
+			CreateTripController createTripController = CreateTripController.getInstance();
+			createTripController.execute(this, parameters);
+			
+			// this.initialize();
 		}
 		
 		

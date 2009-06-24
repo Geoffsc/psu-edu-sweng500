@@ -56,12 +56,17 @@ public class CarPoolMainScreen extends MainScreen
                 UiApplication.getUiApplication().pushScreen(searchScreen);
             break;
             case 1:
+            	CreateTripController controller = CreateTripController.getInstance();
+            	controller.execute(this, null);
+            	/*
             	if (null == createTripScreen)
                 {
             		createTripScreen = new CreateTripScreen1();
                 }
                 
                 UiApplication.getUiApplication().pushScreen(createTripScreen);
+                */
+                
             break;
         }
         

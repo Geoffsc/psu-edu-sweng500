@@ -3,6 +3,7 @@ package edu.psu.sweng500.carpool.device.app;
 import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.Vector;
 
 import javax.microedition.lcdui.List;
@@ -81,18 +82,13 @@ public class CreateTripScreen5 extends MainScreen
 		int numMiles = 0;
 		String latitude = "";
 		String longitude = "";
+		Hashtable parameters = new Hashtable();
 		try
 		{
 			Trip[] trips = service.findSimilarTrips("", "", startAddress, endAddress, dateFormat.format(startDate), dateFormat.format(endDate), latitude, longitude, "12345", numMiles);
 			// trips = null;
 			if (trips != null)
 			{
-				// go to screen 6 - select an existing trip
-				if (null == createTripScreen6)
-	            {
-	        		createTripScreen6 = new CreateTripScreen6();
-	            }
-				
 				// add the Create New option
 				BigVector tripVector = new BigVector();
 				Trip createTrip = new Trip();
@@ -105,9 +101,21 @@ public class CreateTripScreen5 extends MainScreen
 				trips = new Trip[tripVector.size()];
 				tripVector.copyInto(0, tripVector.size(), trips, 0);
 	        	
-				createTripScreen6.setTrips(trips);
-	        	UiApplication.getUiApplication().pushScreen(createTripScreen6); 
-	        	return;
+				// createTripScreen6.setTrips(trips);
+				parameters.put("foundMatchingTrip", "true");
+				parameters.put("trips", trips);
+				
+				/*
+				if (null == createTripScreen6)
+	            {
+	        		createTripScreen6 = new CreateTripScreen6();
+	            }
+	        	UiApplication.getUiApplication().pushScreen(createTripScreen6);
+	        	*/ 
+	        	// return;
+			}
+			else
+			{
 			}
 		}
 		catch (RemoteException rme)
@@ -117,11 +125,16 @@ public class CreateTripScreen5 extends MainScreen
 		}
 		// otherwise, create the new trip
 		
+		/*
 		if (createTripScreen7 == null)
 		{
 			createTripScreen7 = new CreateTripScreen7();
 		}
 		UiApplication.getUiApplication().pushScreen(createTripScreen7);
+		*/
+		
+		CreateTripController createTripController = CreateTripController.getInstance();
+		createTripController.execute(this, parameters);
 	}
 	
 	

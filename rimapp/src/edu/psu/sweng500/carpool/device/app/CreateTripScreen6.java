@@ -1,6 +1,7 @@
 package edu.psu.sweng500.carpool.device.app;
 
 import java.rmi.RemoteException;
+import java.util.Hashtable;
 
 import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import edu.psu.sweng500.carpool.device.app.beans.TripData;
@@ -88,15 +89,18 @@ public class CreateTripScreen6 extends MainScreen
 	
 	private void performSearch()
 	{
+		Hashtable parameters = new Hashtable();
 		int selectedTripIndex = radioGroup.getSelectedIndex();
 		// the user selected the Create New option
 		if (selectedTripIndex == 0)
 		{
+			/*
 			if (createTripScreen7 == null)
 			{
 				createTripScreen7 = new CreateTripScreen7();
 			}
 			UiApplication.getUiApplication().pushScreen(createTripScreen7);
+			*/
 		}
 		// otherwise, figure out which trip the user selected and add
 		// the current user as a member of the trip
@@ -130,6 +134,7 @@ public class CreateTripScreen6 extends MainScreen
 				
 				service.updateTrip(selectedTrip);
 				*/
+				parameters.put("tripSaved", "true");
 			}
 			catch (RemoteException rme)
 			{
@@ -137,6 +142,8 @@ public class CreateTripScreen6 extends MainScreen
 				return;
 			}
 		}
+		CreateTripController createTripController = CreateTripController.getInstance();
+		createTripController.execute(this, parameters);
 	}
 
 	private class MainScreenObjectListField extends ObjectListField {
