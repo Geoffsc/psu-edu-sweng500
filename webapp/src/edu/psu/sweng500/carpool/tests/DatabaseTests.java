@@ -136,6 +136,38 @@ public class DatabaseTests
 		}
 	}
 	
+	// Scholl 20090625 
+	@Test
+	public void testGetTrips()
+	{
+		System.out.println("Executing getTrip test");
+		CarPoolTripService carPoolService = new CarPoolTripService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		FindCriteria criteria = new FindCriteria();
+		
+		Criterion[] allCriterion = new Criterion[1];
+		
+		Criterion userCriterion = Restrictions.eq("user.userName", "eborisow");
+		
+		allCriterion[0] = userCriterion;
+		criteria.setCriterion(allCriterion);
+		
+		
+		Trip trip = new Trip();
+		// String id = UniqueIDGeneratorUtil.getUniqueId();
+		String id = "2301554351142306714";
+		trip = carPoolService.getTrip(id);
+		
+		if (trip != null)
+		{
+			System.out.println("Trip id: " + trip.getId());
+			System.out.println("Trip title: " + trip.getTitle());
+		}
+		
+	}
+	
 	
 	public void createTrip()
 	{
