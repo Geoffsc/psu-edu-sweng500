@@ -69,7 +69,7 @@ public class ServiceStubTests
 		}
 	}
 	
-	
+	@Test
 	public void testLoginSuccess()
 	{
 		LoginElementRequest loginRequest = new LoginElementRequest();
@@ -300,7 +300,7 @@ public class ServiceStubTests
 		}
 	}
 	
-	@Test
+	
 	public void testFindMatchingTrip()
 	{
 		FindSimilarTripsRequest findSimilarTripsRequest = new FindSimilarTripsRequest();

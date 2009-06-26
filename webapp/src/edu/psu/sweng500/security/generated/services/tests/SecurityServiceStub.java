@@ -109,7 +109,7 @@
      */
     public SecurityServiceStub(org.apache.axis2.context.ConfigurationContext configurationContext) throws org.apache.axis2.AxisFault {
         
-                    this(configurationContext,"http://localhost:6187/sweng500_car_pool/services/SecurityService" );
+                    this(configurationContext,"http://geoffscholl.com:8080/sweng500_car_pool/services/SecurityService" );
                 
     }
 
@@ -118,7 +118,7 @@
      */
     public SecurityServiceStub() throws org.apache.axis2.AxisFault {
         
-                    this("http://localhost:6187/sweng500_car_pool/services/SecurityService" );
+                    this("http://geoffscholl.com:8080/sweng500_car_pool/services/SecurityService" );
                 
     }
 

@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import edu.psu.sweng500.carpool.beans.TripUser;
+import edu.psu.sweng500.carpool.data.FindCriteria;
 
 public class CarPoolTripUserService extends HibernateDaoSupport implements
 		ICarPoolTripUserService
@@ -44,6 +45,12 @@ public class CarPoolTripUserService extends HibernateDaoSupport implements
             }
         }
         return false;
+	}
+	
+	public boolean find(FindCriteria criteria)
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

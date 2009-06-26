@@ -78,8 +78,6 @@ public class CarPoolTripService extends HibernateDaoSupport implements
             
             Criteria localCriteria=session.createCriteria(edu.psu.sweng500.carpool.beans.TripUser.class);
             // localCriteria.setFetchMode("savedAddresses", FetchMode.JOIN);
-            localCriteria.createAlias("user", "user", CriteriaSpecification.INNER_JOIN);
-            localCriteria.createAlias("trip", "trip", CriteriaSpecification.INNER_JOIN);
             
             DetachedCriteria detachedCriteria = criteria.getDetachedCriteria();
             if (detachedCriteria != null)
@@ -97,6 +95,8 @@ public class CarPoolTripService extends HibernateDaoSupport implements
             		log.debug("There is no detached criteria set");
             	}
             }
+            localCriteria.createAlias("user", "user", CriteriaSpecification.INNER_JOIN);
+            localCriteria.createAlias("trip", "trip", CriteriaSpecification.INNER_JOIN);
             
             // localCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
             // localCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);

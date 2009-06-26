@@ -301,11 +301,11 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		allCriterion[0] = userCriterion;
 		criteria.setCriterion(allCriterion);
 		
-		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(edu.psu.sweng500.carpool.beans.Trip.class);
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(edu.psu.sweng500.carpool.beans.TripUser.class);
 		detachedCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("trip.organization", FetchMode.JOIN);
-		detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
+		// detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
 		criteria.setDetachedCriteria(detachedCriteria);
 		
 		List tripUsers = carPoolTripService.findTrips(criteria);
@@ -347,12 +347,20 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 						DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
 						serviceTrip.setStartDate(format.format(trip.getStartDate()));
 					}
+					else
+					{
+						serviceTrip.setStartDate("");
+					}
 					
 					Calendar endCalendar = Calendar.getInstance();
 					if (trip.getEndDate() != null)
 					{
 						DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
 						serviceTrip.setEndDate(format.format(trip.getEndDate()));
+					}
+					else
+					{
+						serviceTrip.setEndDate("");
 					}
 					
 					
@@ -440,11 +448,11 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		
 		criteria.setCriterion(allCriterion);
 		
-		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(edu.psu.sweng500.carpool.beans.Trip.class);
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(edu.psu.sweng500.carpool.beans.TripUser.class);
 		detachedCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("trip.organization", FetchMode.JOIN);
-		detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
+		// detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
 		criteria.setDetachedCriteria(detachedCriteria);
 		
 		List tripUsers = carPoolTripService.findTrips(criteria);
@@ -486,12 +494,20 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 						DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
 						serviceTrip.setStartDate(format.format(trip.getStartDate()));
 					}
+					else
+					{
+						serviceTrip.setStartDate("");
+					}
 					
 					Calendar endCalendar = Calendar.getInstance();
 					if (trip.getEndDate() != null)
 					{
 						DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
 						serviceTrip.setEndDate(format.format(trip.getEndDate()));
+					}
+					else
+					{
+						serviceTrip.setEndDate("");
 					}
 					
 					

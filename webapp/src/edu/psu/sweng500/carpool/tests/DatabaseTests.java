@@ -13,6 +13,7 @@ import java.util.Random;
 import java.util.Set;
 
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,10 +39,33 @@ import edu.psu.sweng500.carpool.services.CarPoolTripUserService;
 import edu.psu.sweng500.carpool.services.CarPoolUserService;
 import edu.psu.sweng500.carpool.services.utilities.UniqueIDGeneratorUtil;
 
-public class DatabaseTests
+public class DatabaseTests extends TestCase
 {
 	private static final Log log = LogFactory.getLog(DatabaseTests.class);
 	
+	public DatabaseTests()
+	{
+		super();
+	}
+	
+	public DatabaseTests(String testName)
+	{
+		super(testName);
+	}
+	
+	@Override
+	protected void setUp() throws Exception
+	{
+		// TODO Auto-generated method stub
+		super.setUp();
+	}
+	
+	@Override
+	protected void tearDown() throws Exception
+	{
+		// TODO Auto-generated method stub
+		super.tearDown();
+	}
 	
 	public void testGetUser()
 	{
@@ -101,7 +125,6 @@ public class DatabaseTests
 		}
 	}
 	
-	
 	public void testGetTripsByUser()
 	{
 		CarPoolTripService carPoolService = new CarPoolTripService();
@@ -116,6 +139,12 @@ public class DatabaseTests
 		
 		allCriterion[0] = userCriterion;
 		criteria.setCriterion(allCriterion);
+		
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(edu.psu.sweng500.carpool.beans.TripUser.class);
+		detachedCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);
+		// detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
+		criteria.setDetachedCriteria(detachedCriteria);
 		
 		List tripUsers = carPoolService.findTrips(criteria);
 		Iterator tripUsersIter = tripUsers.iterator();
@@ -289,7 +318,7 @@ public class DatabaseTests
 		carPoolService.createOrUpdateTrip(trip);
 	}
 	
-	@Test
+	
 	public void findTrips()
 	{
 		CarPoolTripService carPoolService = new CarPoolTripService();
