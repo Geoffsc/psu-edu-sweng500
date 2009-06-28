@@ -42,6 +42,7 @@ import edu.psu.sweng500.carpool.services.utilities.UniqueIDGeneratorUtil;
 public class DatabaseTests extends TestCase
 {
 	private static final Log log = LogFactory.getLog(DatabaseTests.class);
+
 	
 	public DatabaseTests()
 	{
@@ -67,6 +68,8 @@ public class DatabaseTests extends TestCase
 		super.tearDown();
 	}
 	
+	//@Test
+	// test the CarPoolUserService::getUser method with a valid user name
 	public void testGetUser()
 	{
 		CarPoolUserService carPoolService = new CarPoolUserService();
@@ -91,7 +94,169 @@ public class DatabaseTests extends TestCase
 		}
 	}
 	
+	//@Test
+	// test the CarPoolUserService::getUser method with a invalid user name
+	public void testGetBadUser()
+	{
+		CarPoolUserService carPoolService = new CarPoolUserService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		User user = carPoolService.getUser("badUser");
+		TestCase.assertNull(user);
+	}
 	
+	//@Test
+	// test the CarPoolUserService::getUser method with no user name
+	public void testGetNoUser()
+	{
+		CarPoolUserService carPoolService = new CarPoolUserService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		User user = carPoolService.getUser("");
+		TestCase.assertNull(user);
+	}
+	
+	//@Test
+	// test the CarPoolUserService::getUserById method with a valid user id
+	public void testGetUserById()
+	{
+		CarPoolUserService carPoolService = new CarPoolUserService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		User user = carPoolService.getUserById("22222");
+		Set savedAddresses = user.getSavedAddresses();
+		Iterator addrIter = savedAddresses.iterator();
+		while (addrIter.hasNext())
+		{
+			UserAddress userAddress = (UserAddress) addrIter.next();
+			if (userAddress != null)
+			{
+				Address address = userAddress.getAddress();
+				if (address != null)
+				{
+					System.out.println("Address line 1: " + address.getAddress1());
+				}
+				System.out.println("Type: " + userAddress.getType());
+			}
+		}
+	}
+	
+	//@Test
+	// test the CarPoolUserService::getUserById method with a invalid user id
+	public void testGetBadUserById()
+	{
+		CarPoolUserService carPoolService = new CarPoolUserService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		User user = carPoolService.getUserById("234a3b2c");
+		TestCase.assertNull(user);
+	}
+	
+	
+	//@Test
+	// test the CarPoolUserService::getUserById method with a no user id
+	public void testGetNoUserById()
+	{
+		CarPoolUserService carPoolService = new CarPoolUserService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		User user = carPoolService.getUserById("");
+		TestCase.assertNull(user);
+	}
+	
+	//@Test
+	// test the CarPoolTripUserService::createOrUpdate method with success result
+	public void testCreateOrUpdateSuccess()
+	{
+		CarPoolTripUserService carPoolTripService = new CarPoolTripUserService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolTripService.setSessionFactory(sessionFactory);
+		
+		
+		Trip trip = new Trip();
+		trip.setId("654321");
+		
+		trip.setTitle("Test Trip #" + UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 200));
+		
+		Organization organization = new Organization();
+		organization.setId("12345");
+		trip.setOrganization(organization);
+		
+		CarPoolLocationService carPoolLocationService = new CarPoolLocationService();
+		carPoolLocationService.setSessionFactory(sessionFactory);
+		Address startAddress = carPoolLocationService.getAddress("357847589");
+		trip.setStartAddress(startAddress);
+		
+		Address endAddress = carPoolLocationService.getAddress("745903905");
+		trip.setEndAddress(endAddress);
+		
+		Calendar calendar = Calendar.getInstance();
+		int randomHour = UniqueIDGeneratorUtil.getRandomInt(new Random(), 5, 9);
+		System.out.println("Random hour: " + randomHour);
+		calendar.set(Calendar.HOUR_OF_DAY, randomHour);
+		
+		int randomMinute = UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 59);
+		System.out.println("Random minute: " + randomMinute);
+		calendar.set(Calendar.MINUTE, randomMinute);
+		calendar.set(Calendar.SECOND, 0);
+		
+		int randomMonth = UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 11);
+		System.out.println("Random month: " + randomMonth);
+		calendar.set(Calendar.MONTH, randomMonth);
+		
+		int randomDay = UniqueIDGeneratorUtil.getRandomInt(new Random(), 1, 30);
+		System.out.println("Random day: " + randomDay);
+		calendar.set(Calendar.DAY_OF_MONTH, randomDay);
+		calendar.set(Calendar.YEAR, 2009);
+
+		trip.setStartDate(calendar.getTime());
+		
+		randomHour = UniqueIDGeneratorUtil.getRandomInt(new Random(), 5, 9);
+		System.out.println("Random hour: " + randomHour);
+		calendar.set(Calendar.HOUR_OF_DAY, randomHour);
+		
+		randomMinute = UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 59);
+		System.out.println("Random minute: " + randomMinute);
+		calendar.set(Calendar.MINUTE, randomMinute);
+		
+		trip.setEndDate(calendar.getTime());
+		
+		CarPoolUserService carPoolUserService = new CarPoolUserService();
+		carPoolUserService.setSessionFactory(sessionFactory);
+		User user = carPoolUserService.getUser("eborisow");
+		
+		TripUser tripUser = new TripUser();
+		tripUser.setTripId(trip.getId());
+		tripUser.setUserId(user.getId());
+		tripUser.setType("PASSENGER");
+		
+		TestCase.assertEquals(true, carPoolTripService.createOrUpdate(tripUser));
+	}
+	
+	//@Test
+	// test the CarPoolTripUserService::createOrUpdate method with fail result
+	public void testCreateOrUpdateFailure()
+	{
+		CarPoolTripUserService carPoolTripUserService = new CarPoolTripUserService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolTripUserService.setSessionFactory(sessionFactory);
+				
+		Trip trip = new Trip();
+		trip.setId("654321");
+			
+		TripUser tripUser = new TripUser();
+		TestCase.assertEquals(false, carPoolTripUserService.createOrUpdate(tripUser));
+	}
+	
+	
+	
+	//@Test
+	// test the CarPoolLocationService::findLocationsNearLocation method with list of addresses
 	public void testFindLocations()
 	{
 		CarPoolLocationService carPoolService = new CarPoolLocationService();
@@ -123,8 +288,47 @@ public class DatabaseTests extends TestCase
 				System.out.println("Address line 1: " + address.getAddress1());
 			}
 		}
+		TestCase.assertEquals(false, addresses.isEmpty());
 	}
 	
+	//@Test
+	// test the CarPoolLocationService::findLocationsNearLocation method with an empty list
+	public void testFindNoLocations()
+	{
+		CarPoolLocationService carPoolService = new CarPoolLocationService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		FindCriteria criteria = new FindCriteria();
+		
+		Criterion[] allCriterion = new Criterion[4];
+		
+		Criterion latLECriterion = Restrictions.le("latitude", 180f);
+		Criterion latGECriterion = Restrictions.ge("latitude", 180f);
+		Criterion longLECriterion = Restrictions.le("longitude", 180f);
+		Criterion longGECriterion = Restrictions.ge("longitude", 180f);
+		
+		allCriterion[0] = latLECriterion;
+		allCriterion[1] = latGECriterion;
+		allCriterion[2] = longLECriterion;
+		allCriterion[3] = longGECriterion;
+		criteria.setCriterion(allCriterion);
+		
+		List addresses = carPoolService.findLocationsNearLocation(criteria);
+		Iterator addrIter = addresses.iterator();
+		while (addrIter.hasNext())
+		{
+			Address address = (Address) addrIter.next();
+			if (address != null)
+			{
+				System.out.println("Address line 2: " + address.getAddress1());
+			}
+		}
+		TestCase.assertEquals(true, addresses.isEmpty());
+	}
+	
+	//@Test
+	// test the CarPoolTripService::findTrips method with matching user
 	public void testGetTripsByUser()
 	{
 		CarPoolTripService carPoolService = new CarPoolTripService();
@@ -163,8 +367,30 @@ public class DatabaseTests extends TestCase
 				System.out.println("End address: " + endAddress.getAddress1());
 			}
 		}
+		TestCase.assertEquals(false, tripUsers.isEmpty());
 	}
 	
+	//@Test
+	// test the CarPoolTripService::findTrips method no matching user
+	public void testGetTripsByUserNoMatch()
+	{
+		CarPoolTripService carPoolService = new CarPoolTripService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		FindCriteria criteria = new FindCriteria();
+		
+		Criterion[] allCriterion = new Criterion[1];
+		
+		Criterion userCriterion = Restrictions.eq("user.userName", "badUser");
+		
+		allCriterion[0] = userCriterion;
+		criteria.setCriterion(allCriterion);
+		
+		List tripUsers = carPoolService.findTrips(criteria);
+		TestCase.assertEquals(true, tripUsers.isEmpty());
+	}
+
 	// Scholl 20090625 
 	@Test
 	public void testGetTrips()
@@ -196,8 +422,10 @@ public class DatabaseTests extends TestCase
 		}
 		
 	}
-	
-	
+
+	//@Test
+	// test the CarPoolTripService::createOrUpdateTrip creating successfully
+
 	public void createTrip()
 	{
 		System.out.println("Executing createTrip test");
@@ -237,11 +465,98 @@ public class DatabaseTests extends TestCase
 		
 		trip.setEndDate(calendar.getTime());
 		
-		carPoolService.createOrUpdateTrip(trip);
+		TestCase.assertEquals(true, carPoolService.createOrUpdateTrip(trip));
 	}
 	
+	//@Test
+	// test the CarPoolTripService::createOrUpdateTrip creating fail
+	public void createTripFail()
+	{
+		System.out.println("Executing createTrip test");
+		CarPoolTripService carPoolService = new CarPoolTripService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		Trip trip = new Trip();
+		trip.setId(UniqueIDGeneratorUtil.getUniqueId());
+		TestCase.assertEquals(false, carPoolService.createOrUpdateTrip(trip));
+	}
 	
-	public void updateTrip()
+	//@Test
+	// test the CarPoolTripService::createOrUpdateTrip where update trip is successful
+	public  void updateTrip()
+	{
+		System.out.println("Executing updateTrip test");
+		CarPoolTripService carPoolService = new CarPoolTripService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		Trip trip = new Trip();
+		trip.setId("3443202757641022279");
+		
+		trip.setTitle("Test Trip #" + UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 200));
+		
+		Organization organization = new Organization();
+		organization.setId("12345");
+		trip.setOrganization(organization);
+		
+		CarPoolLocationService carPoolLocationService = new CarPoolLocationService();
+		carPoolLocationService.setSessionFactory(sessionFactory);
+		Address startAddress = carPoolLocationService.getAddress("357847589");
+		trip.setStartAddress(startAddress);
+		
+		Address endAddress = carPoolLocationService.getAddress("745903905");
+		trip.setEndAddress(endAddress);
+		
+		Calendar calendar = Calendar.getInstance();
+		int randomHour = UniqueIDGeneratorUtil.getRandomInt(new Random(), 5, 9);
+		System.out.println("Random hour: " + randomHour);
+		calendar.set(Calendar.HOUR_OF_DAY, randomHour);
+		
+		int randomMinute = UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 59);
+		System.out.println("Random minute: " + randomMinute);
+		calendar.set(Calendar.MINUTE, randomMinute);
+		calendar.set(Calendar.SECOND, 0);
+		
+		int randomMonth = UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 11);
+		System.out.println("Random month: " + randomMonth);
+		calendar.set(Calendar.MONTH, randomMonth);
+		
+		int randomDay = UniqueIDGeneratorUtil.getRandomInt(new Random(), 1, 30);
+		System.out.println("Random day: " + randomDay);
+		calendar.set(Calendar.DAY_OF_MONTH, randomDay);
+		calendar.set(Calendar.YEAR, 2009);
+
+		trip.setStartDate(calendar.getTime());
+		
+		randomHour = UniqueIDGeneratorUtil.getRandomInt(new Random(), 5, 9);
+		System.out.println("Random hour: " + randomHour);
+		calendar.set(Calendar.HOUR_OF_DAY, randomHour);
+		
+		randomMinute = UniqueIDGeneratorUtil.getRandomInt(new Random(), 0, 59);
+		System.out.println("Random minute: " + randomMinute);
+		calendar.set(Calendar.MINUTE, randomMinute);
+		
+		trip.setEndDate(calendar.getTime());
+		
+		CarPoolUserService carPoolUserService = new CarPoolUserService();
+		carPoolUserService.setSessionFactory(sessionFactory);
+		User user = carPoolUserService.getUser("eborisow");
+		
+		TripUser tripUser = new TripUser();
+		tripUser.setTripId(trip.getId());
+		tripUser.setUserId(user.getId());
+		tripUser.setType("PASSENGER");
+		
+		CarPoolTripUserService carPoolTripUserService = new CarPoolTripUserService();
+		carPoolTripUserService.setSessionFactory(sessionFactory);
+		carPoolTripUserService.createOrUpdate(tripUser);
+		TestCase.assertEquals(true, carPoolService.createOrUpdateTrip(trip));
+	}
+	
+	//@Test
+	// test the CarPoolTripService::createOrUpdateTrip where update trip fails
+	public void updateTripFails()
 	{
 		System.out.println("Executing updateTrip test");
 		CarPoolTripService carPoolService = new CarPoolTripService();
@@ -309,16 +624,14 @@ public class DatabaseTests extends TestCase
 		carPoolTripUserService.setSessionFactory(sessionFactory);
 		carPoolTripUserService.createOrUpdate(tripUser);
 		
-		/*
-		Set users = new HashSet();
-		users.add(user);
-		trip.setMembers(users);
-		*/
-		
-		carPoolService.createOrUpdateTrip(trip);
+		Trip notCompletetrip = new Trip();
+		notCompletetrip.setId("3443202757641022279");
+		TestCase.assertEquals(false, carPoolService.createOrUpdateTrip(notCompletetrip));
 	}
-	
-	
+
+	//@Test
+	// test the CarPoolTripService::findTrips method with match found
+
 	public void findTrips()
 	{
 		CarPoolTripService carPoolService = new CarPoolTripService();
@@ -375,6 +688,53 @@ public class DatabaseTests extends TestCase
 				Trip trip = (Trip) tripUsersIter.next();
 				log.debug("Start address: " + trip.getStartAddress().getAddress1());
 			}
+			TestCase.assertEquals(false, tripUsers.isEmpty());
+		}
+		catch (ParseException pe)
+		{}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			TestCase.fail(e.getMessage());
+		}
+	}
+	
+	//@Test
+	// test the CarPoolTripService::findTrips method with no match found
+	public void findTripsNoMatch()
+	{
+		CarPoolTripService carPoolService = new CarPoolTripService();
+		SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory(); 
+		carPoolService.setSessionFactory(sessionFactory);
+		
+		FindCriteria criteria = new FindCriteria();
+		
+		Criterion[] allCriterion = new Criterion[3];
+		Criterion userCriterion = Restrictions.eq("user.userName", "badUser");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+		try
+		{
+			Date theDate = dateFormat.parse("5/1/09 00:00:00");
+			Date theDate2 = dateFormat.parse("7/1/09 11:59:59");
+			dateFormat.applyPattern("yyyy-MM-dd");
+			log.debug("First date: " + dateFormat.format(theDate));
+			log.debug("Second date: " + dateFormat.format(theDate2));
+			// Criterion startDateCriterion = Restrictions.ge("trip.startDate", dateFormat.format(theDate) + " 00:00:00");
+			// Criterion endDateCriterion = Restrictions.le("trip.startDate", dateFormat.format(theDate2) + " 11:59:59");
+			Criterion startDateCriterion = Restrictions.ge("trip.startDate", theDate);
+			Criterion endDateCriterion = Restrictions.le("trip.startDate", theDate2);
+			allCriterion[0] = userCriterion;
+			allCriterion[1] = startDateCriterion;
+			allCriterion[2] = endDateCriterion;
+			criteria.setCriterion(allCriterion);
+			
+			criteria.setSortField("trip.title");
+			criteria.setAscending(true);
+			
+			criteria.setCriterion(allCriterion);
+			
+			List tripUsers = carPoolService.findTrips(criteria);
+			TestCase.assertEquals(true, tripUsers.isEmpty());
 		}
 		catch (ParseException pe)
 		{}
