@@ -15,13 +15,13 @@
         /**
          * Auto generated method signature
          * 
-                                     * @param updateTripRequest2
+                                     * @param updateTripRequest3
              * @throws CarPoolServiceException : 
          */
         
                  public edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripResponse updateTrip
                   (
-                  edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripRequest updateTripRequest2
+                  edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripRequest updateTripRequest3
                   )
             throws CarPoolServiceException{
                 //TODO : fill this with the necessary business logic
@@ -32,13 +32,13 @@
         /**
          * Auto generated method signature
          * 
-                                     * @param updateTripUserRequest4
+                                     * @param updateTripUserRequest5
              * @throws CarPoolServiceException : 
          */
         
                  public edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse updateTripUser
                   (
-                  edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest updateTripUserRequest4
+                  edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest updateTripUserRequest5
                   )
             throws CarPoolServiceException{
                 //TODO : fill this with the necessary business logic
@@ -49,13 +49,13 @@
         /**
          * Auto generated method signature
          * 
-                                     * @param getTripRequest6
+                                     * @param getTripRequest7
              * @throws CarPoolServiceException : 
          */
         
                  public edu.psu.sweng500.carpool.generated.services.xsd.GetTripResponse getTrip
                   (
-                  edu.psu.sweng500.carpool.generated.services.xsd.GetTripRequest getTripRequest6
+                  edu.psu.sweng500.carpool.generated.services.xsd.GetTripRequest getTripRequest7
                   )
             throws CarPoolServiceException{
                 //TODO : fill this with the necessary business logic
@@ -66,13 +66,30 @@
         /**
          * Auto generated method signature
          * 
-                                     * @param getUserRequest8
+                                     * @param updateSavedAddressesRequest9
+             * @throws CarPoolServiceException : 
+         */
+        
+                 public edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse updateSavedAddresses
+                  (
+                  edu.psu.sweng500.carpool.generated.services.xsd.UpdateSavedAddressesRequest updateSavedAddressesRequest9
+                  )
+            throws CarPoolServiceException{
+                //TODO : fill this with the necessary business logic
+                throw new  java.lang.UnsupportedOperationException("Please implement " + this.getClass().getName() + "#updateSavedAddresses");
+        }
+     
+         
+        /**
+         * Auto generated method signature
+         * 
+                                     * @param getUserRequest11
              * @throws CarPoolServiceException : 
          */
         
                  public edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse getUser
                   (
-                  edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest getUserRequest8
+                  edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest getUserRequest11
                   )
             throws CarPoolServiceException{
                 //TODO : fill this with the necessary business logic
@@ -83,13 +100,13 @@
         /**
          * Auto generated method signature
          * 
-                                     * @param findSimilarTripsRequest10
+                                     * @param findSimilarTripsRequest13
              * @throws CarPoolServiceException : 
          */
         
                  public edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse findSimilarTrips
                   (
-                  edu.psu.sweng500.carpool.generated.services.xsd.FindSimilarTripsRequest findSimilarTripsRequest10
+                  edu.psu.sweng500.carpool.generated.services.xsd.FindSimilarTripsRequest findSimilarTripsRequest13
                   )
             throws CarPoolServiceException{
                 //TODO : fill this with the necessary business logic
@@ -100,13 +117,13 @@
         /**
          * Auto generated method signature
          * 
-                                     * @param findPlacesNearLocationRequest12
+                                     * @param findPlacesNearLocationRequest15
              * @throws CarPoolServiceException : 
          */
         
                  public edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse findPlacesNearLocation
                   (
-                  edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest findPlacesNearLocationRequest12
+                  edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest findPlacesNearLocationRequest15
                   )
             throws CarPoolServiceException{
                 //TODO : fill this with the necessary business logic
@@ -117,13 +134,13 @@
         /**
          * Auto generated method signature
          * 
-                                     * @param searchTripsRequest14
+                                     * @param searchTripsRequest17
              * @throws CarPoolServiceException : 
          */
         
                  public edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse findTrips
                   (
-                  edu.psu.sweng500.carpool.generated.services.xsd.SearchTripsRequest searchTripsRequest14
+                  edu.psu.sweng500.carpool.generated.services.xsd.SearchTripsRequest searchTripsRequest17
                   )
             throws CarPoolServiceException{
                 //TODO : fill this with the necessary business logic
@@ -134,13 +151,13 @@
         /**
          * Auto generated method signature
          * 
-                                     * @param findPlacesRequest16
+                                     * @param findPlacesRequest19
              * @throws CarPoolServiceException : 
          */
         
                  public edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesResponse findPlaces
                   (
-                  edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesRequest findPlacesRequest16
+                  edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesRequest findPlacesRequest19
                   )
             throws CarPoolServiceException{
                 //TODO : fill this with the necessary business logic
@@ -151,13 +168,13 @@
         /**
          * Auto generated method signature
          * 
-                                     * @param getTripsByUserRequest18
+                                     * @param getTripsByUserRequest21
              * @throws CarPoolServiceException : 
          */
         
                  public edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse getTripsByUser
                   (
-                  edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest getTripsByUserRequest18
+                  edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest getTripsByUserRequest21
                   )
             throws CarPoolServiceException{
                 //TODO : fill this with the necessary business logic

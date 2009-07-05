@@ -28,6 +28,7 @@ import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.Plac
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.SearchTripsRequest;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.Trip;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.TripUser;
+import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.UpdateSavedAddressesRequest;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.UpdateTripRequest;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.UpdateTripResponse;
 import edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.UpdateTripUserRequest;
@@ -69,7 +70,6 @@ public class ServiceStubTests
 		}
 	}
 	
-	@Test
 	public void testLoginSuccess()
 	{
 		LoginElementRequest loginRequest = new LoginElementRequest();
@@ -386,6 +386,52 @@ public class ServiceStubTests
 			request.setParticipant(participant);
 			
 			edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.SimpleMessageResponse response = service.updateTripUser(request);
+			System.out.println("Response is: " + response.getMessage().getIsSuccess());
+		}
+		catch (AxisFault afe)
+		{
+			afe.printStackTrace();
+			TestCase.fail(afe.getMessage());
+		}
+		catch (CarPoolServiceException cpe)
+		{
+			cpe.printStackTrace();
+			TestCase.fail(cpe.getMessage());
+		}
+		catch (RemoteException re)
+		{
+			re.printStackTrace();
+			TestCase.fail(re.getMessage());
+		}
+	}
+	
+	@Test
+	public void testUpdateSavedAddresses()
+	{
+		try
+		{
+			CarPoolServiceStub service = new CarPoolServiceStub();
+			UpdateSavedAddressesRequest request = new UpdateSavedAddressesRequest();
+			request.setUserId("gscholl");
+			
+			Place place = new Place();
+			place.setId(UniqueIDGeneratorUtil.getUniqueId());
+			place.setAddress1("Street address line 1");
+			// place.setCity("Philadelphia");
+			place.setName("Test address 1");
+			// place.setPostalCode("19462");
+			// place.setStateOrProvince("PA");
+			place.setCategory("START");
+			place.setLatitude(40.2799f);
+			place.setLongitude(-75.3815f);
+			
+			Place[] places = new Place[1];
+			places[0] = place;
+			
+			request.setSavedPlaces(places);
+			
+			edu.psu.sweng500.carpool.generated.services.tests.CarPoolServiceStub.SimpleMessageResponse response = service.updateSavedAddresses(request);
+			
 			System.out.println("Response is: " + response.getMessage().getIsSuccess());
 		}
 		catch (AxisFault afe)

@@ -52,6 +52,7 @@ import edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest;
 import edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse;
 import edu.psu.sweng500.carpool.generated.services.xsd.SearchTripsRequest;
 import edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse;
+import edu.psu.sweng500.carpool.generated.services.xsd.UpdateSavedAddressesRequest;
 import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripRequest;
 import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripResponse;
 import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest;
@@ -249,6 +250,8 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 					Address savedAddress = userSavedAddress.getAddress();
 					if (savedAddress != null)
 					{
+						Place place = ServiceObjectMapper.convertToPlace(savedAddress);
+						/*
 						Place place = new Place();
 						place.setId(savedAddress.getId());
 						place.setAddress1(savedAddress.getAddress1());
@@ -260,6 +263,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 						place.setPhoneNumber("");
 						place.setUrl("");
 						place.setZoom(0);
+						*/
 						
 						place.setCategory(userSavedAddress.getType());
 						
@@ -790,6 +794,71 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		message.setTraceMessage("");
 		
 		response.setMessage(message);
+		return response;
+	}
+	
+	public SimpleMessageResponse updateSavedAddresses(
+			UpdateSavedAddressesRequest updateSavedAddressesRequest)
+			throws CarPoolServiceException
+	{
+		String userId = updateSavedAddressesRequest.getUserId();
+		if (userId != null)
+		{
+			User user = carPoolUserService.getUser(userId);
+			if (user != null)
+			{
+				Set savedAddresses = user.getSavedAddresses();
+				Place[] places = updateSavedAddressesRequest.getSavedPlaces();
+				if (places != null)
+				{
+					for (int i = 0; i < places.length; i++)
+					{
+						Place place = places[i];
+						// check to see which type the user specified
+						String type = place.getCategory();
+						// check the set for this type
+						Iterator savedAddressIter = savedAddresses.iterator();
+						boolean addressFound = false;
+						while (savedAddressIter.hasNext())
+						{
+							UserAddress savedUserAddress = (UserAddress) savedAddressIter.next();
+							if (savedUserAddress != null)
+							{
+								String savedAddressType = savedUserAddress.getType();
+								if (savedAddressType.equalsIgnoreCase(type))
+								{
+									// then we want to delete the current setting
+									carPoolUserService.deleteAddress(savedUserAddress.getAddress().getId());
+									savedAddresses.remove(savedUserAddress);
+									addressFound = true;
+								}
+							}
+						}
+						
+						Address newAddress = ServiceObjectMapper.convertToAddress(place);
+						carPoolUserService.createOrUpdateAddress(newAddress);
+						
+						UserAddress newUserAddress = new UserAddress();
+						newUserAddress.setType(type);
+						newUserAddress.setAddress(newAddress);
+						
+						savedAddresses.add(newUserAddress);
+					}
+					user.setSavedAddresses(savedAddresses);
+					carPoolUserService.createOrUpdateUser(user);
+				}
+			}
+		}
+		
+		SimpleMessageResponse response = new SimpleMessageResponse();
+		SimpleMessage message = new SimpleMessage();
+		message.setIsSuccess(true);
+		message.setErrorCode(0);
+		message.setErrorDescription("");
+		message.setMessage("");
+		message.setTraceMessage("");
+		response.setMessage(message);
+		
 		return response;
 	}
 

@@ -20,15 +20,15 @@ public class ServiceObjectMapper
 		{
 			return place;
 		}
-		place.setAddress1(address.getAddress1());
-		place.setAddress2(address.getAddress2());
-		place.setId(address.getId());
+		place.setAddress1(ServiceUtilities.getValue(address.getAddress1(), ""));
+		place.setAddress2(ServiceUtilities.getValue(address.getAddress2(), ""));
+		place.setId(ServiceUtilities.getValue(address.getId(), ""));
 		place.setLatitude(address.getLatitude());
 		place.setLongitude(address.getLongitude());
-		place.setName(address.getName());
-		place.setCategory("");
+		place.setName(ServiceUtilities.getValue(address.getName(), ""));
 		place.setDescription("");
 		place.setPhoneNumber("");
+		place.setCategory("");
 		place.setUrl("");
 		place.setZoom(0);
 		

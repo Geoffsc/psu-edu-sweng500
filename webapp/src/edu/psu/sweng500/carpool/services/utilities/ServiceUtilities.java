@@ -40,4 +40,13 @@ public class ServiceUtilities
 		
 		return parent;
 	}
+	
+	public static String getValue(String value, String defaultValue)
+	{
+		if (value == null)
+		{
+			return defaultValue;
+		}
+		return value;
+	}
 }

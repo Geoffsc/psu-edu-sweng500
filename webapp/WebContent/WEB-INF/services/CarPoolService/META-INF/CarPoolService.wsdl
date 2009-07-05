@@ -280,6 +280,15 @@
 		            </xs:sequence>
 		        </xs:complexType>
 		    </xs:element>
+		    
+		    <xs:element name="UpdateSavedAddressesRequest">
+		        <xs:complexType>
+		            <xs:sequence>
+		                <xs:element minOccurs="1" name="userId" nillable="false" type="xs:string"/>
+		                <xs:element maxOccurs="unbounded" minOccurs="0" name="savedPlaces" nillable="true" type="ax21:Place"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
 			
 		</xs:schema>
   </wsdl:types>
@@ -289,6 +298,10 @@
   </wsdl:message>
   <wsdl:message name="CarPoolServiceException">
     <wsdl:part name="parameters" element="ns2:CarPoolServiceException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateSavedAddressesRequest">
+    <wsdl:part name="parameters" element="ns2:UpdateSavedAddressesRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="UpdateTripUserRequest">
@@ -424,6 +437,14 @@
       <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:UpdateTripUserServiceException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="updateSavedAddresses">
+      <wsdl:input message="axis2:UpdateSavedAddressesRequest" wsaw:Action="urn:UpdateSavedAddressesRequest">
+    </wsdl:input>
+      <wsdl:output message="axis2:SimpleMessageResponse" wsaw:Action="urn:SimpleMessageResponse">
+    </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:UpdateSavedAddressesException">
+    </wsdl:fault>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="CarPoolServiceSOAP11Binding" type="axis2:CarPoolServicePortType">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
@@ -525,6 +546,18 @@
     </wsdl:operation>
     <wsdl:operation name="updateTripUser">
       <soap:operation soapAction="urn:updateTripUser" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException">
+        <soap:fault name="CarPoolServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateSavedAddresses">
+      <soap:operation soapAction="urn:updateSavedAddresses" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
       </wsdl:input>

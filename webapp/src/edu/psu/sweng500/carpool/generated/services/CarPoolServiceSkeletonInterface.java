@@ -60,6 +60,21 @@
         /**
          * Auto generated method signature
          * 
+                                    * @param updateSavedAddressesRequest
+             * @throws CarPoolServiceException : 
+         */
+
+        
+                public edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse updateSavedAddresses
+                (
+                  edu.psu.sweng500.carpool.generated.services.xsd.UpdateSavedAddressesRequest updateSavedAddressesRequest
+                 )
+            throws CarPoolServiceException;
+        
+         
+        /**
+         * Auto generated method signature
+         * 
                                     * @param getUserRequest
              * @throws CarPoolServiceException : 
          */

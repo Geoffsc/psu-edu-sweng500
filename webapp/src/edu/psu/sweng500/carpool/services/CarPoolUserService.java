@@ -8,8 +8,11 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import edu.psu.sweng500.carpool.beans.Address;
 import edu.psu.sweng500.carpool.beans.User;
 
 public class CarPoolUserService extends HibernateDaoSupport implements ICarPoolUserService
@@ -69,6 +72,106 @@ public class CarPoolUserService extends HibernateDaoSupport implements ICarPoolU
                 this.releaseSession(session);
             }
         }
+	}
+	
+	public boolean createOrUpdateUser(User user)
+	{
+		Session session = getSession(true);
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.saveOrUpdate(user);
+        
+            tx.commit();
+            return true;
+        }
+        catch (HibernateException ex) {
+            // trap primary key violation since we don't really care
+            DataAccessException ae = convertHibernateAccessException(ex);
+            if (ae instanceof DataIntegrityViolationException)
+            {
+                // do nothing
+            }
+            else
+            {
+                throw convertHibernateAccessException(ex);
+            }
+        }
+        finally
+        {
+            if (session != null)
+            {
+                this.releaseSession(session);
+            }
+        }
+        return false;
+	}
+	
+	public boolean createOrUpdateAddress(Address address)
+	{
+		Session session = getSession(true);
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.saveOrUpdate(address);
+        
+            tx.commit();
+            return true;
+        }
+        catch (HibernateException ex) {
+            // trap primary key violation since we don't really care
+            DataAccessException ae = convertHibernateAccessException(ex);
+            if (ae instanceof DataIntegrityViolationException)
+            {
+                // do nothing
+            }
+            else
+            {
+                throw convertHibernateAccessException(ex);
+            }
+        }
+        finally
+        {
+            if (session != null)
+            {
+                this.releaseSession(session);
+            }
+        }
+        return false;
+	}
+	
+	public boolean deleteAddress(String id)
+	{
+		Session session = getSession(true);
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Object address = session.load(Address.class, id);
+            session.delete(address);
+        
+            tx.commit();
+            return true;
+        }
+        catch (HibernateException ex) {
+            // trap primary key violation since we don't really care
+            DataAccessException ae = convertHibernateAccessException(ex);
+            if (ae instanceof DataIntegrityViolationException)
+            {
+                // do nothing
+            }
+            else
+            {
+                throw convertHibernateAccessException(ex);
+            }
+        }
+        finally
+        {
+            if (session != null)
+            {
+                this.releaseSession(session);
+            }
+        }
+        return false;
 	}
 
 }
