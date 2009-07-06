@@ -25,6 +25,7 @@ import net.rim.device.api.ui.container.MainScreen;
 public class ShowAllResultsScreen extends MainScreen
 {
 	private Trip[] trips;
+	//private Trip Trip;
 	private MainScreenObjectListField tripList;
 	private HorizontalFieldManager hfm;
 	
@@ -100,9 +101,18 @@ public class ShowAllResultsScreen extends MainScreen
 			UiApplication.getUiApplication().getActiveScreen().invalidate();
 		}
 		catch (RemoteException rme)
-		{
+		{	
 			rme.printStackTrace();
 			Dialog.alert("A remote exception occurred: " + rme.getMessage());
+		}
+		
+		DetailsScreen screen = new DetailsScreen();
+		int selection = tripList.getSelectedIndex();
+		for (Trip i : trips) {
+			if (i.equals(selection)) {
+				screen.setId(i.getId());
+				UiApplication.getUiApplication().pushScreen(screen);
+			}
 		}
 	}
 	
