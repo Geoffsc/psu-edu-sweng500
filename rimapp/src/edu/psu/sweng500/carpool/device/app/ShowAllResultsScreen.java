@@ -108,12 +108,9 @@ public class ShowAllResultsScreen extends MainScreen
 		
 		DetailsScreen screen = new DetailsScreen();
 		int selection = tripList.getSelectedIndex();
-		for (Trip i : trips) {
-			if (i.equals(selection)) {
-				screen.setId(i.getId());
-				UiApplication.getUiApplication().pushScreen(screen);
-			}
-		}
+		Trip selectedTrip = trips[selection];
+		screen.setId(selectedTrip.getId());
+		UiApplication.getUiApplication().pushScreen(screen);
 	}
 	
 	private class MainScreenObjectListField extends ObjectListField {
