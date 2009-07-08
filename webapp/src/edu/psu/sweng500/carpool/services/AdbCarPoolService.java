@@ -68,22 +68,44 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 	private ICarPoolTripService carPoolTripService;
 	private ICarPoolTripUserService carPoolTripUserService;
 	
+	/**
+	 * Set the Car Pool Location Service
+	 * This method is invoked by the Spring Class Loader
+	 * @param carPoolLocationService
+	 */
 	public void setCarPoolLocationService(
 			ICarPoolLocationService carPoolLocationService)
 	{
 		this.carPoolLocationService = carPoolLocationService;
 	}
 	
+	/**
+	 * Set the Car Pool User Service
+	 * This method is invoked by the Spring Class Loader
+	 * 
+	 * @param carPoolUserService
+	 */
 	public void setCarPoolUserService(ICarPoolUserService carPoolUserService)
 	{
 		this.carPoolUserService = carPoolUserService;
 	}
 	
+	/**
+	 * Set the Car Pool Trip Service
+	 * This method is invoked by the Spring Class Loader
+	 * @param carPoolTripService
+	 */
 	public void setCarPoolTripService(ICarPoolTripService carPoolTripService)
 	{
 		this.carPoolTripService = carPoolTripService;
 	}
 	
+	/**
+	 * Set the Car Pool Trip User Service
+	 * This method is invoked by the Spring Class Loader
+	 * 
+	 * @param carPoolTripUserService
+	 */
 	public void setCarPoolTripUserService(
 			ICarPoolTripUserService carPoolTripUserService)
 	{
@@ -125,9 +147,8 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		}
 		FindCriteria criteria = new FindCriteria();
 		
-		Criterion[] allCriterion = new Criterion[4];
-		
 		/*
+		Criterion[] allCriterion = new Criterion[4];
 		Criterion latLECriterion = Restrictions.le("latitude", 180f);
 		Criterion latGECriterion = Restrictions.ge("latitude", -180f);
 		Criterion longLECriterion = Restrictions.le("longitude", 180f);
@@ -155,19 +176,19 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			return response;
 		}
 		
-		List addresses = this.carPoolLocationService.findLocationsNearLocation(criteria);
+		List<Address> addresses = this.carPoolLocationService.findLocationsNearLocation(criteria);
 		
 		if (addresses == null || addresses.size() <= 0)
 		{
 			return response;
 		}
 		
-		List foundAddresses = new ArrayList();
+		List<Address> foundAddresses = new ArrayList<Address>();
 		// figure out which addresses are within our range
-		Iterator addrIter = addresses.iterator();
+		Iterator<Address> addrIter = addresses.iterator();
 		while (addrIter.hasNext())
 		{
-			Address address = (Address) addrIter.next();
+			Address address = addrIter.next();
 			double distance = LocationUtils.getDistance(lat1, lon1, address.getLatitude(), address.getLongitude(), 'M');
 			if (distance <= numMilesProp)
 			{
@@ -184,7 +205,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		int count = 0;
 		while (addrIter.hasNext())
 		{
-			Address address = (Address) addrIter.next();
+			Address address = addrIter.next();
 			Place place = ServiceObjectMapper.convertToPlace(address);
 			
 			if (log.isDebugEnabled())
@@ -227,20 +248,15 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			serviceUser.setOrganization(serviceOrg);
 		}
 		
-		Set savedAddresses = user.getSavedAddresses();
+		Set<UserAddress> savedAddresses = user.getSavedAddresses();
 		if (savedAddresses != null && savedAddresses.size() > 0)
 		{
 			Place[] places = new Place[savedAddresses.size()];
-			Iterator savedAddrIter = savedAddresses.iterator();
+			Iterator<UserAddress> savedAddrIter = savedAddresses.iterator();
 			int count = 0;
 			while (savedAddrIter.hasNext())
 			{
-				Object userSavedAddressObj = savedAddrIter.next();
-				if (log.isDebugEnabled())
-				{
-					log.debug("About to retrieve user address: " + userSavedAddressObj.getClass().getName());
-				}
-				UserAddress userSavedAddress = (UserAddress) userSavedAddressObj;
+				UserAddress userSavedAddress = savedAddrIter.next();
 				if (log.isDebugEnabled())
 				{
 					log.debug("Done retrieving user address");
@@ -312,12 +328,12 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		// detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
 		criteria.setDetachedCriteria(detachedCriteria);
 		
-		List tripUsers = carPoolTripService.findTrips(criteria);
+		List<TripUser> tripUsers = carPoolTripService.findTrips(criteria);
 		if (tripUsers == null || tripUsers.size() == 0)
 		{
 			return response;
 		}
-		Iterator tripUsersIter = tripUsers.iterator();
+		Iterator<TripUser> tripUsersIter = tripUsers.iterator();
 		
 		// TripList tripList = new TripList();
 		edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] serviceTrips = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip[tripUsers.size()];
@@ -325,7 +341,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		int count = 0;
 		while (tripUsersIter.hasNext())
 		{
-			TripUser tripUser = (TripUser) tripUsersIter.next();
+			TripUser tripUser = tripUsersIter.next();
 			if (tripUser != null)
 			{
 				Trip trip = tripUser.getTrip();
@@ -345,7 +361,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 					
 					serviceTrip.setStartAddress(startPlace);
 					serviceTrip.setEndAddress(endPlace);
-					Calendar startCalendar = Calendar.getInstance();
+					// Calendar startCalendar = Calendar.getInstance();
 					if (trip.getStartDate() != null)
 					{
 						DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
@@ -356,7 +372,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 						serviceTrip.setStartDate("");
 					}
 					
-					Calendar endCalendar = Calendar.getInstance();
+					// Calendar endCalendar = Calendar.getInstance();
 					if (trip.getEndDate() != null)
 					{
 						DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
@@ -402,7 +418,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		// SearchCriteria searchCriteria = findTripsRequest.getCriteria();
 		Parameter[] parameters = findTripsRequest.getSearchParameters();
 		
-		List criterionList = new ArrayList();
+		List<Criterion> criterionList = new ArrayList<Criterion>();
 		for (int i = 0; i < parameters.length; i++)
 		{
 			Parameter param = parameters[i];
@@ -441,7 +457,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		
 		Criterion[] allCriterion = new Criterion[criterionList.size()];
 		int criterionCount = 0;
-		Iterator criterionIter = criterionList.iterator();
+		Iterator<Criterion> criterionIter = criterionList.iterator();
 		while (criterionIter.hasNext())
 		{
 			allCriterion[criterionCount++] = (Criterion) criterionIter.next();
@@ -459,12 +475,12 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		// detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
 		criteria.setDetachedCriteria(detachedCriteria);
 		
-		List tripUsers = carPoolTripService.findTrips(criteria);
+		List<TripUser> tripUsers = carPoolTripService.findTrips(criteria);
 		if (tripUsers == null || tripUsers.size() == 0)
 		{
 			return response;
 		}
-		Iterator tripUsersIter = tripUsers.iterator();
+		Iterator<TripUser> tripUsersIter = tripUsers.iterator();
 		
 		// TripList tripList = new TripList();
 		edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] serviceTrips = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip[tripUsers.size()];
@@ -492,7 +508,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 					
 					serviceTrip.setStartAddress(startPlace);
 					serviceTrip.setEndAddress(endPlace);
-					Calendar startCalendar = Calendar.getInstance();
+					// Calendar startCalendar = Calendar.getInstance();
 					if (trip.getStartDate() != null)
 					{
 						DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
@@ -503,7 +519,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 						serviceTrip.setStartDate("");
 					}
 					
-					Calendar endCalendar = Calendar.getInstance();
+					// Calendar endCalendar = Calendar.getInstance();
 					if (trip.getEndDate() != null)
 					{
 						DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
@@ -609,7 +625,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		}
 		log.debug("Incoming lat/lon: " + latitude + "/" + longitude);
 		
-		List criterionList = new ArrayList();
+		List<Criterion> criterionList = new ArrayList<Criterion>();
 		if (findSimilarTripsRequest.getStartAddress() != null)
 		{
 			Criterion criterion = Restrictions.eq("startAddress.id", findSimilarTripsRequest.getStartAddress());
@@ -667,7 +683,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		}
 		
 		Criterion[] criterion = new Criterion[criterionList.size()];
-		Iterator criterionListIter = criterionList.iterator();
+		Iterator<Criterion> criterionListIter = criterionList.iterator();
 		int count = 0;
 		while (criterionListIter.hasNext())
 		{
@@ -685,13 +701,13 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		// CarPoolTripService carPoolTripService = new CarPoolTripService();
 		// SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory();
 		// carPoolTripService.setSessionFactory(sessionFactory);
-		List trips = carPoolTripService.findTripsOnly(criteria);
+		List<Trip> trips = carPoolTripService.findTripsOnly(criteria);
 		
 		// if the user passes in a number for the number of miles in the range, then use that
 		int numMiles = findSimilarTripsRequest.getNumMiles();
 		if (numMiles > 0)
 		{
-			List foundTrips = new ArrayList();
+			List<Trip> foundTrips = new ArrayList<Trip>();
 			// figure out which addresses are within our range
 			for (int i = 0; i < trips.size(); i++)
 			{
@@ -732,7 +748,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			trips = foundTrips;
 		}		
 		
-		Iterator tripUsersIter = trips.iterator();
+		Iterator<Trip> tripUsersIter = trips.iterator();
 		edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] serviceTrips = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip[trips.size()];
 		int serviceTripCount = 0;
 		while (tripUsersIter.hasNext())
@@ -754,13 +770,13 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			throws CarPoolServiceException
 	{
 		String id = getTripRequest.getTripId();
-		CarPoolTripService TripService = new CarPoolTripService();
 		GetTripResponse response = new GetTripResponse(); 
 		edu.psu.sweng500.carpool.generated.beans.xsd.Trip myTrip = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip();
 		
-		Trip trip = TripService.getTrip(id);
+		Trip trip = carPoolTripService.getTrip(id);
 		
-		if (trip != null) {
+		if (trip != null)
+		{
 			myTrip = ServiceObjectMapper.convertToTrip(trip);
 		}
 		
@@ -807,7 +823,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			User user = carPoolUserService.getUser(userId);
 			if (user != null)
 			{
-				Set savedAddresses = user.getSavedAddresses();
+				Set<UserAddress> savedAddresses = user.getSavedAddresses();
 				Place[] places = updateSavedAddressesRequest.getSavedPlaces();
 				if (places != null)
 				{
@@ -817,20 +833,37 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 						// check to see which type the user specified
 						String type = place.getCategory();
 						// check the set for this type
-						Iterator savedAddressIter = savedAddresses.iterator();
+						Iterator<UserAddress> savedAddressIter = savedAddresses.iterator();
 						boolean addressFound = false;
+						List<UserAddress> removeAddressList = new ArrayList<UserAddress>();
 						while (savedAddressIter.hasNext())
 						{
-							UserAddress savedUserAddress = (UserAddress) savedAddressIter.next();
+							UserAddress savedUserAddress = savedAddressIter.next();
 							if (savedUserAddress != null)
 							{
 								String savedAddressType = savedUserAddress.getType();
 								if (savedAddressType.equalsIgnoreCase(type))
 								{
 									// then we want to delete the current setting
-									carPoolUserService.deleteAddress(savedUserAddress.getAddress().getId());
-									savedAddresses.remove(savedUserAddress);
+									// savedAddresses.remove(savedUserAddress);
+									// carPoolUserService.deleteAddress(savedUserAddress.getAddress().getId());
+									removeAddressList.add(savedUserAddress);
 									addressFound = true;
+								}
+							}
+						}
+						if (addressFound)
+						{
+							// remove all of the addresses found
+							savedAddresses.removeAll(removeAddressList);
+							// iterate through the addresses to remove
+							Iterator<UserAddress> removeAddressIter = removeAddressList.iterator();
+							while (removeAddressIter.hasNext())
+							{
+								UserAddress savedUserAddress = (UserAddress) removeAddressIter.next();
+								if (savedUserAddress != null)
+								{
+									carPoolUserService.deleteAddress(savedUserAddress.getAddress().getId());
 								}
 							}
 						}

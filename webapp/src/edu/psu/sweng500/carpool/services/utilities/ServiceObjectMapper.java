@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import edu.psu.sweng500.carpool.beans.Address;
 import edu.psu.sweng500.carpool.beans.User;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Organization;
-import edu.psu.sweng500.carpool.generated.beans.xsd.Participant;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Place;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Trip;
 import edu.psu.sweng500.carpool.generated.beans.xsd.TripUser;
