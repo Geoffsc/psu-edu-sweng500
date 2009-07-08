@@ -18,8 +18,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import edu.psu.sweng500.carpool.beans.Address;
 import edu.psu.sweng500.carpool.beans.Trip;
+import edu.psu.sweng500.carpool.beans.TripUser;
 import edu.psu.sweng500.carpool.data.FindCriteria;
 
 public class CarPoolTripService extends HibernateDaoSupport implements
@@ -66,7 +66,8 @@ public class CarPoolTripService extends HibernateDaoSupport implements
 		return false;
 	}
 
-	public List findTrips(FindCriteria criteria)
+	@SuppressWarnings("unchecked")
+	public List<TripUser> findTrips(FindCriteria criteria)
 	{
 		Session session = getSession(true);
         Transaction tx = null;
@@ -158,7 +159,7 @@ public class CarPoolTripService extends HibernateDaoSupport implements
             }
         
             tx.commit();
-            return localCriteria.list(); 
+            return (List<TripUser>) localCriteria.list(); 
         }
         catch (HibernateException ex) {
             throw convertHibernateAccessException(ex);
@@ -172,7 +173,8 @@ public class CarPoolTripService extends HibernateDaoSupport implements
         }
 	}
 	
-	public List findTripsOnly(FindCriteria criteria)
+	@SuppressWarnings("unchecked")
+	public List<Trip> findTripsOnly(FindCriteria criteria)
 	{
 		Session session = getSession(true);
         Transaction tx = null;
@@ -264,7 +266,7 @@ public class CarPoolTripService extends HibernateDaoSupport implements
             }
         
             tx.commit();
-            return localCriteria.list(); 
+            return (List<Trip>) localCriteria.list(); 
         }
         catch (HibernateException ex) {
             throw convertHibernateAccessException(ex);
@@ -287,6 +289,9 @@ public class CarPoolTripService extends HibernateDaoSupport implements
             
             Criteria criteria=session.createCriteria(edu.psu.sweng500.carpool.beans.Trip.class);
             criteria.add(Restrictions.eq("id", id));
+            criteria.setFetchMode("startAddress", FetchMode.JOIN);
+            criteria.setFetchMode("endAddress", FetchMode.JOIN);
+            criteria.setFetchMode("organization", FetchMode.JOIN);
             
             tx.commit();
             return (Trip) criteria.uniqueResult(); 

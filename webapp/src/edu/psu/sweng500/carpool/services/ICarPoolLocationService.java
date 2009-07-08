@@ -7,7 +7,7 @@ import edu.psu.sweng500.carpool.data.FindCriteria;
 
 public interface ICarPoolLocationService
 {
-	List getLocationsByUser(FindCriteria criteria);
-	List findLocationsNearLocation(FindCriteria criteria);
+	List<Address> getLocationsByUser(FindCriteria criteria);
+	List<Address> findLocationsNearLocation(FindCriteria criteria);
 	Address getAddress(String id);
 }

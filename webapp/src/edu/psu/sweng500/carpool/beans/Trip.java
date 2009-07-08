@@ -1,7 +1,6 @@
 package edu.psu.sweng500.carpool.beans;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 public class Trip
@@ -12,7 +11,7 @@ public class Trip
 	private Address endAddress;
 	private Date startDate;
 	private Date endDate;
-	private Set members;
+	private Set<User> members;
 	private String userId;
 	private Organization organization;
 	public String getId()
@@ -63,11 +62,11 @@ public class Trip
 	{
 		this.userId = userId;
 	}
-	public Set getMembers()
+	public Set<User> getMembers()
 	{
 		return members;
 	}
-	public void setMembers(Set members)
+	public void setMembers(Set<User> members)
 	{
 		this.members = members;
 	}

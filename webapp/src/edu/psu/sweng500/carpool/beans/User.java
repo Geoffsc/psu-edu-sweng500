@@ -11,7 +11,7 @@ public class User
 	private String surName;
 	private String type;
 	private Organization organization;
-	private Set savedAddresses;
+	private Set<UserAddress> savedAddresses;
 	
 	public String getId()
 	{
@@ -69,11 +69,11 @@ public class User
 	{
 		this.type = type;
 	}
-	public Set getSavedAddresses()
+	public Set<UserAddress> getSavedAddresses()
 	{
 		return savedAddresses;
 	}
-	public void setSavedAddresses(Set savedAddresses)
+	public void setSavedAddresses(Set<UserAddress> savedAddresses)
 	{
 		this.savedAddresses = savedAddresses;
 	}

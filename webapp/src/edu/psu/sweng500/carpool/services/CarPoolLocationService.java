@@ -3,7 +3,6 @@ package edu.psu.sweng500.carpool.services;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -13,13 +12,13 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import edu.psu.sweng500.carpool.beans.Address;
-import edu.psu.sweng500.carpool.beans.User;
 import edu.psu.sweng500.carpool.data.FindCriteria;
 
 public class CarPoolLocationService extends HibernateDaoSupport implements ICarPoolLocationService
 {
 
-	public List findLocationsNearLocation(FindCriteria criteria)
+	@SuppressWarnings("unchecked")
+	public List<Address> findLocationsNearLocation(FindCriteria criteria)
 	{
 		Session session = getSession(true);
         Transaction tx = null;
@@ -87,7 +86,7 @@ public class CarPoolLocationService extends HibernateDaoSupport implements ICarP
             }
         
             tx.commit();
-            return localCriteria.list(); 
+            return (List<Address>) localCriteria.list(); 
         }
         catch (HibernateException ex) {
             throw convertHibernateAccessException(ex);
@@ -101,7 +100,7 @@ public class CarPoolLocationService extends HibernateDaoSupport implements ICarP
         }
 	}
 
-	public List getLocationsByUser(FindCriteria criteria)
+	public List<Address> getLocationsByUser(FindCriteria criteria)
 	{
 		return null;
 	}

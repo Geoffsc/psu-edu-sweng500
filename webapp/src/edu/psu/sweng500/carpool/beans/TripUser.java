@@ -1,7 +1,6 @@
 package edu.psu.sweng500.carpool.beans;
 
 import java.io.Serializable;
-import java.util.Set;
 
 public class TripUser implements Serializable
 {

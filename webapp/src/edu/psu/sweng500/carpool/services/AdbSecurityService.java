@@ -6,7 +6,6 @@ import java.io.StringWriter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.psu.sweng500.carpool.exceptions.SecurityException;
 import edu.psu.sweng500.security.generated.beans.xsd.SimpleMessage;
 import edu.psu.sweng500.security.generated.services.SecurityServiceException;
 import edu.psu.sweng500.security.generated.services.SecurityServiceSkeletonInterface;
