@@ -36,6 +36,12 @@ public class TripData
 	{
 		store = PersistentStore.getPersistentObject(0x7b72bdedb7fb9c37L);
 	}
+	
+	public static void clear()
+	{
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Deleting TripData instance").getBytes(), EventLogger.ALWAYS_LOG);
+		instance = null;
+	}
 
 	public static String getTripTitle()
 	{
