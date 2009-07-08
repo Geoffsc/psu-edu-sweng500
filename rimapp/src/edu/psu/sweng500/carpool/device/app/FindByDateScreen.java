@@ -76,5 +76,10 @@ public class FindByDateScreen extends MainScreen
     	UiApplication.getUiApplication().pushScreen(showAllScreen); 
 	}
 	
+	public boolean isDirty()
+	{
+		return false;
+	}
+	
 	
 }

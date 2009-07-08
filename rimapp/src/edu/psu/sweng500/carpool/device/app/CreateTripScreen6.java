@@ -10,14 +10,12 @@ import edu.psu.sweng500.carpool.device.services.generated.Participant;
 import edu.psu.sweng500.carpool.device.services.generated.Trip;
 import edu.psu.sweng500.carpool.device.services.generated.TripUser;
 import edu.psu.sweng500.carpool.device.services.generated.User;
-import net.rim.device.api.collection.util.BigVector;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
-import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.ListField;
@@ -31,27 +29,27 @@ import net.rim.device.api.ui.container.VerticalFieldManager;
 public class CreateTripScreen6 extends MainScreen
 {
 	private Trip[] trips;
-	private MainScreenObjectListField tripList;
-	private HorizontalFieldManager hfm;
 	private VerticalFieldManager vfm;
 	RadioButtonGroup radioGroup;
-	
-	CreateTripScreen7 createTripScreen7;
+	private String state;
 	
 	public CreateTripScreen6()
 	{
 		this.setTitle("Create Trip - Use existing?");
 	}
 	
+	public void setState(String state)
+	{
+		this.state = state;
+	}
+	
 	public void setTrips(Trip[] trips)
 	{
+		this.deleteAll();
 		this.trips = trips;
 		
-		// hfm = new HorizontalFieldManager(Manager.HORIZONTAL_SCROLL);
 		vfm = new VerticalFieldManager(Manager.VERTICAL_SCROLLBAR);
-		// tripList = new MainScreenObjectListField();
-		// tripList.set(trips);
-        // hfm.add(tripList);
+
 		radioGroup = new RadioButtonGroup();
 		for (int i = 0; i < trips.length; i++)
 		{
@@ -92,54 +90,54 @@ public class CreateTripScreen6 extends MainScreen
 		Hashtable parameters = new Hashtable();
 		int selectedTripIndex = radioGroup.getSelectedIndex();
 		// the user selected the Create New option
+		parameters.put("state", this.state);
 		if (selectedTripIndex == 0)
 		{
-			/*
-			if (createTripScreen7 == null)
-			{
-				createTripScreen7 = new CreateTripScreen7();
-			}
-			UiApplication.getUiApplication().pushScreen(createTripScreen7);
-			*/
 		}
-		// otherwise, figure out which trip the user selected and add
-		// the current user as a member of the trip
-		Trip selectedTrip = this.trips[selectedTripIndex];
-		if (selectedTrip != null)
+		else
 		{
-			Participant participant = new Participant();
-			participant.setType(TripData.getTripUserType());
-			
-			TripUser user = new TripUser();
-			
-			CarPoolService_Stub service = new CarPoolService_Stub();		
-			try
+			// otherwise, figure out which trip the user selected and add
+			// the current user as a member of the trip
+			Trip selectedTrip = this.trips[selectedTripIndex];
+			if (selectedTrip != null)
 			{
-				User theUser = service.getUser(SessionSettings.getUserName());
+				Participant participant = new Participant();
+				participant.setType(TripData.getTripUserType());
 				
-				user.setId(theUser.getId());
-				participant.setUser(user);
+				TripUser user = new TripUser();
 				
-				service.updateTripUser(selectedTrip.getId(), participant);
-				
-				/*
-				Participant[] existingParticipants = selectedTrip.getParticipants();
-				BigVector participantVec = new BigVector();
-				participantVec.addElements(existingParticipants);
-				participantVec.addElement(participant);
-				existingParticipants = new Participant[participantVec.size()];
-				participantVec.copyInto(0, participantVec.size(), existingParticipants, 0);
-				
-				selectedTrip.setParticipants(existingParticipants);
-				
-				service.updateTrip(selectedTrip);
-				*/
-				parameters.put("tripSaved", "true");
-			}
-			catch (RemoteException rme)
-			{
-				Dialog.alert("A remote exception occurred: " + rme.getMessage());
-				return;
+				CarPoolService_Stub service = new CarPoolService_Stub();		
+				try
+				{
+					User theUser = service.getUser(SessionSettings.getUserName());
+					
+					user.setId(theUser.getId());
+					participant.setUser(user);
+					
+					service.updateTripUser(selectedTrip.getId(), participant);
+					
+					/*
+					Participant[] existingParticipants = selectedTrip.getParticipants();
+					BigVector participantVec = new BigVector();
+					participantVec.addElements(existingParticipants);
+					participantVec.addElement(participant);
+					existingParticipants = new Participant[participantVec.size()];
+					participantVec.copyInto(0, participantVec.size(), existingParticipants, 0);
+					
+					selectedTrip.setParticipants(existingParticipants);
+					
+					service.updateTrip(selectedTrip);
+					*/
+					parameters.put("tripSaved", "true");
+					
+					TripData.clear();
+					Dialog.alert("Trip updated!");
+				}
+				catch (RemoteException rme)
+				{
+					Dialog.alert("A remote exception occurred: " + rme.getMessage());
+					return;
+				}
 			}
 		}
 		CreateTripController createTripController = CreateTripController.getInstance();

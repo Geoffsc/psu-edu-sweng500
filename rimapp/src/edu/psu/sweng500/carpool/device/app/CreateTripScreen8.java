@@ -3,6 +3,7 @@ package edu.psu.sweng500.carpool.device.app;
 import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Hashtable;
 
 import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import edu.psu.sweng500.carpool.device.app.beans.TripData;
@@ -110,6 +111,7 @@ public class CreateTripScreen8 extends MainScreen
 			trip.setParticipants(participants);
 			service.updateTrip(trip);
 		
+			TripData.clear();
 			Dialog.alert("Trip created!");
 		}
 		catch (RemoteException rme)
@@ -117,7 +119,10 @@ public class CreateTripScreen8 extends MainScreen
 			Dialog.alert("A remote exception occurred: " + rme.getMessage());
 			return;
 		}
+		
+		Hashtable parameters = new Hashtable();
+		CreateTripController createTripController = CreateTripController.getInstance();
+		createTripController.execute(this, parameters);
 	}
-	
 	
 }

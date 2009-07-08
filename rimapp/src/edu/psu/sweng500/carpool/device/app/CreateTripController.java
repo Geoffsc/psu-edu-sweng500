@@ -1,22 +1,32 @@
 package edu.psu.sweng500.carpool.device.app;
 
+import java.rmi.RemoteException;
+import java.util.Date;
 import java.util.Hashtable;
 
+import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
+import edu.psu.sweng500.carpool.device.app.beans.TripData;
+import edu.psu.sweng500.carpool.device.app.utilities.ApplicationConstants;
+import edu.psu.sweng500.carpool.device.app.utilities.UniqueIDGeneratorUtil;
+import edu.psu.sweng500.carpool.device.services.generated.CarPoolService_Stub;
+import edu.psu.sweng500.carpool.device.services.generated.Place;
 import edu.psu.sweng500.carpool.device.services.generated.Trip;
+import edu.psu.sweng500.carpool.device.services.generated.User;
 
 import net.rim.device.api.collection.util.BigVector;
+import net.rim.device.api.i18n.SimpleDateFormat;
+import net.rim.device.api.system.EventLogger;
 import net.rim.device.api.ui.Screen;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.container.MainScreen;
 
 public class CreateTripController
 {
-	private CreateTripScreen1 createTripScreen1;
 	private CreateTripScreen2 createTripScreen2;
 	private CreateTripScreen4 createTripScreen4;
 	private CreateTripScreen5 createTripScreen5;
 	private CreateTripScreen6 createTripScreen6;
-	private CreateTripScreen7 createTripScreen7;
 	private CreateTripScreen8 createTripScreen8;
 	
 	private static CreateTripController INSTANCE;
@@ -34,58 +44,116 @@ public class CreateTripController
 	}
 	
 	public void execute(MainScreen currentScreen, Hashtable parameters)
-	{
+	{		
 		if (currentScreen instanceof CarPoolMainScreen)
 		{
-			if (createTripScreen1 == null)
-			{
-				createTripScreen1 = new CreateTripScreen1();
-			}
-			UiApplication.getUiApplication().pushScreen(createTripScreen1);
-			return;
-		}
-		
-		String type = CreateTripController.getStringParameter(parameters, "type");
-		if (currentScreen instanceof CreateTripScreen1)
-		{
+			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Moving from CarPoolMainScreen to CreateTripScreen2: ").getBytes(), EventLogger.ALWAYS_LOG);
 			if (createTripScreen2 == null)
 			{
 				createTripScreen2 = new CreateTripScreen2();
 			}
 			
-			Float latitude = (Float) parameters.get("latitude");
-			createTripScreen2.setStartLat(latitude.doubleValue());
-			Float longitude = (Float) parameters.get("longitude");
-			createTripScreen2.setStartLon(longitude.doubleValue());
+			// set the default latitude and longitude
+			double latitude = ApplicationConstants.DEFAULT_LATITUDE;
+			double longitude = ApplicationConstants.DEFAULT_LONGITUDE;
+			
+			CarPoolService_Stub serviceStub = new CarPoolService_Stub();
+			try
+			{
+				User theUser = serviceStub.getUser(SessionSettings.getUserName());
+				if (theUser != null)
+				{
+					Place[] places = theUser.getSavedPlaces();
+					if (places != null)
+					{
+						// use the START place from the user as the start point
+						boolean notFound = true;
+						for (int i = 0; i < places.length && notFound; i++)
+						{
+							Place thePlace = places[i];
+							if (thePlace.getCategory().equalsIgnoreCase("start"))
+							{
+								System.out.println("Found a location for the start place");
+								notFound = false;
+								EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("The incoming latitude is: " + thePlace.getLatitude().toString()).getBytes(), EventLogger.ALWAYS_LOG);
+								EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("The incoming longitude is: " + thePlace.getLongitude().toString()).getBytes(), EventLogger.ALWAYS_LOG);
+								latitude = thePlace.getLatitude().doubleValue();
+								longitude = thePlace.getLongitude().doubleValue();
+							}
+						}
+					}
+				}
+			}
+			catch (RemoteException rme)
+			{
+				Dialog.alert("A remote exception occurred: " + rme.getMessage());
+			}
+			
+			createTripScreen2.setStartLat(latitude);
+			createTripScreen2.setStartLon(longitude);
 			createTripScreen2.setType("START");
 			createTripScreen2.initialize();
 			
-			UiApplication.getUiApplication().popScreen(createTripScreen1);
 			UiApplication.getUiApplication().pushScreen(createTripScreen2);
 			return;
 		}
 		
+		String type = CreateTripController.getStringParameter(parameters, "type");
 		if (currentScreen instanceof CreateTripScreen2 && type != null && type.equalsIgnoreCase("start"))
 		{
+			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Moving from CreateTripScreen2 (start) to CreateTripScreen2 (end): ").getBytes(), EventLogger.ALWAYS_LOG);
 			if (createTripScreen2 == null)
 			{
 				createTripScreen2 = new CreateTripScreen2();
 			}
 			
-			Float latitude = (Float) parameters.get("latitude");
-			createTripScreen2.setStartLat(latitude.doubleValue());
-			Float longitude = (Float) parameters.get("longitude");
-			createTripScreen2.setStartLon(longitude.doubleValue());
-			createTripScreen2.setType("END");
+			// set the default latitude and longitude
+			double latitude = ApplicationConstants.DEFAULT_LATITUDE;
+			double longitude = ApplicationConstants.DEFAULT_LONGITUDE;
 			
+			CarPoolService_Stub serviceStub = new CarPoolService_Stub();
+			try
+			{
+				User theUser = serviceStub.getUser(SessionSettings.getUserName());
+				if (theUser != null)
+				{
+					edu.psu.sweng500.carpool.device.services.generated.Place[] places = theUser.getSavedPlaces();
+					if (places != null)
+					{
+						// use the END place from the user as the start point
+						boolean notFound = true;
+						for (int i = 0; i < places.length && notFound; i++)
+						{
+							edu.psu.sweng500.carpool.device.services.generated.Place thePlace = places[i];
+							if (thePlace.getCategory().equalsIgnoreCase("end"))
+							{
+								System.out.println("Found a location for the end place");
+								notFound = false;
+								EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("The incoming latitude is: " + thePlace.getLatitude().toString()).getBytes(), EventLogger.ALWAYS_LOG);
+								EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("The incoming longitude is: " + thePlace.getLongitude().toString()).getBytes(), EventLogger.ALWAYS_LOG);
+								latitude = thePlace.getLatitude().doubleValue();
+								longitude = thePlace.getLongitude().doubleValue();
+							}
+						}
+					}
+				}
+			}
+			catch (RemoteException rme)
+			{
+				Dialog.alert("A remote exception occurred: " + rme.getMessage());
+			}
+			
+			createTripScreen2.setStartLat(latitude);
+			createTripScreen2.setStartLon(longitude);
+			createTripScreen2.setType("END");
 			createTripScreen2.initialize();
 			
-			// UiApplication.getUiApplication().pushScreen(createTripScreen2);
 			return;
 		}
 		
 		if (currentScreen instanceof CreateTripScreen2 && type != null && type.equalsIgnoreCase("end"))
 		{
+			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Moving from CreateTripScreen2 (end) to CreateTripScreen4: ").getBytes(), EventLogger.ALWAYS_LOG);
 			if (createTripScreen4 == null)
 			{
 				createTripScreen4 = new CreateTripScreen4();
@@ -98,6 +166,84 @@ public class CreateTripController
 		
 		if (currentScreen instanceof CreateTripScreen4)
 		{
+			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Moving from CreateTripScreen4 to CreateTripScreen5: ").getBytes(), EventLogger.ALWAYS_LOG);
+			
+			CarPoolService_Stub service = new CarPoolService_Stub();
+			String startAddress = TripData.getTripStartPlace();
+			String endAddress = TripData.getTripEndPlace();
+			
+			// format the start and end date for the search
+			Date startDate = TripData.getTripStartTime();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			
+			Date endDate = TripData.getTripEndTime();
+			int numMiles = 0;
+			String latitude = "";
+			String longitude = "";
+			try
+			{
+				boolean tripsFound = false;
+				Trip[] trips = service.findSimilarTrips("", "", startAddress, endAddress, dateFormat.format(startDate), dateFormat.format(endDate), latitude, longitude, "12345", numMiles);
+				if (trips != null && trips.length > 0)
+				{
+					tripsFound = true;
+					if (createTripScreen6 == null)
+					{
+						createTripScreen6 = new CreateTripScreen6();
+					}
+					createTripScreen6.setState("");
+				}
+				
+				if (!tripsFound)
+				{
+					if (Dialog.YES == Dialog.ask(Dialog.D_YES_NO, "Would you like to check for similar trips on the same day?", Dialog.YES))
+					{
+						if (createTripScreen6 == null)
+						{
+							createTripScreen6 = new CreateTripScreen6();
+						}
+						createTripScreen6.setState("similarSearch");
+						
+						dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+						trips = service.findSimilarTrips("", "", startAddress, endAddress, dateFormat.format(startDate), dateFormat.format(startDate), latitude, longitude, "12345", numMiles);
+						if (trips != null && trips.length > 0)
+						{
+							tripsFound = true;
+						}
+					}
+				}
+				
+				if (tripsFound)
+				{
+					// add the Create New option
+					BigVector tripVector = new BigVector();
+					Trip createTrip = new Trip();
+					createTrip.setId("create");
+					createTrip.setTitle("* Create New *");
+					
+					tripVector.addElement(createTrip);
+					tripVector.addElements(trips);
+					
+					trips = new Trip[tripVector.size()];
+					tripVector.copyInto(0, tripVector.size(), trips, 0);
+		        	
+					if (createTripScreen6 == null)
+					{
+						createTripScreen6 = new CreateTripScreen6();
+					}
+					createTripScreen6.setTrips(trips);
+					
+					UiApplication.getUiApplication().popScreen(createTripScreen4);
+					UiApplication.getUiApplication().pushScreen(createTripScreen6);
+					return;
+				}
+			}
+			catch (RemoteException rme)
+			{
+				Dialog.alert("A remote exception occurred: " + rme.getMessage());
+				return;
+			}
+			
 			if (createTripScreen5 == null)
 			{
 				createTripScreen5 = new CreateTripScreen5();
@@ -108,98 +254,128 @@ public class CreateTripController
 			return;
 		}
 		
-		String foundMatchingTrip = CreateTripController.getStringParameter(parameters, "foundMatchingTrip");
-		if (currentScreen instanceof CreateTripScreen5 && foundMatchingTrip != null && foundMatchingTrip.equalsIgnoreCase("true"))
-		{
-			if (createTripScreen6 == null)
-			{
-				createTripScreen6 = new CreateTripScreen6();
-			}
-			if (CreateTripController.hasParameter(parameters, "trips"))
-			{
-				Trip[] trips = (Trip[]) parameters.get("trips");
-				createTripScreen6.setTrips(trips);
-			}
-			
-			UiApplication.getUiApplication().popScreen(createTripScreen5);
-			UiApplication.getUiApplication().pushScreen(createTripScreen6);
-			return;
-		}
-		
 		if (currentScreen instanceof CreateTripScreen5)
 		{
-			if (createTripScreen7 == null)
+			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Moving from CreateTripScreen5 to CreateTripScreen8: ").getBytes(), EventLogger.ALWAYS_LOG);
+			if (createTripScreen8 == null)
 			{
-				createTripScreen7 = new CreateTripScreen7();
+				createTripScreen8 = new CreateTripScreen8();
 			}
 			
 			UiApplication.getUiApplication().popScreen(createTripScreen5);
-			UiApplication.getUiApplication().pushScreen(createTripScreen7);
+			UiApplication.getUiApplication().pushScreen(createTripScreen8);
 			return;
 		}
 		
 		String tripSaved = CreateTripController.getStringParameter(parameters, "tripSaved");
 		if (currentScreen instanceof CreateTripScreen6 && tripSaved != null && tripSaved.equalsIgnoreCase("true"))
 		{
+			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Moving from CreateTripScreen6 to CarPoolMainScreen: ").getBytes(), EventLogger.ALWAYS_LOG);
 			if (createTripScreen6 == null)
 			{
 				createTripScreen6 = new CreateTripScreen6();
 			}
 			
 			UiApplication.getUiApplication().popScreen(createTripScreen6);
+			clearScreen();
 			return;
 		}
 		
-		if (currentScreen instanceof CreateTripScreen6)
+		String screenState = CreateTripController.getStringParameter(parameters, "state");
+		if (currentScreen instanceof CreateTripScreen6 && screenState != null && !screenState.equalsIgnoreCase("similarSearch"))
 		{
-			if (createTripScreen7 == null)
+			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Moving from CreateTripScreen6 to CreateTripScreen5: ").getBytes(), EventLogger.ALWAYS_LOG);
+			
+			CarPoolService_Stub service = new CarPoolService_Stub();
+			String startAddress = TripData.getTripStartPlace();
+			String endAddress = TripData.getTripEndPlace();
+			
+			// format the start and end date for the search
+			Date startDate = TripData.getTripStartTime();
+			
+			Date endDate = TripData.getTripEndTime();
+			int numMiles = 0;
+			String latitude = "";
+			String longitude = "";
+			
+			if (Dialog.YES == Dialog.ask(Dialog.D_YES_NO, "Would you like to check for similar trips on the same day?", Dialog.YES))
 			{
-				createTripScreen7 = new CreateTripScreen7();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				try
+				{
+					Trip[] trips = service.findSimilarTrips("", "", startAddress, endAddress, dateFormat.format(startDate), dateFormat.format(endDate), latitude, longitude, "12345", numMiles);
+					if (trips != null && trips.length > 0)
+					{
+						if (createTripScreen6 == null)
+						{
+							createTripScreen6 = new CreateTripScreen6();
+						}
+						createTripScreen6.setState("similarSearch");
+						
+						// add the Create New option
+						BigVector tripVector = new BigVector();
+						Trip createTrip = new Trip();
+						createTrip.setId("create");
+						createTrip.setTitle("* Create New *");
+						
+						tripVector.addElement(createTrip);
+						tripVector.addElements(trips);
+						
+						trips = new Trip[tripVector.size()];
+						tripVector.copyInto(0, tripVector.size(), trips, 0);
+			        	
+						if (createTripScreen6 == null)
+						{
+							createTripScreen6 = new CreateTripScreen6();
+						}
+						createTripScreen6.setTrips(trips);
+						
+						return;
+					}
+				}
+				catch (RemoteException rme)
+				{
+					Dialog.alert("A remote exception occurred: " + rme.getMessage());
+					return;
+				}
 			}
 			
+			if (createTripScreen5 == null)
+			{
+				createTripScreen5 = new CreateTripScreen5();
+			}
 			UiApplication.getUiApplication().popScreen(createTripScreen6);
-			UiApplication.getUiApplication().pushScreen(createTripScreen7);
+			UiApplication.getUiApplication().pushScreen(createTripScreen5);
 			return;
 		}
 		
 		String searchSimilar = CreateTripController.getStringParameter(parameters, "searchSimilar");
-		if (currentScreen instanceof CreateTripScreen7 && searchSimilar != null && searchSimilar.equalsIgnoreCase("true"))
+		if (currentScreen instanceof CreateTripScreen6 && screenState != null && screenState.equalsIgnoreCase("similarSearch"))
 		{
-			if (createTripScreen6 == null)
+			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Moving from CreateTripScreen6 to CreateTripScreen5: ").getBytes(), EventLogger.ALWAYS_LOG);
+			if (createTripScreen5 == null)
 			{
-				createTripScreen6 = new CreateTripScreen6();
+				createTripScreen5 = new CreateTripScreen5();
 			}
 			
-			UiApplication.getUiApplication().popScreen(createTripScreen7);
-			UiApplication.getUiApplication().pushScreen(createTripScreen6);
+			UiApplication.getUiApplication().popScreen(createTripScreen6);
+			UiApplication.getUiApplication().pushScreen(createTripScreen5);
 			return;
 		}
 		
-		if (currentScreen instanceof CreateTripScreen7)
+		if (currentScreen instanceof CreateTripScreen8)
 		{
-			if (createTripScreen8 == null)
-			{
-				createTripScreen8 = new CreateTripScreen8();
-			}
-			
-			UiApplication.getUiApplication().popScreen(createTripScreen7);
-			UiApplication.getUiApplication().pushScreen(createTripScreen8);
+			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Moving from CreateTripScreen8 to CarPoolMainScreen: ").getBytes(), EventLogger.ALWAYS_LOG);
+			UiApplication.getUiApplication().popScreen(createTripScreen8);
+			clearScreen();
 			return;
 		}
 	}
 	
-	private static boolean hasParameter(Hashtable parameters, String parameterName)
+	private void clearScreen()
 	{
-		if (parameters == null)
-		{
-			return false;
-		}
-		
-		if (parameters.containsKey(parameterName))
-		{
-			return true;
-		}
-		return false;
+		createTripScreen4.clearFields();
+		createTripScreen5.clearFields();
 	}
 	
 	private static String getStringParameter(Hashtable parameters, String parameterName)

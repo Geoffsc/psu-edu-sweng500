@@ -76,4 +76,9 @@ public class SearchScreen extends MainScreen
             }
         }
     };
+    
+    public boolean isDirty()
+    {
+    	return false;
+    }
 }

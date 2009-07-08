@@ -12,6 +12,7 @@ import edu.psu.sweng500.carpool.device.services.generated.Trip;
 import net.rim.device.api.collection.List;
 import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.system.EventLogger;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
@@ -28,6 +29,7 @@ public class ShowAllResultsScreen extends MainScreen
 	//private Trip Trip;
 	private MainScreenObjectListField tripList;
 	private HorizontalFieldManager hfm;
+	DetailsScreen detailsScreen = null;
 	
 	private Date searchStartDate;
 	
@@ -48,6 +50,7 @@ public class ShowAllResultsScreen extends MainScreen
 	
 	public void searchTrips()
 	{
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Starting searchTrips").getBytes(), EventLogger.ALWAYS_LOG);
 		/*
 		CarPoolService_Stub service = new CarPoolService_Stub();
 		try
@@ -95,7 +98,9 @@ public class ShowAllResultsScreen extends MainScreen
 		try
 		{
 			CarPoolService_Stub serviceStub = new CarPoolService_Stub();
+			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Searching for trips").getBytes(), EventLogger.ALWAYS_LOG);
 			trips = serviceStub.findTrips(parameters);
+			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Done searching for trips").getBytes(), EventLogger.ALWAYS_LOG);
 			
 			tripList.set(trips);
 			UiApplication.getUiApplication().getActiveScreen().invalidate();
@@ -106,12 +111,25 @@ public class ShowAllResultsScreen extends MainScreen
 			Dialog.alert("A remote exception occurred: " + rme.getMessage());
 		}
 		
-		DetailsScreen screen = new DetailsScreen();
-		int selection = tripList.getSelectedIndex();
-		Trip selectedTrip = trips[selection];
-		screen.setId(selectedTrip.getId());
-		UiApplication.getUiApplication().pushScreen(screen);
 	}
+	
+	protected boolean navigationClick(int status, int time)
+	{
+        // Determine which menu item was clicked.
+        int selected = tripList.getSelectedIndex();
+        EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Selected item was " + selected).getBytes(), EventLogger.ALWAYS_LOG);
+        Trip selectedTrip = trips[selected];
+        
+        if (detailsScreen == null)
+        {
+        	detailsScreen = new DetailsScreen();
+        }
+        detailsScreen.setTripId(selectedTrip.getId());
+        detailsScreen.searchTrips();
+		UiApplication.getUiApplication().pushScreen(detailsScreen);
+        
+        return true;
+    }
 	
 	private class MainScreenObjectListField extends ObjectListField {
         

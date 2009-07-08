@@ -1,33 +1,21 @@
 package edu.psu.sweng500.carpool.device.app;
 
-import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.Date;
 
-import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import edu.psu.sweng500.carpool.device.app.beans.TripData;
-import edu.psu.sweng500.carpool.device.services.generated.CarPoolService_Stub;
-import edu.psu.sweng500.carpool.device.services.generated.Parameter;
 
-import net.rim.device.api.i18n.DateFormat;
 import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.system.EventLogger;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
-import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.component.BasicEditField;
 import net.rim.device.api.ui.component.ButtonField;
-import net.rim.device.api.ui.component.ChoiceField;
 import net.rim.device.api.ui.component.DateField;
-import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.LabelField;
-import net.rim.device.api.ui.component.ObjectChoiceField;
 import net.rim.device.api.ui.container.MainScreen;
 
 public class CreateTripScreen4 extends MainScreen
 {
-	private CreateTripScreen5 nextTripScreen;
-	private DateField startDate;
 	private DateField tripDate;
 	private DateField startTime;
 	private DateField endTime;
@@ -66,14 +54,13 @@ public class CreateTripScreen4 extends MainScreen
 		{
 	         public void fieldChanged(Field field, int context) 
 	         {
-	             // ButtonField buttonField = (ButtonField) field;
-	             performSearch();
+	        	 performProcessing();
 	         }
 	     };
 	     buttonField.setChangeListener(listener);
 	}
 	
-	public void performSearch()
+	public void performProcessing()
 	{
 		SimpleDateFormat dateFormat = new SimpleDateFormat(SimpleDateFormat.DATE_SHORT | SimpleDateFormat.TIME_SHORT);
 		Calendar cal = Calendar.getInstance();
@@ -103,16 +90,15 @@ public class CreateTripScreen4 extends MainScreen
 		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Raw end time is: " + timeFormat.format(cal2)).getBytes(), EventLogger.ALWAYS_LOG);
 		TripData.setTripEndTime(cal2.getTime());
     	
-		/*
-		if (null == nextTripScreen)
-        {
-			nextTripScreen = new CreateTripScreen5();
-        }
-		UiApplication.getUiApplication().pushScreen(nextTripScreen);
-		*/
 		CreateTripController createTripController = CreateTripController.getInstance();
 		createTripController.execute(this, null);
 	}
 	
+	public void clearFields()
+	{
+		tripDate.setDate(Calendar.getInstance().getTime().getTime());
+		startTime.setDate(Calendar.getInstance().getTime().getTime());
+		endTime.setDate(Calendar.getInstance().getTime().getTime());
+	}
 	
 }

@@ -6,9 +6,11 @@ import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.ListField;
+import net.rim.device.api.ui.component.Menu;
 import net.rim.device.api.ui.component.ObjectListField;
 import net.rim.device.api.ui.container.MainScreen;
 
@@ -17,9 +19,15 @@ public class CarPoolMainScreen extends MainScreen
 	private String[] mainMenuItems;
 	private MainScreenObjectListField menu;
 	
-	private CreateTripScreen1 createTripScreen;
 	private SearchScreen searchScreen;
 	private SplashScreen splashScreen;
+	private CarPoolOptionsScreen carPoolOptionsScreen;
+	
+	private MenuItem startLocationItem = new MenuItem("Options", 110, 10) {
+		public void run() {
+			pushOptionsScreen();
+		}
+	};
 	
 	public CarPoolMainScreen()
 	{	
@@ -40,6 +48,22 @@ public class CarPoolMainScreen extends MainScreen
 	{
 		System.exit(0);
 		return true;
+	}
+	
+	protected void makeMenu(Menu menu, int instance)
+	{
+        menu.add(startLocationItem);
+        menu.add(MenuItem.separator(startLocationItem.getOrdinal() + 1));
+        super.makeMenu(menu,instance);
+    }
+	
+	private void pushOptionsScreen()
+	{
+		if (carPoolOptionsScreen == null)
+		{
+			carPoolOptionsScreen = new CarPoolOptionsScreen();
+		}
+		UiApplication.getUiApplication().pushScreen(carPoolOptionsScreen);
 	}
 	
 	protected boolean navigationClick(int status, int time)
