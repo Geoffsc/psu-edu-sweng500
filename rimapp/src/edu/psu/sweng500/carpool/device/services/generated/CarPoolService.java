@@ -6,6 +6,11 @@ public interface CarPoolService extends java.rmi.Remote {
     /**
      *
      */
+    public SimpleMessage updateSavedAddresses(String userId, Place[] savedPlaces) throws java.rmi.RemoteException;
+
+    /**
+     *
+     */
     public Trip[] findSimilarTrips(String id, String title, String startAddress, String endAddress, String startDate, String endDate, String latitude, String longitude, String organizationId, int numMiles) throws java.rmi.RemoteException;
 
     /**
