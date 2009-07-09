@@ -21,6 +21,7 @@ public class CarPoolMainScreen extends MainScreen
 	
 	private SearchScreen searchScreen;
 	private SplashScreen splashScreen;
+	private AddressSearchScreen addressSearchScreen;
 	private CarPoolOptionsScreen carPoolOptionsScreen;
 	
 	private MenuItem startLocationItem = new MenuItem("Options", 110, 10) {
@@ -39,7 +40,8 @@ public class CarPoolMainScreen extends MainScreen
         menu = new MainScreenObjectListField();
         String mnuSearch = "Search";
         String mnuCreate = "Create trip";
-        mainMenuItems = new String[]{mnuSearch, mnuCreate};
+        String mnuAddressSearch = "Search By Address";
+        mainMenuItems = new String[]{mnuSearch, mnuCreate, mnuAddressSearch};
         menu.set(mainMenuItems);
         this.add(menu);
 	}
@@ -90,6 +92,13 @@ public class CarPoolMainScreen extends MainScreen
                 
                 UiApplication.getUiApplication().pushScreen(createTripScreen);
                 */
+            case 2:
+            	if (null == addressSearchScreen)
+                {
+            		addressSearchScreen = new AddressSearchScreen();
+                }
+                
+                UiApplication.getUiApplication().pushScreen(addressSearchScreen);
                 
             break;
         }

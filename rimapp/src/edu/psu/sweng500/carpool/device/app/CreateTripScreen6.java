@@ -11,11 +11,13 @@ import edu.psu.sweng500.carpool.device.services.generated.Trip;
 import edu.psu.sweng500.carpool.device.services.generated.TripUser;
 import edu.psu.sweng500.carpool.device.services.generated.User;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.system.EventLogger;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.ListField;
@@ -32,6 +34,7 @@ public class CreateTripScreen6 extends MainScreen
 	private VerticalFieldManager vfm;
 	RadioButtonGroup radioGroup;
 	private String state;
+	DetailsScreen detailsScreen = null;
 	
 	public CreateTripScreen6()
 	{
@@ -143,6 +146,24 @@ public class CreateTripScreen6 extends MainScreen
 		CreateTripController createTripController = CreateTripController.getInstance();
 		createTripController.execute(this, parameters);
 	}
+	
+	protected boolean navigationClick(int status, int time)
+	{
+        // Determine which menu item was clicked.
+        int selected = radioGroup.getSelectedIndex();
+        EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Selected item was " + selected).getBytes(), EventLogger.ALWAYS_LOG);
+        Trip selectedTrip = trips[selected];
+        
+        if (detailsScreen == null)
+        {
+        	detailsScreen = new DetailsScreen();
+        }
+        detailsScreen.setTripId(selectedTrip.getId());
+        detailsScreen.searchTrips();
+		UiApplication.getUiApplication().pushScreen(detailsScreen);
+        
+        return true;
+    }
 
 	private class MainScreenObjectListField extends ObjectListField {
         
