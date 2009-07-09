@@ -69,6 +69,21 @@ public class DetailsScreen extends MainScreen
 			// Row 1  
 			gridFieldManager.add(new LabelField("Title:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
 			gridFieldManager.add(new LabelField(trip.getTitle(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
+			// Row 2
+			gridFieldManager.add(new LabelField("Start Address:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+			gridFieldManager.add(new LabelField(trip.getStartAddress(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
+			// Row 3
+			gridFieldManager.add(new LabelField("End Address:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+			gridFieldManager.add(new LabelField(trip.getEndAddress(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
+			// Row 4
+			gridFieldManager.add(new LabelField("Start Date:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+			gridFieldManager.add(new LabelField(trip.getStartDate(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
+			// Row 5
+			gridFieldManager.add(new LabelField("End Date:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+			gridFieldManager.add(new LabelField(trip.getEndDate(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
+			// Row 6
+			gridFieldManager.add(new LabelField("Organization:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+			gridFieldManager.add(new LabelField(trip.getOrganization(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
 			
 			add(gridFieldManager);
 		}
