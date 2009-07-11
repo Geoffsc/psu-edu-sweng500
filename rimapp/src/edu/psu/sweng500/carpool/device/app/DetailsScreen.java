@@ -14,14 +14,17 @@ import edu.psu.sweng500.carpool.device.services.generated.Trip;
 import net.rim.device.api.collection.List;
 import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.system.EventLogger;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.ListField;
+import net.rim.device.api.ui.component.Menu;
 import net.rim.device.api.ui.component.ObjectListField;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.MainScreen;
@@ -29,6 +32,8 @@ import net.rim.device.api.ui.container.MainScreen;
 public class DetailsScreen extends MainScreen
 {
 	private String tripId;
+	private DirectionsScreen directionsScreen;
+	private Trip trip;
 	
 	public DetailsScreen()
 	{
@@ -62,7 +67,7 @@ public class DetailsScreen extends MainScreen
 		try
 		{
 			CarPoolService_Stub serviceStub = new CarPoolService_Stub();
-			Trip trip = serviceStub.getTrip(tripId);
+			trip = serviceStub.getTrip(tripId);
 			// UiApplication.getUiApplication().getActiveScreen().invalidate();
 			
 			Manager gridFieldManager = new GridFieldManager(new int[] {100, 160}, 30, 0);  
@@ -92,6 +97,34 @@ public class DetailsScreen extends MainScreen
 			rme.printStackTrace();
 			Dialog.alert("A remote exception occurred: " + rme.getMessage());
 		}
+	}
+	
+	private MenuItem showDirectionsItem = new MenuItem("Map it!", 110, 10) {
+		public void run() {
+			pushDirectionsScreen();
+		}
+	};
+	
+	protected void makeMenu(Menu menu, int instance)
+	{
+        menu.add(showDirectionsItem);
+        menu.add(MenuItem.separator(showDirectionsItem.getOrdinal() + 1));
+        super.makeMenu(menu,instance);
+    }
+	
+	private void pushDirectionsScreen()
+	{
+		if (directionsScreen == null)
+		{
+			directionsScreen = new DirectionsScreen();
+		}
+		
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Setting start place: " + trip.getStartAddress().getName()).getBytes(), EventLogger.ALWAYS_LOG);
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Setting end place: " + trip.getEndAddress().getName()).getBytes(), EventLogger.ALWAYS_LOG);
+		directionsScreen.setStartPlace(trip.getStartAddress());
+		directionsScreen.setEndPlace(trip.getEndAddress());
+		directionsScreen.initialize();
+		UiApplication.getUiApplication().pushScreen(directionsScreen);
 	}
 
 }
