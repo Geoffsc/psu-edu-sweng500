@@ -76,6 +76,8 @@ public class CreateTripScreen8 extends MainScreen
 	
 	private void performUpdate()
 	{
+		Hashtable parameters = new Hashtable();
+		
 		Trip trip = new Trip();
 		trip.setId(UniqueIDGeneratorUtil.getUniqueId());
 		trip.setTitle(TripData.getTripTitle());
@@ -110,6 +112,8 @@ public class CreateTripScreen8 extends MainScreen
 			participants[0] = participant;
 			trip.setParticipants(participants);
 			service.updateTrip(trip);
+			
+			parameters.put("tripId", trip.getId());
 		
 			TripData.clear();
 			Dialog.alert("Trip created!");
@@ -120,7 +124,6 @@ public class CreateTripScreen8 extends MainScreen
 			return;
 		}
 		
-		Hashtable parameters = new Hashtable();
 		CreateTripController createTripController = CreateTripController.getInstance();
 		createTripController.execute(this, parameters);
 	}
