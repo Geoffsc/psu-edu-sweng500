@@ -2,7 +2,9 @@ package edu.psu.sweng500.carpool.services.utilities;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import edu.psu.sweng500.carpool.beans.Address;
@@ -70,6 +72,10 @@ public class ServiceObjectMapper
 	public static Organization convertToServiceOrganization(edu.psu.sweng500.carpool.beans.Organization organization)
 	{
 		Organization serviceOrg = new Organization();
+		if (organization == null)
+		{
+			return serviceOrg;
+		}
 		serviceOrg.setId(organization.getId());
 		serviceOrg.setName(organization.getName());
 		return serviceOrg;
@@ -78,6 +84,10 @@ public class ServiceObjectMapper
 	public static TripUser convertToTripUser(User user)
 	{
 		TripUser tripUser = new TripUser();
+		if (user == null)
+		{
+			return tripUser;
+		}
 		tripUser.setId(user.getId());
 		tripUser.setGivenName(user.getGivenName());
 		tripUser.setSurName(user.getSurName());
@@ -88,15 +98,37 @@ public class ServiceObjectMapper
 	public static Trip convertToTrip(edu.psu.sweng500.carpool.beans.Trip trip)
 	{
 		Trip serviceTrip = new Trip();
+		if (trip == null)
+		{
+			return serviceTrip;
+		}
+		
 		serviceTrip.setId(trip.getId());
 		serviceTrip.setTitle(trip.getTitle());
 		
 		DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
-		serviceTrip.setStartDate(format.format(trip.getStartDate()));
-		serviceTrip.setEndDate(format.format(trip.getEndDate()));
+		if (trip.getStartDate() != null)
+		{
+			serviceTrip.setStartDate(format.format(trip.getStartDate()));
+		}
+		else
+		{
+			serviceTrip.setStartDate("");
+		}
+		if (trip.getEndDate() != null)
+		{
+			serviceTrip.setEndDate(format.format(trip.getEndDate()));
+		}
+		else
+		{
+			serviceTrip.setEndDate("");
+		}
 		
 		edu.psu.sweng500.carpool.beans.Organization organization = trip.getOrganization();
-		serviceTrip.setOrganization(ServiceObjectMapper.convertToServiceOrganization(organization));
+		if (organization != null)
+		{
+			serviceTrip.setOrganization(ServiceObjectMapper.convertToServiceOrganization(organization));
+		}
 		
 		serviceTrip.setEndAddress(ServiceObjectMapper.convertToPlace(trip.getEndAddress()));
 		serviceTrip.setStartAddress(ServiceObjectMapper.convertToPlace(trip.getStartAddress()));
@@ -117,7 +149,7 @@ public class ServiceObjectMapper
 				participant.setType(memberType);
 				participant.setUser(serviceTripUser);
 				
-				participants[count] = participant;
+				participants[count++] = participant;
 			}
 			serviceTrip.setParticipants(participants);
 		}
