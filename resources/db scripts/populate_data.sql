@@ -68,10 +68,10 @@ VALUES
 ('11111', 'eborisow', 'password', 'Eric', 'Borisow', '12345');
 INSERT INTO USERS (ID, USER_NAME, PASSWORD, GIVEN_NAME, SURNAME, ORGANIZATION_ID)
 VALUES
-('22222', 'gscholl', 'password', 'Geoff', 'Scholl', '12345');
+('22222', 'thuynh', 'password', 'Ty', 'Huynh', '12345');
 INSERT INTO USERS (ID, USER_NAME, PASSWORD, GIVEN_NAME, SURNAME, ORGANIZATION_ID)
 VALUES
-('33333', 'thuynh', 'password', 'Ty', 'Huynh', '12345');
+('33333', 'gscholl', 'password', 'Geoff', 'Scholl', '12345');
 
 
 INSERT INTO USERS_ADDRESSES (USER_ID, ADDRESS_ID, TYPE)
