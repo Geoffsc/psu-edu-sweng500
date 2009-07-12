@@ -80,6 +80,8 @@ class SelectLocationScreen extends MainScreen implements MapListener, PlaceListe
 	{
 		SharedMap sharedMap = SharedMap.getInstance();
 		mapComponent = sharedMap.getMap();
+		mapComponent.removeAllPlaces();
+		mapComponent.setZoom(17);
 		
 		mapComponent.setMapListener(this);
 		mapComponent.setPlaceListener(this);

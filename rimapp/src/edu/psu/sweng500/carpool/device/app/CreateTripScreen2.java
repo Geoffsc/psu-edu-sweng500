@@ -14,10 +14,14 @@ import net.rim.device.api.ui.container.MainScreen;
 
 import com.nutiteq.MapComponent;
 import com.nutiteq.components.Place;
+import com.nutiteq.components.PlaceIcon;
+import com.nutiteq.components.Placemark;
 import com.nutiteq.components.WgsPoint;
 import com.nutiteq.kml.KmlService;
 import com.nutiteq.listeners.MapListener;
 import com.nutiteq.listeners.PlaceListener;
+import com.nutiteq.utils.Utils;
+import com.nutiteq.wrappers.rimui.Image;
 
 import edu.psu.sweng500.carpool.device.app.beans.SavedAddressData;
 import edu.psu.sweng500.carpool.device.app.beans.TripData;
@@ -35,6 +39,8 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 	private double startLat;
 	private double startLon;
 	private String type;
+	
+	private final Placemark yellow;
 	
 	private edu.psu.sweng500.carpool.device.services.generated.Place[] places;
 	
@@ -62,6 +68,8 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 	{
 		this.setTitle("Create Trip - Select a start location");
 
+		final Image tmp = Utils.createImage("/markers.png");
+		yellow = new PlaceIcon(Image.createImage(tmp, 20, 0, 10, 17, 0), 5, 17);
 	}
 	
 	public void initialize()
@@ -69,6 +77,7 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 		SharedMap sharedMap = SharedMap.getInstance();
 		mapComponent = sharedMap.getMap();
 		mapComponent.removeAllPlaces();
+		mapComponent.setZoom(17);
 		
 		mapComponent.setMapListener(this);
 		mapComponent.setPlaceListener(this);
@@ -85,7 +94,7 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 				edu.psu.sweng500.carpool.device.services.generated.Place thisPlace = places[i];
 				
 				EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Found place: " + thisPlace.getId()).getBytes(), EventLogger.ALWAYS_LOG);
-				Place thisMapPlace = new Place(i, thisPlace.getName(), new TestPlacemark(),
+				Place thisMapPlace = new Place(i, thisPlace.getName(), yellow,
 						new WgsPoint(thisPlace.getLongitude().doubleValue(), thisPlace.getLatitude().doubleValue()));
 				mapComponent.addPlace(thisMapPlace);
 			}
@@ -218,7 +227,7 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 
 	public boolean onClose()
 	{
-		if (Dialog.YES == Dialog.ask(Dialog.D_YES_NO, "Are you sure you want to exit?", Dialog.YES))
+		if (Dialog.NO == Dialog.ask(Dialog.D_YES_NO, "Are you sure you want to exit?", Dialog.YES))
 		{
 			return true;
 		}

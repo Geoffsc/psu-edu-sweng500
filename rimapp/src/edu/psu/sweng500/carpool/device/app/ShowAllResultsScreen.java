@@ -129,13 +129,16 @@ public class ShowAllResultsScreen extends MainScreen
         EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Selected item was " + selected).getBytes(), EventLogger.ALWAYS_LOG);
         Trip selectedTrip = trips[selected];
         
-        if (detailsScreen == null)
+        if (selectedTrip != null)
         {
-        	detailsScreen = new DetailsScreen();
+	        if (detailsScreen == null)
+	        {
+	        	detailsScreen = new DetailsScreen();
+	        }
+	        detailsScreen.setTripId(selectedTrip.getId());
+	        detailsScreen.searchTrips();
+			UiApplication.getUiApplication().pushScreen(detailsScreen);
         }
-        detailsScreen.setTripId(selectedTrip.getId());
-        detailsScreen.searchTrips();
-		UiApplication.getUiApplication().pushScreen(detailsScreen);
         
         return true;
     }

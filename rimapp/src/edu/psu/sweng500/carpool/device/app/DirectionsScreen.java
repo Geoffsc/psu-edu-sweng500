@@ -57,6 +57,7 @@ public class DirectionsScreen extends MainScreen implements DirectionsWaiter, Ma
 		SharedMap sharedMap = SharedMap.getInstance();
 		mapComponent = sharedMap.getMap();
 		mapComponent.removeAllPlaces();
+		mapComponent.setZoom(17);
 		
 		mapComponent.setMap(new CloudMade("856e4c9f90305c4183dc62a12944cadb", 64, 1));
 		

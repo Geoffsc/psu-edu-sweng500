@@ -47,8 +47,12 @@ public class DetailsScreen extends MainScreen
 	
 	public void searchTrips()
 	{
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Starting searchTrips").getBytes(), EventLogger.ALWAYS_LOG);
 		this.deleteAll();
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Finished removing all items").getBytes(), EventLogger.ALWAYS_LOG);
 		
+		EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Adding " + tripId + " to the parameters").getBytes(), EventLogger.ALWAYS_LOG);
+		/*
 		Vector parameterVec = new Vector();
 		Parameter param1 = new Parameter();
 		param1.setName("id");
@@ -63,34 +67,43 @@ public class DetailsScreen extends MainScreen
 			Parameter param = (Parameter) paramEnum.nextElement();
 			parameters[paramCount++] = param;
 		}
+		*/
 		
 		try
 		{
 			CarPoolService_Stub serviceStub = new CarPoolService_Stub();
 			trip = serviceStub.getTrip(tripId);
 			// UiApplication.getUiApplication().getActiveScreen().invalidate();
+			if (trip != null)
+			{
 			
-			Manager gridFieldManager = new GridFieldManager(new int[] {100, 160}, 30, 0);  
-			// Row 1  
-			gridFieldManager.add(new LabelField("Title:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
-			gridFieldManager.add(new LabelField(trip.getTitle(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
-			// Row 2
-			gridFieldManager.add(new LabelField("Start Address:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
-			gridFieldManager.add(new LabelField(trip.getStartAddress().getName(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
-			// Row 3
-			gridFieldManager.add(new LabelField("End Address:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
-			gridFieldManager.add(new LabelField(trip.getEndAddress().getName(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
-			// Row 4
-			gridFieldManager.add(new LabelField("Start Date:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
-			gridFieldManager.add(new LabelField(trip.getStartDate(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
-			// Row 5
-			gridFieldManager.add(new LabelField("End Date:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
-			gridFieldManager.add(new LabelField(trip.getEndDate(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
-			// Row 6
-			gridFieldManager.add(new LabelField("Organization:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
-			gridFieldManager.add(new LabelField(trip.getOrganization().getName(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
-			
-			add(gridFieldManager);
+				Manager gridFieldManager = new GridFieldManager(new int[] {100, 160}, 30, 0);  
+				// Row 1  
+				EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Title: " + trip.getTitle()).getBytes(), EventLogger.ALWAYS_LOG);
+				gridFieldManager.add(new LabelField("Title:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+				gridFieldManager.add(new LabelField(trip.getTitle(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
+				// Row 2
+				EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Start address: " + trip.getStartAddress().getName()).getBytes(), EventLogger.ALWAYS_LOG);
+				gridFieldManager.add(new LabelField("Start Address:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+				gridFieldManager.add(new LabelField(trip.getStartAddress().getName(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
+				// Row 3
+				EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("End address: " + trip.getEndAddress().getName()).getBytes(), EventLogger.ALWAYS_LOG);
+				gridFieldManager.add(new LabelField("End Address:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+				gridFieldManager.add(new LabelField(trip.getEndAddress().getName(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
+				// Row 4
+				EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Start date: " + trip.getStartDate()).getBytes(), EventLogger.ALWAYS_LOG);
+				gridFieldManager.add(new LabelField("Start Date:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+				gridFieldManager.add(new LabelField(trip.getStartDate(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
+				// Row 5
+				EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("End date: " + trip.getEndDate()).getBytes(), EventLogger.ALWAYS_LOG);
+				gridFieldManager.add(new LabelField("End Date:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+				gridFieldManager.add(new LabelField(trip.getEndDate(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
+				// Row 6
+				gridFieldManager.add(new LabelField("Organization:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+				gridFieldManager.add(new LabelField(trip.getOrganization().getName(), Field.FIELD_LEFT | Field.FIELD_VCENTER));
+				
+				add(gridFieldManager);
+			}
 		}
 		catch (RemoteException rme)
 		{

@@ -9,6 +9,7 @@ import com.nutiteq.controls.ControlKeys;
 import com.nutiteq.controls.UserDefinedKeysMapping;
 import com.nutiteq.kml.KmlService;
 import com.nutiteq.kml.KmlUrlReader;
+import com.nutiteq.maps.CloudMade;
 import com.nutiteq.maps.NutiteqStreamedMap;
 import com.nutiteq.net.DefaultDownloadStreamOpener;
 
@@ -80,9 +81,11 @@ public class SharedMap
 				"http://www.panoramio.com/panoramio.kml?LANG=en_US.utf8&", true);
 		mapComponent.addKmlService(pano);
 		
-		mapComponent.setMap(new NutiteqStreamedMap(
-				"http://aws.nutiteq.com/mapstream.php?ts=128&", "Car Pool",
-				128, 0, 19));
+		// mapComponent.setMap(new NutiteqStreamedMap(
+			//	"http://aws.nutiteq.com/mapstream.php?ts=128&", "Car Pool",
+			//	128, 0, 19));
+		mapComponent.setMap(new CloudMade("856e4c9f90305c4183dc62a12944cadb", 64, 1));
+		
 		mapComponent.showDefaultOnScreenZoomControls();
 		mapComponent.enableDownloadCounter();
 		mapComponent.enableDownloadDisplay();
