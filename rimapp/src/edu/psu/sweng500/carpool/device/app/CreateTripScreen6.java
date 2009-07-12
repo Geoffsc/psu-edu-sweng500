@@ -17,10 +17,12 @@ import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.ListField;
+import net.rim.device.api.ui.component.Menu;
 import net.rim.device.api.ui.component.ObjectListField;
 import net.rim.device.api.ui.component.RadioButtonField;
 import net.rim.device.api.ui.component.RadioButtonGroup;
@@ -103,7 +105,7 @@ public class CreateTripScreen6 extends MainScreen
 			// the current user as a member of the trip
 			Trip selectedTrip = this.trips[selectedTripIndex];
 			if (selectedTrip != null)
-			{
+			{				
 				Participant participant = new Participant();
 				participant.setType(TripData.getTripUserType());
 				
@@ -113,6 +115,43 @@ public class CreateTripScreen6 extends MainScreen
 				try
 				{
 					User theUser = service.getUser(SessionSettings.getUserName());
+					
+					Trip fullTripData = service.getTrip(selectedTrip.getId());
+					Participant[] currentParticipants = fullTripData.getParticipants();
+					for (int i = 0; i < currentParticipants.length; i++)
+					{
+						Participant currentParticipant = currentParticipants[i];
+						if (currentParticipant.getUser().getId().equals(theUser.getId()))
+						{
+							if (currentParticipant.getType().equalsIgnoreCase(TripData.getTripUserType()))
+							{
+								// the user already is a member of this trip
+								if (Dialog.YES == Dialog.ask(Dialog.D_YES_NO, "You are already a member of this trip!  Would you like to exit?", Dialog.YES))
+								{
+									parameters.put("tripSaved", "true");
+									
+									CreateTripController createTripController = CreateTripController.getInstance();
+									createTripController.execute(this, parameters);
+									return;
+								}
+								else
+								{
+									return;
+								}
+							}
+							else
+							{
+								if (Dialog.NO == Dialog.ask(Dialog.D_YES_NO, "You are already a member of this trip but you are currently a " + currentParticipant.getType() + "?  Would you like to update this trip?", Dialog.NO))
+								{
+									parameters.put("tripSaved", "true");
+									
+									CreateTripController createTripController = CreateTripController.getInstance();
+									createTripController.execute(this, parameters);
+									return;
+								}
+							}
+						}
+					}
 					
 					user.setId(theUser.getId());
 					participant.setUser(user);
