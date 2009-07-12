@@ -68,6 +68,7 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 	{
 		SharedMap sharedMap = SharedMap.getInstance();
 		mapComponent = sharedMap.getMap();
+		mapComponent.removeAllPlaces();
 		
 		mapComponent.setMapListener(this);
 		mapComponent.setPlaceListener(this);
