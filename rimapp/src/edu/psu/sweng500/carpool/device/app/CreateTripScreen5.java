@@ -59,6 +59,15 @@ public class CreateTripScreen5 extends MainScreen
 	
 	public void performSearch()
 	{
+		TripData.setTripTitle(tripTitleField.getText());
+		if (tripUserType.getSelectedIndex() == 0)
+		{
+			TripData.setTripUserType("DRIVER");
+		}
+		else
+		{
+			TripData.setTripUserType("PASSENGER");
+		}
 		Hashtable parameters = new Hashtable();
 		
 		CreateTripController createTripController = CreateTripController.getInstance();
