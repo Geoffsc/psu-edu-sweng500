@@ -30,12 +30,18 @@ public class ShowAllResultsScreen extends MainScreen
 	private MainScreenObjectListField tripList;
 	private HorizontalFieldManager hfm;
 	DetailsScreen detailsScreen = null;
+	private String userName;
 	
 	private Date searchStartDate;
 	
 	public void setSearchStartDate(Date searchStartDate)
 	{
 		this.searchStartDate = searchStartDate;
+	}
+	
+	public void setUserName(String userName)
+	{
+		this.userName = userName;
 	}
 	
 	public ShowAllResultsScreen()
@@ -69,11 +75,14 @@ public class ShowAllResultsScreen extends MainScreen
 		
 		Vector parameterVec = new Vector();
 		
-		Parameter param1 = new Parameter();
-		param1.setName("userName");
-		param1.setValue(SessionSettings.getUserName());
-		parameterVec.addElement(param1);
-		// parameters[0] = param1;
+		if (this.userName != null && this.userName.trim().length() != 0)
+		{
+			Parameter param1 = new Parameter();
+			param1.setName("userName");
+			param1.setValue(this.userName);
+			parameterVec.addElement(param1);
+			// parameters[0] = param1;
+		}
 		
 		if (searchStartDate != null)
 		{

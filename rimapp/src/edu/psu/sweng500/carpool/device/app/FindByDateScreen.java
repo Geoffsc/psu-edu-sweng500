@@ -27,6 +27,12 @@ public class FindByDateScreen extends MainScreen
 	
 	private ShowAllResultsScreen showAllScreen;
 	private DateField startDate;
+	private String userName;
+	
+	public void setUserName(String userName)
+	{
+		this.userName = userName;
+	}
 	
 	public FindByDateScreen()
 	{
@@ -72,6 +78,7 @@ public class FindByDateScreen extends MainScreen
 		Dialog.alert(format.format(theDate));
 		
 		showAllScreen.setSearchStartDate(theDate);
+		showAllScreen.setUserName(this.userName);
     	showAllScreen.searchTrips();
     	UiApplication.getUiApplication().pushScreen(showAllScreen); 
 	}

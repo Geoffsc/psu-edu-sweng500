@@ -23,9 +23,11 @@ public class SearchScreen extends MainScreen
 		this.setTitle("Search");
         
         menu = new MainScreenObjectListField();
-        String mnuSearch = "Show all";
-        String mnuFindByDate = "Find by Date";
-        mainMenuItems = new String[]{mnuSearch, mnuFindByDate};
+        String mnuSearch = "Show all (current user)";
+        String mnuFindByDate = "Find by Date (current user)";
+        String mnuSearchAll = "Show all";
+        String mnuFindByDateAll = "Find by Date";
+        mainMenuItems = new String[]{mnuSearch, mnuFindByDate, mnuSearchAll, mnuFindByDateAll};
         menu.set(mainMenuItems);
         this.add(menu);
 	}
@@ -41,6 +43,7 @@ public class SearchScreen extends MainScreen
             		showAllScreen = new ShowAllResultsScreen();
                 }
             	
+            	showAllScreen.setUserName(SessionSettings.getUserName());
             	showAllScreen.searchTrips();
             	UiApplication.getUiApplication().pushScreen(showAllScreen); 
             break;
@@ -50,6 +53,26 @@ public class SearchScreen extends MainScreen
             		findByDateScreen = new FindByDateScreen();
                 }
             	
+            	findByDateScreen.setUserName(SessionSettings.getUserName());
+            	UiApplication.getUiApplication().pushScreen(findByDateScreen); 
+            break;
+            case 2:
+            	if (null == showAllScreen)
+                {
+            		showAllScreen = new ShowAllResultsScreen();
+                }
+            	
+            	showAllScreen.setUserName(null);
+            	showAllScreen.searchTrips();
+            	UiApplication.getUiApplication().pushScreen(showAllScreen); 
+            break;
+            case 3:
+            	if (null == findByDateScreen)
+                {
+            		findByDateScreen = new FindByDateScreen();
+                }
+            	
+            	findByDateScreen.setUserName(null);
             	UiApplication.getUiApplication().pushScreen(findByDateScreen); 
             break;
         }
