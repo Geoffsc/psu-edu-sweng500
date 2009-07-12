@@ -28,6 +28,7 @@ public class CreateTripController
 	private CreateTripScreen5 createTripScreen5;
 	private CreateTripScreen6 createTripScreen6;
 	private CreateTripScreen8 createTripScreen8;
+	private DirectionsScreen directionsScreen;
 	
 	private static CreateTripController INSTANCE;
 	
@@ -277,6 +278,7 @@ public class CreateTripController
 			}
 			
 			UiApplication.getUiApplication().popScreen(createTripScreen6);
+			TripData.clear();
 			clearScreen();
 			return;
 		}
@@ -368,6 +370,45 @@ public class CreateTripController
 			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Moving from CreateTripScreen8 to CarPoolMainScreen: ").getBytes(), EventLogger.ALWAYS_LOG);
 			UiApplication.getUiApplication().popScreen(createTripScreen8);
 			clearScreen();
+			
+			// display the directions screen
+			if (directionsScreen == null)
+			{
+				directionsScreen = new DirectionsScreen();
+			}
+			
+			String tripId = null;
+			if (parameters.containsKey("tripId"))
+			{
+				tripId = (String) parameters.get("tripId");
+			}
+			if (tripId != null && tripId.trim().length() != 0)
+			{
+				try
+				{
+					CarPoolService_Stub service = new CarPoolService_Stub();
+					Trip trip = service.getTrip(tripId);
+					
+					Place startAddress = trip.getStartAddress();
+					Place endAddress = trip.getEndAddress();
+					
+					if (startAddress != null && endAddress != null)
+					{
+						EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Setting start place: " + startAddress.getName()).getBytes(), EventLogger.ALWAYS_LOG);
+						EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Setting end place: " + endAddress.getName()).getBytes(), EventLogger.ALWAYS_LOG);
+						directionsScreen.setStartPlace(startAddress);
+						directionsScreen.setEndPlace(endAddress);
+						directionsScreen.initialize();
+						UiApplication.getUiApplication().pushScreen(directionsScreen);
+					}
+				}
+				catch (RemoteException rme)
+				{
+					Dialog.alert("A remote exception occurred: " + rme.getMessage());
+					return;
+				}
+			}
+			
 			return;
 		}
 	}
