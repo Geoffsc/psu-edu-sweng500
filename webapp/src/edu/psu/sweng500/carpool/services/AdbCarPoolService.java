@@ -6,7 +6,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -14,16 +13,10 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Criteria;
+
 import org.hibernate.FetchMode;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import edu.psu.sweng500.carpool.beans.Address;
@@ -111,32 +104,11 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 	{
 		this.carPoolTripUserService = carPoolTripUserService;
 	}
-
-	public FindPlacesResponse findPlaces(FindPlacesRequest findPlacesRequest)
-			throws CarPoolServiceException
-	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("The incoming user name is: " + findPlacesRequest.getUserName());
-			log.debug("The incoming type is: " + findPlacesRequest.getType());
-		}
-		
-		edu.psu.sweng500.carpool.generated.beans.xsd.Place[] generatedPlaces = new edu.psu.sweng500.carpool.generated.beans.xsd.Place[1];
-		edu.psu.sweng500.carpool.generated.beans.xsd.Place place1 = new edu.psu.sweng500.carpool.generated.beans.xsd.Place();
-		place1.setAddress1("127 Surrey Lane");
-		place1.setDescription("Home");
-		place1.setId("12345");
-		place1.setName("Home - 127 Surrey Lane");
-		place1.setLatitude(-75.371f);
-		place1.setLongitude(40.279f);
-		generatedPlaces[0] = place1;
-		
-		FindPlacesResponse response = new FindPlacesResponse();
-		response.setPlaces(generatedPlaces);
-		
-		return response;
-	}
 	
+	/**
+	 * Find places near a specified location
+	 * This method finds locations that are within a certain number of miles
+	 */
 	public FindPlacesNearLocationResponse findPlacesNearLocation(
 			FindPlacesNearLocationRequest findPlacesNearLocationRequest)
 			throws CarPoolServiceException
@@ -146,20 +118,6 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			log.debug("Starting findPlacesNearLocation");
 		}
 		FindCriteria criteria = new FindCriteria();
-		
-		/*
-		Criterion[] allCriterion = new Criterion[4];
-		Criterion latLECriterion = Restrictions.le("latitude", 180f);
-		Criterion latGECriterion = Restrictions.ge("latitude", -180f);
-		Criterion longLECriterion = Restrictions.le("longitude", 180f);
-		Criterion longGECriterion = Restrictions.ge("longitude", -180f);
-		
-		allCriterion[0] = latLECriterion;
-		allCriterion[1] = latGECriterion;
-		allCriterion[2] = longLECriterion;
-		allCriterion[3] = longGECriterion;
-		*/
-		// criteria.setCriterion(allCriterion);
 		
 		FindPlacesNearLocationResponse response = new FindPlacesNearLocationResponse();
 		
@@ -267,19 +225,6 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 					if (savedAddress != null)
 					{
 						Place place = ServiceObjectMapper.convertToPlace(savedAddress);
-						/*
-						Place place = new Place();
-						place.setId(savedAddress.getId());
-						place.setAddress1(savedAddress.getAddress1());
-						place.setAddress2(savedAddress.getAddress2());
-						place.setLatitude(savedAddress.getLatitude());
-						place.setLongitude(savedAddress.getLongitude());
-						place.setDescription("");
-						place.setName(savedAddress.getName());
-						place.setPhoneNumber("");
-						place.setUrl("");
-						place.setZoom(0);
-						*/
 						
 						place.setCategory(userSavedAddress.getType());
 						
@@ -325,7 +270,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		detachedCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("trip.organization", FetchMode.JOIN);
-		// detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
 		criteria.setDetachedCriteria(detachedCriteria);
 		
 		List<TripUser> tripUsers = carPoolTripService.findTrips(criteria);
@@ -348,7 +293,10 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 				edu.psu.sweng500.carpool.generated.beans.xsd.Trip serviceTrip = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip();
 				if (trip != null)
 				{
-					System.out.println("Trip id: " + trip.getId());
+					if (log.isDebugEnabled())
+					{
+						log.debug("Trip id: " + trip.getId());
+					}
 					
 					// map database Trip to service Trip
 					serviceTrip.setId(trip.getId());
@@ -361,7 +309,6 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 					
 					serviceTrip.setStartAddress(startPlace);
 					serviceTrip.setEndAddress(endPlace);
-					// Calendar startCalendar = Calendar.getInstance();
 					if (trip.getStartDate() != null)
 					{
 						DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
@@ -372,7 +319,6 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 						serviceTrip.setStartDate("");
 					}
 					
-					// Calendar endCalendar = Calendar.getInstance();
 					if (trip.getEndDate() != null)
 					{
 						DateFormat format = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.LONG);
@@ -399,10 +345,6 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 				response.addTrip(serviceTrip);
 			}
 		}
-		// tripList.setTrip(serviceTrips);
-		
-		
-		// response.setTrips(tripList);
 		
 		return response;
 	}
@@ -415,44 +357,52 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		
 		FindCriteria criteria = new FindCriteria();
 		
-		// SearchCriteria searchCriteria = findTripsRequest.getCriteria();
-		Parameter[] parameters = findTripsRequest.getSearchParameters();
-		
 		List<Criterion> criterionList = new ArrayList<Criterion>();
-		for (int i = 0; i < parameters.length; i++)
+		Parameter[] parameters = findTripsRequest.getSearchParameters();
+		if (parameters != null)
 		{
-			Parameter param = parameters[i];
-			String name = param.getName();
-			String value = param.getValue();
-			
-			if (name.equalsIgnoreCase("username"))
+			for (int i = 0; i < parameters.length; i++)
 			{
-				Criterion userCriterion = Restrictions.eq("user.userName", value);
-				criterionList.add(userCriterion);
-			}
-			
-			if (name.equalsIgnoreCase("startDate"))
-			{
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				try
+				Parameter param = parameters[i];
+				String name = param.getName();
+				String value = param.getValue();
+				
+				if (name.equalsIgnoreCase("username"))
 				{
-					Date theDateBegin = dateFormat.parse(value + " 00:00:00");
-					Date theDateEnd = dateFormat.parse(value + " 23:59:59");
-					Criterion startDateCriterion = Restrictions.ge("trip.startDate", theDateBegin);
-					Criterion endDateCriterion = Restrictions.le("trip.startDate", theDateEnd);
-					criterionList.add(startDateCriterion);
-					criterionList.add(endDateCriterion);
+					Criterion userCriterion = Restrictions.eq("user.userName", value);
+					criterionList.add(userCriterion);
 				}
-				catch (ParseException pe)
+				
+				if (name.equalsIgnoreCase("startDate"))
 				{
-					// TODO: Throw an error
-					StringWriter sw = new StringWriter();
-					PrintWriter pw = new PrintWriter(sw);
-					pe.printStackTrace(pw);
-					log.error(sw.toString());
+					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					try
+					{
+						Date theDateBegin = dateFormat.parse(value + " 00:00:00");
+						Date theDateEnd = dateFormat.parse(value + " 23:59:59");
+						Criterion startDateCriterion = Restrictions.ge("trip.startDate", theDateBegin);
+						Criterion endDateCriterion = Restrictions.le("trip.startDate", theDateEnd);
+						criterionList.add(startDateCriterion);
+						criterionList.add(endDateCriterion);
+					}
+					catch (ParseException pe)
+					{
+						StringWriter sw = new StringWriter();
+						PrintWriter pw = new PrintWriter(sw);
+						pe.printStackTrace(pw);
+						log.error(sw.toString());
+						
+						edu.psu.sweng500.carpool.generated.exceptions.xsd.CarPoolServiceException theError = new edu.psu.sweng500.carpool.generated.exceptions.xsd.CarPoolServiceException();
+						theError.setErrorCode(8888);
+						theError.setErrorDescription(pe.getMessage());
+						theError.setMessage(pe.getMessage());
+						theError.setTraceMessage(sw.toString());
+						// CarPoolServiceException exception = new CarPoolServiceException();
+						// throw theError;
+					}
 				}
+				
 			}
-			
 		}
 		
 		Criterion[] allCriterion = new Criterion[criterionList.size()];
@@ -472,7 +422,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		detachedCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("trip.organization", FetchMode.JOIN);
-		// detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
 		criteria.setDetachedCriteria(detachedCriteria);
 		
 		List<TripUser> tripUsers = carPoolTripService.findTrips(criteria);
@@ -495,7 +445,10 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 				edu.psu.sweng500.carpool.generated.beans.xsd.Trip serviceTrip = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip();
 				if (trip != null)
 				{
-					System.out.println("Trip id: " + trip.getId());
+					if (log.isDebugEnabled())
+					{
+						log.debug("Trip id: " + trip.getId());
+					}
 					
 					// map database Trip to service Trip
 					serviceTrip.setId(trip.getId());
@@ -546,10 +499,6 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 				response.addTrip(serviceTrip);
 			}
 		}
-		// tripList.setTrip(serviceTrips);
-		
-		
-		// response.setTrips(tripList);
 		
 		return response;
 	}
@@ -600,10 +549,14 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			}
 		}
 		
-		carPoolTripUserService.createOrUpdate(tripUser);
+		boolean isSuccess = carPoolTripUserService.createOrUpdate(tripUser);
 		
 		UpdateTripResponse response = new UpdateTripResponse();
-		response.setIsSuccess(true);
+		response.setIsSuccess(false);
+		if (isSuccess)
+		{
+			response.setIsSuccess(true);
+		}
 		return response;
 	}
 	
@@ -611,7 +564,6 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			FindSimilarTripsRequest findSimilarTripsRequest)
 			throws CarPoolServiceException
 	{
-		// BasicTrip trip = findSimilarTripsRequest.getTrip();
 		
 		float latitude = 0;
 		if (findSimilarTripsRequest.getLatitude() != null && findSimilarTripsRequest.getLatitude().trim().length() != 0)
@@ -696,11 +648,10 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		detachedCriteria.setFetchMode("startAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("endAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("organization", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("members", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("members.user", FetchMode.JOIN);
 		criteria.setDetachedCriteria(detachedCriteria);
 		
-		// CarPoolTripService carPoolTripService = new CarPoolTripService();
-		// SessionFactory sessionFactory = new Configuration().configure("edu/psu/sweng500/carpool/tests/hibernate.cfg.xml").buildSessionFactory();
-		// carPoolTripService.setSessionFactory(sessionFactory);
 		List<Trip> trips = carPoolTripService.findTripsOnly(criteria);
 		
 		// if the user passes in a number for the number of miles in the range, then use that
@@ -800,14 +751,19 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		tripUser.setType(participant.getType());
 		tripUser.setUserId(serviceTripUser.getId());
 		
-		carPoolTripUserService.createOrUpdate(tripUser);
+		boolean isSuccess = carPoolTripUserService.createOrUpdate(tripUser);
+		
 		SimpleMessageResponse response = new SimpleMessageResponse();
 		SimpleMessage message = new SimpleMessage();
-		message.setIsSuccess(true);
+		message.setIsSuccess(false);
 		message.setErrorCode(0);
 		message.setErrorDescription("");
 		message.setMessage("");
 		message.setTraceMessage("");
+		if (isSuccess)
+		{
+			message.setIsSuccess(true);
+		}
 		
 		response.setMessage(message);
 		return response;
@@ -817,6 +773,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			UpdateSavedAddressesRequest updateSavedAddressesRequest)
 			throws CarPoolServiceException
 	{
+		boolean isSuccess = false;
 		String userId = updateSavedAddressesRequest.getUserId();
 		if (userId != null)
 		{
@@ -878,21 +835,32 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 						savedAddresses.add(newUserAddress);
 					}
 					user.setSavedAddresses(savedAddresses);
-					carPoolUserService.createOrUpdateUser(user);
+					isSuccess = carPoolUserService.createOrUpdateUser(user);
 				}
 			}
 		}
 		
 		SimpleMessageResponse response = new SimpleMessageResponse();
 		SimpleMessage message = new SimpleMessage();
-		message.setIsSuccess(true);
+		message.setIsSuccess(false);
 		message.setErrorCode(0);
 		message.setErrorDescription("");
 		message.setMessage("");
 		message.setTraceMessage("");
-		response.setMessage(message);
+		if (isSuccess)
+		{
+			message.setIsSuccess(true);
+		}
 		
+		response.setMessage(message);
 		return response;
+	}
+	
+	public FindPlacesResponse findPlaces(FindPlacesRequest findPlacesRequest)
+			throws CarPoolServiceException
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

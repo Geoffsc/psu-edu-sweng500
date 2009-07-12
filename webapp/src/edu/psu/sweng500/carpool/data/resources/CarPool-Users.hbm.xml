@@ -64,11 +64,24 @@
 	<many-to-one name="startAddress" column="START_ADDRESS" unique="true" insert="true" update="true" outer-join="false"/>
 	<many-to-one name="endAddress" column="END_ADDRESS" unique="true" insert="true" update="true" outer-join="false"/>
 	
+	<set name="members" lazy="true" table="TRIPS_MEMBERS" cascade="all" >
+        <key column="TRIP_ID" />
+        <composite-element class="TripUser" >
+           <parent name="trip"/>
+           <property name="type" type="java.lang.String" column="TYPE"/>
+           <many-to-one name="user" class="User">
+              <column name="MEMBER_ID"/>
+           </many-to-one>
+        </composite-element>
+    </set>
+	
+	<!--
 	<set name="members" table="TRIPS_MEMBERS" outer-join="false">
         <key column="TRIP_ID"/>
         <many-to-many column="MEMBER_ID" unique="false" class="User"/>
         
     </set>
+    -->
     <!-- 
 	<join table="TRIPS_MEMBERS" optional="true">
         <key column="tripId" unique="true"/>

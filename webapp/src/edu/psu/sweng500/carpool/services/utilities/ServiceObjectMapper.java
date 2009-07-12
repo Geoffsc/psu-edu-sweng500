@@ -2,10 +2,13 @@ package edu.psu.sweng500.carpool.services.utilities;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
+import java.util.Set;
 
 import edu.psu.sweng500.carpool.beans.Address;
 import edu.psu.sweng500.carpool.beans.User;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Organization;
+import edu.psu.sweng500.carpool.generated.beans.xsd.Participant;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Place;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Trip;
 import edu.psu.sweng500.carpool.generated.beans.xsd.TripUser;
@@ -97,6 +100,27 @@ public class ServiceObjectMapper
 		
 		serviceTrip.setEndAddress(ServiceObjectMapper.convertToPlace(trip.getEndAddress()));
 		serviceTrip.setStartAddress(ServiceObjectMapper.convertToPlace(trip.getStartAddress()));
+		
+		Set members = trip.getMembers();
+		if (members != null)
+		{
+			Participant[] participants = new Participant[members.size()];
+			Iterator membersIter = members.iterator();
+			int count = 0;
+			while (membersIter.hasNext())
+			{
+				edu.psu.sweng500.carpool.beans.TripUser tripUser = (edu.psu.sweng500.carpool.beans.TripUser) membersIter.next();
+				String memberType = tripUser.getType();
+				TripUser serviceTripUser = ServiceObjectMapper.convertToTripUser(tripUser.getUser());
+				
+				Participant participant = new Participant();
+				participant.setType(memberType);
+				participant.setUser(serviceTripUser);
+				
+				participants[count] = participant;
+			}
+			serviceTrip.setParticipants(participants);
+		}
 		
 		return serviceTrip;
 	}
