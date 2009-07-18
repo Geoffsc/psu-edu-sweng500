@@ -2,13 +2,18 @@ package edu.psu.sweng500.carpool.device.app;
 
 import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.system.Display;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.DrawStyle;
+import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.ListField;
 import net.rim.device.api.ui.component.ObjectListField;
 import net.rim.device.api.ui.container.MainScreen;
+import net.rim.device.api.ui.container.VerticalFieldManager;
 
 public class SearchScreen extends MainScreen
 {
@@ -18,10 +23,14 @@ public class SearchScreen extends MainScreen
 	private ShowAllResultsScreen showAllScreen;
 	private FindByDateScreen findByDateScreen;
 	
+	TitleBar titleBar = new TitleBar();
+    int titleBarHeight = titleBar.getPreferredHeight();
+    
 	public SearchScreen()
 	{
-		this.setTitle("Search");
-        
+		//this.setTitle("Search");
+		this.add(titleBar);
+		      
         menu = new MainScreenObjectListField();
         String mnuSearch = "Show all (current user)";
         String mnuFindByDate = "Find by Date (current user)";
@@ -98,8 +107,19 @@ public class SearchScreen extends MainScreen
                     y, DrawStyle.ELLIPSIS, width);
             }
         }
+
+        public void paint(Graphics graphics)
+        {
+            // Sets the BackgroundColor
+            graphics.setBackgroundColor(Color.GRAY);
+            // Clears the entire graphic area to the current background
+            graphics.clear();
+            super.paint(graphics);  
+        }
+
     };
-    
+
+        
     public boolean isDirty()
     {
     	return false;

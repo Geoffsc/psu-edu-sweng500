@@ -1,5 +1,9 @@
 package edu.psu.sweng500.carpool.device.app;
 
+import net.rim.device.api.ui.*;
+import net.rim.device.api.ui.component.*;
+import net.rim.device.api.ui.container.*;
+import net.rim.device.api.system.*;
 import java.rmi.RemoteException;
 
 import javax.microedition.lcdui.Spacer;
@@ -10,8 +14,10 @@ import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import edu.psu.sweng500.carpool.device.services.generated.SecurityService_Stub;
 import edu.psu.sweng500.carpool.device.services.generated.SimpleMessage;
 import net.rim.device.api.system.PersistentObject;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Manager;
 import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
@@ -38,11 +44,107 @@ public class LoginScreen extends MainScreen
        } 
     };
 	
+    TitleBar titleBar = new TitleBar();
+    int titleBarHeight = titleBar.getPreferredHeight();
+    
 	public LoginScreen()
 	{
-		this.setTitle("Login");
+		super(NO_VERTICAL_SCROLL);
+        
+        //title Bar added here
+        this.add(titleBar);
+        
+        /*
+        Manager gridFieldManager = new GridFieldManager(new int[] {100, 160}, 30, 0)
+        {
+        	public void paint(Graphics graphics)
+            {
+                graphics.setBackgroundColor(0x00000000);
+                graphics.setColor(Color.GREENYELLOW);
+                graphics.clear();
+                super.paint(graphics);
+            }
+        	
+        	protected void sublayout( int maxWidth, int maxHeight )
+            {
+                int displayWidth = Display.getWidth();
+                int displayHeight = Display.getHeight() - titleBarHeight;
+ 
+                super.sublayout( displayWidth, displayHeight);
+                setExtent( displayWidth, displayHeight);
+            }
+        };
+        */   
+        
+        VerticalFieldManager verticalManager = new VerticalFieldManager(Manager.VERTICAL_SCROLL | Manager.VERTICAL_SCROLLBAR)
+        {
+        	public void paint(Graphics graphics)
+            {
+                graphics.setBackgroundColor(Color.GRAY);
+                graphics.setColor(Color.BLACK);
+                //graphics.setFont(new Font("Helvetica", Font.BOLD, 10));
+                graphics.clear();
+                super.paint(graphics);
+            }
+        	
+            protected void sublayout( int maxWidth, int maxHeight )
+            {
+                int displayWidth = Display.getWidth();
+                int displayHeight = Display.getHeight() - titleBarHeight;
+ 
+                super.sublayout( displayWidth, displayHeight);
+                setExtent( displayWidth, displayHeight);
+            }
+            
+            /*
+            protected void paintBackground( Graphics g ){
+                g.clear();
+                Bitmap bgImage = Bitmap.getBitmapResource("road.jpg");
+                g.drawBitmap(0, 0, 360, 480, bgImage, 0, 0);     
+                super.paint(g);
+            }
+            */
+        }; 
+        
+        //now add everything in the verticalManager
+        
+        // Row 1  
+        verticalManager.add(new LabelField("User name:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+		userNameField = new BasicEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER)
+		{
+			public void paint(Graphics graphics)
+            {
+                graphics.setColor(Color.GREENYELLOW);
+                graphics.clear();
+                super.paint(graphics);
+            }
+		};
 		
-		Manager gridFieldManager = new GridFieldManager(new int[] {100, 160}, 30, 0);  
+		verticalManager.add(userNameField);
+        
+		// Row 2  
+		verticalManager.add(new LabelField("Password:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
+		passwordField = new PasswordEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER)
+		{
+			public void paint(Graphics graphics)
+            {
+                graphics.setColor(Color.GREENYELLOW);
+                graphics.clear();
+                super.paint(graphics);
+            }
+		};
+		verticalManager.add(passwordField);  
+		
+        ButtonField buttonField = new ButtonField("Login", Field.FIELD_HCENTER | ButtonField.CONSUME_CLICK);
+        verticalManager.add(buttonField);
+        
+        //and at last add  verticalManager in scereen   
+        this.add(verticalManager);
+
+/*        
+        this.setTitle("Login");
+	    Manager gridFieldManager = new GridFieldManager(new int[] {100, 160}, 30, 0);
+		
 		// Row 1  
 		gridFieldManager.add(new LabelField("User name:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
 		userNameField = new BasicEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER);
@@ -57,7 +159,7 @@ public class LoginScreen extends MainScreen
 		
 		ButtonField buttonField = new ButtonField("Login", Field.FIELD_HCENTER | ButtonField.CONSUME_CLICK);
 		add(buttonField);
-		
+*/		
 		FieldChangeListener listener = new FieldChangeListener() 
 		{
 	         public void fieldChanged(Field field, int context) 
