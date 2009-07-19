@@ -4,8 +4,11 @@ import java.io.IOException;
 
 import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.system.Display;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
 import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.LabelField;
@@ -13,6 +16,7 @@ import net.rim.device.api.ui.component.ListField;
 import net.rim.device.api.ui.component.Menu;
 import net.rim.device.api.ui.component.ObjectListField;
 import net.rim.device.api.ui.container.MainScreen;
+import net.rim.device.api.ui.container.VerticalFieldManager;
 
 public class CarPoolMainScreen extends MainScreen
 {
@@ -30,21 +34,36 @@ public class CarPoolMainScreen extends MainScreen
 		}
 	};
 	
+	TitleBar titleBar = new TitleBar();
+    int titleBarHeight = titleBar.getPreferredHeight();
+    
 	public CarPoolMainScreen()
 	{	
-		this.setTitle("Car Pool");
-        
-		LabelField label1 = new LabelField("You are logged in as: " + SessionSettings.getUserName(), LabelField.READONLY);
-		this.add(label1);		
+		//this.setTitle("Car Pool");
+		this.add(titleBar);
+		
+		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBarHeight);
+		
+		LabelField label1 = new LabelField("You are logged in as: " + SessionSettings.getUserName(), LabelField.READONLY)
+		{
+			public void paint(Graphics graphics)
+            {
+                graphics.setColor(Color.BLUE);
+                graphics.clear();
+                super.paint(graphics);
+            }
+		};
+		verticalManager.add(label1);
 		
         menu = new MainScreenObjectListField();
         String mnuSearch = "Search";
         String mnuCreate = "Create trip";
         mainMenuItems = new String[]{mnuSearch, mnuCreate};
         menu.set(mainMenuItems);
-        this.add(menu);
+        verticalManager.add(menu);
+        this.add(verticalManager);
 	}
-	
+	    
 	public boolean onClose()
 	{
 		System.exit(0);
@@ -114,6 +133,15 @@ public class CarPoolMainScreen extends MainScreen
                 graphics.drawText("- " + mainMenuItems[index], 0,
                     y, DrawStyle.ELLIPSIS, width);
             }
+        }
+        
+        public void paint(Graphics graphics)
+        {
+            // Sets the BackgroundColor
+            graphics.setBackgroundColor(Color.GRAY);
+            // Clears the entire graphic area to the current background
+            graphics.clear();
+            super.paint(graphics);  
         }
     };
 }

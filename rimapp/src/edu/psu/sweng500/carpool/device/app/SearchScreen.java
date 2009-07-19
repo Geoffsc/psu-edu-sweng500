@@ -30,15 +30,18 @@ public class SearchScreen extends MainScreen
 	{
 		//this.setTitle("Search");
 		this.add(titleBar);
-		      
+		
+		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBarHeight);
+		        
         menu = new MainScreenObjectListField();
-        String mnuSearch = "Show all (current user)";
-        String mnuFindByDate = "Find by Date (current user)";
-        String mnuSearchAll = "Show all";
-        String mnuFindByDateAll = "Find by Date";
+        String mnuSearch = "Show my trips";
+        String mnuFindByDate = "Find my trips by Date";
+        String mnuSearchAll = "Show all trips";
+        String mnuFindByDateAll = "Find all trips by Date";
         mainMenuItems = new String[]{mnuSearch, mnuFindByDate, mnuSearchAll, mnuFindByDateAll};
         menu.set(mainMenuItems);
-        this.add(menu);
+        verticalManager.add(menu);
+        this.add(verticalManager);
 	}
 	
 	protected boolean navigationClick(int status, int time)
@@ -116,7 +119,6 @@ public class SearchScreen extends MainScreen
             graphics.clear();
             super.paint(graphics);  
         }
-
     };
 
         

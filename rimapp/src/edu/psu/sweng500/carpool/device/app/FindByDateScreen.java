@@ -10,8 +10,12 @@ import edu.psu.sweng500.carpool.device.services.generated.Parameter;
 
 import net.rim.device.api.i18n.DateFormat;
 import net.rim.device.api.i18n.SimpleDateFormat;
+import net.rim.device.api.system.Display;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.ChoiceField;
@@ -19,16 +23,20 @@ import net.rim.device.api.ui.component.DateField;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.ObjectChoiceField;
 import net.rim.device.api.ui.container.MainScreen;
+import net.rim.device.api.ui.container.VerticalFieldManager;
 
 public class FindByDateScreen extends MainScreen
 {
-	private String[] CHOICE_MONTHS = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"};
-	private String[] CHOICE_DAYS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"};
+	//private String[] CHOICE_MONTHS = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"};
+	//private String[] CHOICE_DAYS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"};
 	
 	private ShowAllResultsScreen showAllScreen;
 	private DateField startDate;
 	private String userName;
 	
+	TitleBar titleBar = new TitleBar();
+    int titleBarHeight = titleBar.getPreferredHeight();
+    
 	public void setUserName(String userName)
 	{
 		this.userName = userName;
@@ -36,8 +44,10 @@ public class FindByDateScreen extends MainScreen
 	
 	public FindByDateScreen()
 	{
-		this.setTitle("Search");
+		this.setTitle(titleBar);
         
+		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBarHeight);
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat(SimpleDateFormat.DATE_SHORT);
 		startDate = new DateField("", Calendar.getInstance().getTime().getTime(), dateFormat);
 		
@@ -45,7 +55,9 @@ public class FindByDateScreen extends MainScreen
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Dialog.alert(format.format(theDate));
 		
-		this.add(startDate);
+		verticalManager.add(startDate);
+		//this.add(startDate);
+		
 		// ObjectChoiceField monthChoice = new ObjectChoiceField("", CHOICE_MONTHS);
 		// ObjectChoiceField dayChoice = new ObjectChoiceField("", CHOICE_DAYS);
 		
@@ -53,7 +65,8 @@ public class FindByDateScreen extends MainScreen
 		// this.add(dayChoice);
 		
 		ButtonField buttonField = new ButtonField("Search", Field.FIELD_HCENTER | ButtonField.CONSUME_CLICK);
-		add(buttonField);
+		//add(buttonField);
+		verticalManager.add(buttonField);
 		
 		FieldChangeListener listener = new FieldChangeListener() 
 		{
@@ -64,6 +77,8 @@ public class FindByDateScreen extends MainScreen
 	         }
 	     };
 	     buttonField.setChangeListener(listener);
+	     
+	     this.add(verticalManager);
 	}
 	
 	public void performSearch()

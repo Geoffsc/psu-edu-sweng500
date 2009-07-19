@@ -4,6 +4,7 @@ import net.rim.device.api.ui.*;
 import net.rim.device.api.ui.component.*;
 import net.rim.device.api.ui.container.*;
 import net.rim.device.api.system.*;
+
 import java.rmi.RemoteException;
 
 import javax.microedition.lcdui.Spacer;
@@ -18,6 +19,7 @@ import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.Font;
+import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
 import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
@@ -53,60 +55,9 @@ public class LoginScreen extends MainScreen
         
         //title Bar added here
         this.add(titleBar);
-        
-        /*
-        Manager gridFieldManager = new GridFieldManager(new int[] {100, 160}, 30, 0)
-        {
-        	public void paint(Graphics graphics)
-            {
-                graphics.setBackgroundColor(0x00000000);
-                graphics.setColor(Color.GREENYELLOW);
-                graphics.clear();
-                super.paint(graphics);
-            }
-        	
-        	protected void sublayout( int maxWidth, int maxHeight )
-            {
-                int displayWidth = Display.getWidth();
-                int displayHeight = Display.getHeight() - titleBarHeight;
- 
-                super.sublayout( displayWidth, displayHeight);
-                setExtent( displayWidth, displayHeight);
-            }
-        };
-        */   
-        
-        VerticalFieldManager verticalManager = new VerticalFieldManager(Manager.VERTICAL_SCROLL | Manager.VERTICAL_SCROLLBAR)
-        {
-        	public void paint(Graphics graphics)
-            {
-                graphics.setBackgroundColor(Color.GRAY);
-                graphics.setColor(Color.BLACK);
-                //graphics.setFont(new Font("Helvetica", Font.BOLD, 10));
-                graphics.clear();
-                super.paint(graphics);
-            }
-        	
-            protected void sublayout( int maxWidth, int maxHeight )
-            {
-                int displayWidth = Display.getWidth();
-                int displayHeight = Display.getHeight() - titleBarHeight;
- 
-                super.sublayout( displayWidth, displayHeight);
-                setExtent( displayWidth, displayHeight);
-            }
-            
-            /*
-            protected void paintBackground( Graphics g ){
-                g.clear();
-                Bitmap bgImage = Bitmap.getBitmapResource("road.jpg");
-                g.drawBitmap(0, 0, 360, 480, bgImage, 0, 0);     
-                super.paint(g);
-            }
-            */
-        }; 
-        
+                
         //now add everything in the verticalManager
+        BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBarHeight);
         
         // Row 1  
         verticalManager.add(new LabelField("User name:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
@@ -140,26 +91,7 @@ public class LoginScreen extends MainScreen
         
         //and at last add  verticalManager in scereen   
         this.add(verticalManager);
-
-/*        
-        this.setTitle("Login");
-	    Manager gridFieldManager = new GridFieldManager(new int[] {100, 160}, 30, 0);
-		
-		// Row 1  
-		gridFieldManager.add(new LabelField("User name:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
-		userNameField = new BasicEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER);
-		gridFieldManager.add(userNameField);  
-		   
-		// Row 2  
-		gridFieldManager.add(new LabelField("Password:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
-		passwordField = new PasswordEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER);
-		gridFieldManager.add(passwordField);  
-		  
-		add(gridFieldManager); 
-		
-		ButtonField buttonField = new ButtonField("Login", Field.FIELD_HCENTER | ButtonField.CONSUME_CLICK);
-		add(buttonField);
-*/		
+	
 		FieldChangeListener listener = new FieldChangeListener() 
 		{
 	         public void fieldChanged(Field field, int context) 

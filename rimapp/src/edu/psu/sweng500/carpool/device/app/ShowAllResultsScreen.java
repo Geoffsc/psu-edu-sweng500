@@ -12,7 +12,9 @@ import edu.psu.sweng500.carpool.device.services.generated.Trip;
 import net.rim.device.api.collection.List;
 import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.system.Display;
 import net.rim.device.api.system.EventLogger;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
@@ -22,18 +24,22 @@ import net.rim.device.api.ui.component.ListField;
 import net.rim.device.api.ui.component.ObjectListField;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.MainScreen;
+import net.rim.device.api.ui.container.VerticalFieldManager;
 
 public class ShowAllResultsScreen extends MainScreen
 {
 	private Trip[] trips;
 	//private Trip Trip;
 	private MainScreenObjectListField tripList;
-	private HorizontalFieldManager hfm;
+	//private HorizontalFieldManager hfm;
 	DetailsScreen detailsScreen = null;
 	private String userName;
 	
 	private Date searchStartDate;
 	
+	TitleBar titleBar = new TitleBar();
+    int titleBarHeight = titleBar.getPreferredHeight();
+    
 	public void setSearchStartDate(Date searchStartDate)
 	{
 		this.searchStartDate = searchStartDate;
@@ -46,12 +52,12 @@ public class ShowAllResultsScreen extends MainScreen
 	
 	public ShowAllResultsScreen()
 	{
-		this.setTitle("Results");
-		hfm = new HorizontalFieldManager(Manager.HORIZONTAL_SCROLL);
+		this.setTitle(titleBar);
+		
+		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBarHeight);
 		tripList = new MainScreenObjectListField();
-        hfm.add(tripList);
-        
-        add(hfm);
+        verticalManager.add(tripList);
+        add(verticalManager);
 	}
 	
 	public void searchTrips()
@@ -161,6 +167,14 @@ public class ShowAllResultsScreen extends MainScreen
                     y, DrawStyle.ELLIPSIS, width);
             }
         }
+        
+        public void paint(Graphics graphics)
+        {
+            // Sets the BackgroundColor
+            graphics.setBackgroundColor(Color.GRAY);
+            // Clears the entire graphic area to the current background
+            graphics.clear();
+            super.paint(graphics);  
+        }
     };
-
 }

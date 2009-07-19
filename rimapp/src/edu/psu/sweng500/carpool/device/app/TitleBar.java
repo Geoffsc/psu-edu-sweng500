@@ -26,14 +26,16 @@ public class TitleBar extends Field implements DrawStyle
     
     // private Bitmap titleImage =  Bitmap.getBitmapResource("Login.png"); // default
     // private Bitmap titleImage =  Bitmap.getBitmapResource("Main.png");
-    private Bitmap titleImage =  Bitmap.getBitmapResource("Search.png");
+    // private Bitmap titleImage =  Bitmap.getBitmapResource("Search.png");
+    // private Bitmap titleImage =  Bitmap.getBitmapResource("Results.png");
+    private Bitmap titleImage =  Bitmap.getBitmapResource("Details.png");
 
     private static final int BACKGROUND_COLOR = Color.BLACK;
-/*    
+/*   
     public enum ScreenName {
-        LOGIN, MAIN, SEARCH, SEARCH_RESULT, DETAILS    
+        LOGIN, MAIN, SEARCH, SEARCH_RESULT, DETAILS, DATE_SEARCH    
     }
-*/    
+*/   
     public TitleBar() 
     {
         super(Field.NON_FOCUSABLE);

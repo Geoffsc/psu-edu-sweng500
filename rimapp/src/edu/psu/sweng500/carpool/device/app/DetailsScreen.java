@@ -14,7 +14,9 @@ import edu.psu.sweng500.carpool.device.services.generated.Trip;
 import net.rim.device.api.collection.List;
 import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.system.Display;
 import net.rim.device.api.system.EventLogger;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Graphics;
@@ -45,10 +47,12 @@ public class DetailsScreen extends MainScreen
     VerticalFieldManager v2;
     VerticalFieldManager v3;
 
+    TitleBar titleBar = new TitleBar();
+    int titleBarHeight = titleBar.getPreferredHeight();
 	
 	public DetailsScreen()
 	{
-		this.setTitle("Trip Details");
+		//this.add(titleBar);
 	}
 	
 	public void setTripId(String tripId)
@@ -82,10 +86,11 @@ public class DetailsScreen extends MainScreen
 		
 		try
 		{
+			this.add(titleBar);
 			CarPoolService_Stub serviceStub = new CarPoolService_Stub();
 			trip = serviceStub.getTrip(tripId);
 			// UiApplication.getUiApplication().getActiveScreen().invalidate();
-
+			
 			Manager flowFieldManager = new FlowFieldManager(); 
 			this.setFieldWithFocus(flowFieldManager);
 			
@@ -104,7 +109,9 @@ public class DetailsScreen extends MainScreen
 			// Row 6
 			flowFieldManager.add(new LabelField("Organization:" + " " + trip.getOrganization().getName(), Field.USE_ALL_WIDTH));
 			
-			add(flowFieldManager);
+			BackgroundFieldManager backgroupLayOut = new BackgroundFieldManager(titleBarHeight);
+			backgroupLayOut.add(flowFieldManager);
+			this.add(backgroupLayOut);
 		}
 		catch (RemoteException rme)
 		{
@@ -112,7 +119,8 @@ public class DetailsScreen extends MainScreen
 			Dialog.alert("A remote exception occurred: " + rme.getMessage());
 		}
 	}
-	
+    
+/*	
 	class TestFieldManager extends VerticalFieldManager
     {
         TestFieldManager()
@@ -138,7 +146,7 @@ public class DetailsScreen extends MainScreen
             super.paint(g);
         }
     }
-
+*/
 	
 	private MenuItem showDirectionsItem = new MenuItem("Map it!", 110, 10) {
 		public void run() {
