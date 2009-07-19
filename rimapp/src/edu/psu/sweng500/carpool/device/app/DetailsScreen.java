@@ -21,7 +21,9 @@ import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
 import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.ActiveRichTextField;
 import net.rim.device.api.ui.component.Dialog;
+import net.rim.device.api.ui.component.EditField;
 import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.ListField;
 import net.rim.device.api.ui.component.Menu;
@@ -30,12 +32,19 @@ import net.rim.device.api.ui.container.DialogFieldManager;
 import net.rim.device.api.ui.container.FlowFieldManager;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.MainScreen;
+import net.rim.device.api.ui.container.VerticalFieldManager;
 
 public class DetailsScreen extends MainScreen
 {
 	private String tripId;
 	private DirectionsScreen directionsScreen;
 	private Trip trip;
+	
+	VerticalFieldManager vfm;
+    VerticalFieldManager v1;
+    VerticalFieldManager v2;
+    VerticalFieldManager v3;
+
 	
 	public DetailsScreen()
 	{
@@ -78,17 +87,14 @@ public class DetailsScreen extends MainScreen
 			// UiApplication.getUiApplication().getActiveScreen().invalidate();
 
 			Manager flowFieldManager = new FlowFieldManager(); 
-			flowFieldManager.setVerticalScroll(ACTION_INVOKE);
+			this.setFieldWithFocus(flowFieldManager);
 			
 			// Row 1
-			flowFieldManager.add(new LabelField("Title:", Field.USE_ALL_WIDTH));
-			flowFieldManager.add(new LabelField(trip.getTitle(), Field.USE_ALL_WIDTH));
+			flowFieldManager.add(new LabelField("Title:" + " " + trip.getTitle(), Field.USE_ALL_WIDTH));
 			// Row 2
-			flowFieldManager.add(new LabelField("Start Address:", Field.USE_ALL_WIDTH));
-			flowFieldManager.add(new LabelField(trip.getStartAddress().getName(), Field.USE_ALL_WIDTH));
+			flowFieldManager.add(new LabelField("Start Address:" + " " + trip.getStartAddress().getName(), Field.USE_ALL_WIDTH));
 			// Row 3
-			flowFieldManager.add(new LabelField("End Address:", Field.USE_ALL_WIDTH));
-			flowFieldManager.add(new LabelField(trip.getEndAddress().getName(), Field.USE_ALL_WIDTH));
+			flowFieldManager.add(new LabelField("End Address:" + " " + trip.getEndAddress().getName(), Field.USE_ALL_WIDTH));
 			// Row 4
 			flowFieldManager.add(new LabelField("Start Date:", Field.USE_ALL_WIDTH));
 			flowFieldManager.add(new LabelField(trip.getStartDate(), Field.USE_ALL_WIDTH));
@@ -96,8 +102,7 @@ public class DetailsScreen extends MainScreen
 			flowFieldManager.add(new LabelField("End Date:", Field.USE_ALL_WIDTH));
 			flowFieldManager.add(new LabelField(trip.getEndDate(), Field.USE_ALL_WIDTH));
 			// Row 6
-			flowFieldManager.add(new LabelField("Organization:", Field.USE_ALL_WIDTH));
-			flowFieldManager.add(new LabelField(trip.getOrganization().getName(), Field.USE_ALL_WIDTH));
+			flowFieldManager.add(new LabelField("Organization:" + " " + trip.getOrganization().getName(), Field.USE_ALL_WIDTH));
 			
 			add(flowFieldManager);
 		}
@@ -107,6 +112,33 @@ public class DetailsScreen extends MainScreen
 			Dialog.alert("A remote exception occurred: " + rme.getMessage());
 		}
 	}
+	
+	class TestFieldManager extends VerticalFieldManager
+    {
+        TestFieldManager()
+        {
+            super(Manager.VERTICAL_SCROLL);
+        }
+        protected void subLayout(int w,int height){
+            int h = 5;
+            for(int i=0;i<this.getFieldCount();i++){
+                Field  f = this.getField(i);
+                layoutChild(f,w-10,height);
+                setPositionChild(f,w-5,h);
+                h+=f.getHeight();
+            }
+            setExtent(w,h);
+        }
+        protected void paint(Graphics g){
+            g.clear();
+            int w = this.getWidth();
+            int h = this.getHeight();
+            //g.setColor(BLACK);
+            g.drawRoundRect(1,1,w-2,h-2,10,10);
+            super.paint(g);
+        }
+    }
+
 	
 	private MenuItem showDirectionsItem = new MenuItem("Map it!", 110, 10) {
 		public void run() {
