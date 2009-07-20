@@ -33,10 +33,7 @@ public class FindByDateScreen extends MainScreen
 	private ShowAllResultsScreen showAllScreen;
 	private DateField startDate;
 	private String userName;
-	
-	TitleBar titleBar = new TitleBar(2);
-    int titleBarHeight = titleBar.getPreferredHeight();
-    
+		  
 	public void setUserName(String userName)
 	{
 		this.userName = userName;
@@ -44,12 +41,23 @@ public class FindByDateScreen extends MainScreen
 	
 	public FindByDateScreen()
 	{
+		TitleBar titleBar = new TitleBar(2);
 		this.setTitle(titleBar);
-        
-		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBarHeight);
+		
+		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat(SimpleDateFormat.DATE_SHORT);
-		startDate = new DateField("", Calendar.getInstance().getTime().getTime(), dateFormat);
+		startDate = new DateField("", Calendar.getInstance().getTime().getTime(), dateFormat)
+		{
+			public void paint(Graphics graphics)
+	        {
+	            // Sets the BackgroundColor
+	            graphics.setBackgroundColor(Color.GRAY);
+	            // Clears the entire graphic area to the current background
+	            graphics.clear();
+	            super.paint(graphics);  
+	        }
+		};
 		
 		Date theDate = new Date(startDate.getDate());
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

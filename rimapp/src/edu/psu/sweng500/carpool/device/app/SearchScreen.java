@@ -23,15 +23,13 @@ public class SearchScreen extends MainScreen
 	private ShowAllResultsScreen showAllScreen;
 	private FindByDateScreen findByDateScreen;
 	
-	TitleBar titleBar = new TitleBar(2);
-    int titleBarHeight = titleBar.getPreferredHeight();
-    
 	public SearchScreen()
 	{
+		TitleBar titleBar = new TitleBar(2);
 		//this.setTitle("Search");
 		this.add(titleBar);
 		
-		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBarHeight);
+		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
 		        
         menu = new MainScreenObjectListField();
         String mnuSearch = "Show my trips";

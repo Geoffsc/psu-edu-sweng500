@@ -33,14 +33,18 @@ import net.rim.device.api.ui.container.VerticalFieldManager;
 public class CreateTripScreen6 extends MainScreen
 {
 	private Trip[] trips;
-	private VerticalFieldManager vfm;
+	//private VerticalFieldManager vfm;
 	RadioButtonGroup radioGroup;
 	private String state;
 	DetailsScreen detailsScreen = null;
 	
+
+	TitleBar titleBar = new TitleBar(5);
+	
 	public CreateTripScreen6()
 	{
-		this.setTitle("Create Trip - Use existing?");
+		//this.setTitle("Create Trip - Use existing?");
+		this.setTitle(titleBar);
 	}
 	
 	public void setState(String state)
@@ -53,8 +57,8 @@ public class CreateTripScreen6 extends MainScreen
 		this.deleteAll();
 		this.trips = trips;
 		
-		vfm = new VerticalFieldManager(Manager.VERTICAL_SCROLLBAR);
-
+		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
+		
 		radioGroup = new RadioButtonGroup();
 		for (int i = 0; i < trips.length; i++)
 		{
@@ -66,13 +70,13 @@ public class CreateTripScreen6 extends MainScreen
 				{
 					buttonField.setSelected(true);
 				}
-				vfm.add(buttonField);
+				verticalManager.add(buttonField);
 			}
 		}
-		add(vfm);
+		// add(vfm);
 		
 		ButtonField buttonField = new ButtonField("Next >>", Field.FIELD_HCENTER | ButtonField.CONSUME_CLICK);
-		add(buttonField);
+		verticalManager.add(buttonField);
 		
 		FieldChangeListener listener = new FieldChangeListener() 
 		{
@@ -83,7 +87,8 @@ public class CreateTripScreen6 extends MainScreen
 	         }
 	     };
 	     buttonField.setChangeListener(listener);
-        
+	     
+	     this.add(verticalManager);
 	}
 	
 	public void initialize()

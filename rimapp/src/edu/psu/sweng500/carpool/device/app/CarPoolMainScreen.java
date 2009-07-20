@@ -33,16 +33,12 @@ public class CarPoolMainScreen extends MainScreen
 			pushOptionsScreen();
 		}
 	};
-	
-	TitleBar titleBar = new TitleBar(1);
-    int titleBarHeight = titleBar.getPreferredHeight();
-    
 	public CarPoolMainScreen()
 	{	
-		//this.setTitle("Car Pool");
+		TitleBar titleBar = new TitleBar(1);
 		this.add(titleBar);
-		
-		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBarHeight);
+
+		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
 		
 		LabelField label1 = new LabelField("You are logged in as: " + SessionSettings.getUserName(), LabelField.READONLY)
 		{

@@ -36,9 +36,6 @@ public class ShowAllResultsScreen extends MainScreen
 	private String userName;
 	
 	private Date searchStartDate;
-	
-	TitleBar titleBar = new TitleBar(3);
-    int titleBarHeight = titleBar.getPreferredHeight();
     
 	public void setSearchStartDate(Date searchStartDate)
 	{
@@ -52,9 +49,10 @@ public class ShowAllResultsScreen extends MainScreen
 	
 	public ShowAllResultsScreen()
 	{
+		TitleBar titleBar = new TitleBar(3);
 		this.setTitle(titleBar);
 		
-		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBarHeight);
+		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
 		tripList = new MainScreenObjectListField();
         verticalManager.add(tripList);
         add(verticalManager);

@@ -33,9 +33,6 @@ public class TitleBar extends Field implements DrawStyle
     public TitleBar(int inTitle) 
     {
         super(Field.NON_FOCUSABLE);
-        fieldHeight = titleImage.getHeight();
-        fieldWidth = Graphics.getScreenWidth();
-        
         //background color is black
         backgroundColor = BACKGROUND_COLOR;
         
@@ -52,12 +49,18 @@ public class TitleBar extends Field implements DrawStyle
         case 3:
         	titleImage =  Bitmap.getBitmapResource("Results.png");
         	break;
-        case 4:         //  Cases can simply fall thru.
+        case 4:
         	titleImage =  Bitmap.getBitmapResource("Details.png");
+            break;
+        case 5:
+        	titleImage =  Bitmap.getBitmapResource("CreateTrip.png");
             break;
         default:
         	titleImage =  Bitmap.getBitmapResource("Login.png");
-      } // end switch
+        } // end switch
+        
+        fieldHeight = titleImage.getHeight();
+        fieldWidth = Graphics.getScreenWidth();
     }
     
     public void setBackgroundColour(int _backgroundColour)

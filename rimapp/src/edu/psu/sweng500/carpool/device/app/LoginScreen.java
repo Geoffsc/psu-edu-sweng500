@@ -46,18 +46,17 @@ public class LoginScreen extends MainScreen
        } 
     };
 	
-    TitleBar titleBar = new TitleBar(0);
-    int titleBarHeight = titleBar.getPreferredHeight();
     
 	public LoginScreen()
 	{
 		super(NO_VERTICAL_SCROLL);
         
         //title Bar added here
+	    TitleBar titleBar = new TitleBar(0);
         this.add(titleBar);
                 
         //now add everything in the verticalManager
-        BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBarHeight);
+        BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
         
         // Row 1  
         verticalManager.add(new LabelField("User name:", Field.FIELD_LEFT | Field.FIELD_VCENTER));

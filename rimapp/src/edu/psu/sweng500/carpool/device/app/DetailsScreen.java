@@ -47,12 +47,11 @@ public class DetailsScreen extends MainScreen
     VerticalFieldManager v2;
     VerticalFieldManager v3;
 
-    TitleBar titleBar = new TitleBar(4);
-    int titleBarHeight = titleBar.getPreferredHeight();
+
 	
 	public DetailsScreen()
 	{
-		//this.add(titleBar);
+		//Do Nothing
 	}
 	
 	public void setTripId(String tripId)
@@ -86,7 +85,9 @@ public class DetailsScreen extends MainScreen
 		
 		try
 		{
-			this.add(titleBar);
+		    TitleBar titleBar = new TitleBar(4);
+		    this.add(titleBar);
+			
 			CarPoolService_Stub serviceStub = new CarPoolService_Stub();
 			trip = serviceStub.getTrip(tripId);
 			// UiApplication.getUiApplication().getActiveScreen().invalidate();
@@ -109,7 +110,7 @@ public class DetailsScreen extends MainScreen
 			// Row 6
 			flowFieldManager.add(new LabelField("Organization:" + " " + trip.getOrganization().getName(), Field.USE_ALL_WIDTH));
 			
-			BackgroundFieldManager backgroupLayOut = new BackgroundFieldManager(titleBarHeight);
+			BackgroundFieldManager backgroupLayOut = new BackgroundFieldManager(titleBar.getPreferredHeight());
 			backgroupLayOut.add(flowFieldManager);
 			this.add(backgroupLayOut);
 		}

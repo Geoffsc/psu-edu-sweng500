@@ -7,8 +7,10 @@ import edu.psu.sweng500.carpool.device.app.beans.TripData;
 
 import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.system.EventLogger;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.DateField;
 import net.rim.device.api.ui.component.LabelField;
@@ -22,33 +24,67 @@ public class CreateTripScreen4 extends MainScreen
 	
 	public CreateTripScreen4()
 	{
-		this.setTitle("Create Trip - Trip Info");
-        
+		TitleBar titleBar = new TitleBar(5);
+		//this.setTitle("Create Trip - Trip Info");
+		this.setTitle(titleBar);
+		
+		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
+		
 		LabelField labelTest1 = new LabelField("Trip start: " + TripData.getTripStartPlace() + "/" + TripData.getTripEndPlace(), Field.FIELD_LEFT | Field.FIELD_VCENTER);
-		add(labelTest1);
+		verticalManager.add(labelTest1);
 		
 		LabelField label1 = new LabelField("Select a trip date:", Field.FIELD_LEFT | Field.FIELD_VCENTER);
 		SimpleDateFormat dateFormat = new SimpleDateFormat(SimpleDateFormat.DATE_SHORT);
-		tripDate = new DateField("", Calendar.getInstance().getTime().getTime(), dateFormat);
+		tripDate = new DateField("", Calendar.getInstance().getTime().getTime(), dateFormat)
+		{
+			public void paint(Graphics graphics)
+	        {
+	            // Sets the BackgroundColor
+	            graphics.setBackgroundColor(Color.GRAY);
+	            // Clears the entire graphic area to the current background
+	            graphics.clear();
+	            super.paint(graphics);  
+	        }
+		};
 		
 		SimpleDateFormat timeFormat = new SimpleDateFormat(SimpleDateFormat.TIME_SHORT);
 		LabelField label2 = new LabelField("Start time:", Field.FIELD_LEFT | Field.FIELD_VCENTER);
-		startTime = new DateField("", Calendar.getInstance().getTime().getTime(), timeFormat);
+		startTime = new DateField("", Calendar.getInstance().getTime().getTime(), timeFormat)
+		{
+			public void paint(Graphics graphics)
+	        {
+	            // Sets the BackgroundColor
+	            graphics.setBackgroundColor(Color.GRAY);
+	            // Clears the entire graphic area to the current background
+	            graphics.clear();
+	            super.paint(graphics);  
+	        }
+		};
 		
 		LabelField label3 = new LabelField("End time:", Field.FIELD_LEFT | Field.FIELD_VCENTER);
-		endTime = new DateField("", Calendar.getInstance().getTime().getTime(), timeFormat);
+		endTime = new DateField("", Calendar.getInstance().getTime().getTime(), timeFormat)
+		{
+			public void paint(Graphics graphics)
+	        {
+	            // Sets the BackgroundColor
+	            graphics.setBackgroundColor(Color.GRAY);
+	            // Clears the entire graphic area to the current background
+	            graphics.clear();
+	            super.paint(graphics);  
+	        }
+		};
 		
-		add(label1);
-		add(tripDate);
+		verticalManager.add(label1);
+		verticalManager.add(tripDate);
 		
-		add(label2);
-		add(startTime);
+		verticalManager.add(label2);
+		verticalManager.add(startTime);
 		
-		add(label3);
-		add(endTime);
+		verticalManager.add(label3);
+		verticalManager.add(endTime);
 		
 		ButtonField buttonField = new ButtonField("Next >>", Field.FIELD_HCENTER | ButtonField.CONSUME_CLICK);
-		add(buttonField);
+		verticalManager.add(buttonField);
 		
 		FieldChangeListener listener = new FieldChangeListener() 
 		{
@@ -58,6 +94,8 @@ public class CreateTripScreen4 extends MainScreen
 	         }
 	     };
 	     buttonField.setChangeListener(listener);
+			
+	    this.add(verticalManager);
 	}
 	
 	public void performProcessing()

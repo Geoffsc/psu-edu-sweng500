@@ -37,16 +37,18 @@ public class CreateTripScreen8 extends MainScreen
 	
 	public CreateTripScreen8()
 	{
-		this.setTitle("Review details");
+		// this.setTitle("Review details");
+		TitleBar titleBar = new TitleBar(5);
+		this.setTitle(titleBar);
+		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
         
 		LabelField label1 = new LabelField("Create this car pool?", Field.FIELD_LEFT | Field.FIELD_VCENTER);
-		
-		add(label1);
+		verticalManager.add(label1);
 		
 		ButtonField buttonField1 = new ButtonField("Yes", Field.FIELD_HCENTER | ButtonField.CONSUME_CLICK);
 		ButtonField buttonField2 = new ButtonField("No", Field.FIELD_HCENTER | ButtonField.CONSUME_CLICK);
-		add(buttonField1);
-		add(buttonField2);
+		verticalManager.add(buttonField1);
+		verticalManager.add(buttonField2);
 		
 		FieldChangeListener yesListener = new FieldChangeListener() 
 		{
@@ -67,6 +69,8 @@ public class CreateTripScreen8 extends MainScreen
 		     };
 	     buttonField1.setChangeListener(yesListener);
 	     buttonField2.setChangeListener(noListener);
+	     
+	     this.add(verticalManager);
 	}
 	
 	private void goToEnd()
