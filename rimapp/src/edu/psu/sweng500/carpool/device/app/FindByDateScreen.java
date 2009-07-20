@@ -34,7 +34,7 @@ public class FindByDateScreen extends MainScreen
 	private DateField startDate;
 	private String userName;
 	
-	TitleBar titleBar = new TitleBar();
+	TitleBar titleBar = new TitleBar(2);
     int titleBarHeight = titleBar.getPreferredHeight();
     
 	public void setUserName(String userName)

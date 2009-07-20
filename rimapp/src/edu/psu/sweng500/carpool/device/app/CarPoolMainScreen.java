@@ -34,7 +34,7 @@ public class CarPoolMainScreen extends MainScreen
 		}
 	};
 	
-	TitleBar titleBar = new TitleBar();
+	TitleBar titleBar = new TitleBar(1);
     int titleBarHeight = titleBar.getPreferredHeight();
     
 	public CarPoolMainScreen()

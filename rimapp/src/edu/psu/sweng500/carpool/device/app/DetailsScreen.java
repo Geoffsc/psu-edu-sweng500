@@ -47,7 +47,7 @@ public class DetailsScreen extends MainScreen
     VerticalFieldManager v2;
     VerticalFieldManager v3;
 
-    TitleBar titleBar = new TitleBar();
+    TitleBar titleBar = new TitleBar(4);
     int titleBarHeight = titleBar.getPreferredHeight();
 	
 	public DetailsScreen()

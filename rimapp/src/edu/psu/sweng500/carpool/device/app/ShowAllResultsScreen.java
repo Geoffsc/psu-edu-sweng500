@@ -37,7 +37,7 @@ public class ShowAllResultsScreen extends MainScreen
 	
 	private Date searchStartDate;
 	
-	TitleBar titleBar = new TitleBar();
+	TitleBar titleBar = new TitleBar(3);
     int titleBarHeight = titleBar.getPreferredHeight();
     
 	public void setSearchStartDate(Date searchStartDate)

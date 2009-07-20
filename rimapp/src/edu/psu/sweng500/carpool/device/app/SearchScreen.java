@@ -23,7 +23,7 @@ public class SearchScreen extends MainScreen
 	private ShowAllResultsScreen showAllScreen;
 	private FindByDateScreen findByDateScreen;
 	
-	TitleBar titleBar = new TitleBar();
+	TitleBar titleBar = new TitleBar(2);
     int titleBarHeight = titleBar.getPreferredHeight();
     
 	public SearchScreen()

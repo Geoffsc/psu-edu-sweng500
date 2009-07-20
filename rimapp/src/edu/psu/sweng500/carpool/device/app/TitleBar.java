@@ -9,11 +9,13 @@ import net.rim.device.api.ui.*;
 import net.rim.device.api.ui.component.*;
 import net.rim.device.api.ui.container.*;
 import net.rim.device.api.system.*;
+import java.util.*;
+import java.util.*;
 
 
 /**
  * customized Title Bar
- * background color is black (BACKGROUND_COLOR) 
+ * background color is black (GRAY_COLOR) 
  * image is placed horizontal center (titleImage)
  * title bar height is same as the height of the title image (fieldHeight)
  */
@@ -24,26 +26,38 @@ public class TitleBar extends Field implements DrawStyle
     private int fontColour;
     private int backgroundColor;
     
-    // private Bitmap titleImage =  Bitmap.getBitmapResource("Login.png"); // default
-    // private Bitmap titleImage =  Bitmap.getBitmapResource("Main.png");
-    // private Bitmap titleImage =  Bitmap.getBitmapResource("Search.png");
-    // private Bitmap titleImage =  Bitmap.getBitmapResource("Results.png");
-    private Bitmap titleImage =  Bitmap.getBitmapResource("Details.png");
+    private Bitmap titleImage =  Bitmap.getBitmapResource("Login.png"); // default
 
     private static final int BACKGROUND_COLOR = Color.BLACK;
-/*   
-    public enum ScreenName {
-        LOGIN, MAIN, SEARCH, SEARCH_RESULT, DETAILS, DATE_SEARCH    
-    }
-*/   
-    public TitleBar() 
+ 
+    public TitleBar(int inTitle) 
     {
         super(Field.NON_FOCUSABLE);
         fieldHeight = titleImage.getHeight();
         fieldWidth = Graphics.getScreenWidth();
         
         //background color is black
-        backgroundColor = BACKGROUND_COLOR;        
+        backgroundColor = BACKGROUND_COLOR;
+        
+        switch (inTitle) {
+        case 0:
+        	titleImage =  Bitmap.getBitmapResource("Login.png");
+            break;
+        case 1: 
+        	titleImage =  Bitmap.getBitmapResource("Main.png");
+            break;
+        case 2:
+        	titleImage =  Bitmap.getBitmapResource("Search.png");
+        	break;
+        case 3:
+        	titleImage =  Bitmap.getBitmapResource("Results.png");
+        	break;
+        case 4:         //  Cases can simply fall thru.
+        	titleImage =  Bitmap.getBitmapResource("Details.png");
+            break;
+        default:
+        	titleImage =  Bitmap.getBitmapResource("Login.png");
+      } // end switch
     }
     
     public void setBackgroundColour(int _backgroundColour)

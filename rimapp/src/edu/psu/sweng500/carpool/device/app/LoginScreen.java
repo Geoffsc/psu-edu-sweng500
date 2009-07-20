@@ -46,7 +46,7 @@ public class LoginScreen extends MainScreen
        } 
     };
 	
-    TitleBar titleBar = new TitleBar();
+    TitleBar titleBar = new TitleBar(0);
     int titleBarHeight = titleBar.getPreferredHeight();
     
 	public LoginScreen()
@@ -65,7 +65,7 @@ public class LoginScreen extends MainScreen
 		{
 			public void paint(Graphics graphics)
             {
-                graphics.setColor(Color.GREENYELLOW);
+                graphics.setColor(Color.YELLOW);
                 graphics.clear();
                 super.paint(graphics);
             }
@@ -79,7 +79,7 @@ public class LoginScreen extends MainScreen
 		{
 			public void paint(Graphics graphics)
             {
-                graphics.setColor(Color.GREENYELLOW);
+                graphics.setColor(Color.YELLOW);
                 graphics.clear();
                 super.paint(graphics);
             }
