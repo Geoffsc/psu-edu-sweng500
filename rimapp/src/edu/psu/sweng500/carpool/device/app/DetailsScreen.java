@@ -10,6 +10,7 @@ import com.thinkingblackberry.GridFieldManager;
 import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import edu.psu.sweng500.carpool.device.services.generated.CarPoolService_Stub;
 import edu.psu.sweng500.carpool.device.services.generated.Parameter;
+import edu.psu.sweng500.carpool.device.services.generated.Participant;
 import edu.psu.sweng500.carpool.device.services.generated.Trip;
 import net.rim.device.api.collection.List;
 import net.rim.device.api.i18n.SimpleDateFormat;
@@ -92,6 +93,7 @@ public class DetailsScreen extends MainScreen
 			trip = serviceStub.getTrip(tripId);
 			// UiApplication.getUiApplication().getActiveScreen().invalidate();
 			
+			
 			Manager flowFieldManager = new FlowFieldManager(); 
 			this.setFieldWithFocus(flowFieldManager);
 			
@@ -109,6 +111,13 @@ public class DetailsScreen extends MainScreen
 			flowFieldManager.add(new LabelField(trip.getEndDate(), Field.USE_ALL_WIDTH));
 			// Row 6
 			flowFieldManager.add(new LabelField("Organization:" + " " + trip.getOrganization().getName(), Field.USE_ALL_WIDTH));
+			// Row 7
+			Participant[] tripParticipants = trip.getParticipants();
+			for (int i = 0; i < tripParticipants.length; i++) {
+				Participant participant = tripParticipants[i];
+				flowFieldManager.add(new LabelField("Members:" + " " + participant.getUser().getGivenName() + " - " + 
+						participant.getType(), Field.USE_ALL_WIDTH));
+			}
 			
 			BackgroundFieldManager backgroupLayOut = new BackgroundFieldManager(titleBar.getPreferredHeight());
 			backgroupLayOut.add(flowFieldManager);
