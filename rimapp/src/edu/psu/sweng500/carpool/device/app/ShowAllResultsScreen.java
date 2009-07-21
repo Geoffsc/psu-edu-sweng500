@@ -29,9 +29,7 @@ import net.rim.device.api.ui.container.VerticalFieldManager;
 public class ShowAllResultsScreen extends MainScreen
 {
 	private Trip[] trips;
-	//private Trip Trip;
 	private MainScreenObjectListField tripList;
-	//private HorizontalFieldManager hfm;
 	DetailsScreen detailsScreen = null;
 	private String userName;
 	

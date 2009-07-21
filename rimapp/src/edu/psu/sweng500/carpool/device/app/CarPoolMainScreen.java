@@ -15,6 +15,7 @@ import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.ListField;
 import net.rim.device.api.ui.component.Menu;
 import net.rim.device.api.ui.component.ObjectListField;
+import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.MainScreen;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 
@@ -50,6 +51,8 @@ public class CarPoolMainScreen extends MainScreen
             }
 		};
 		verticalManager.add(label1);
+		SeparatorField seperator1 = new SeparatorField();
+		verticalManager.add(seperator1);
 		
         menu = new MainScreenObjectListField();
         String mnuSearch = "Search";
@@ -114,7 +117,7 @@ public class CarPoolMainScreen extends MainScreen
 	
 	private class MainScreenObjectListField extends ObjectListField {
         
-        private Bitmap icon = Bitmap.getBitmapResource("edu/psu/sweng500/carpool/device/app/img/star_green.png");                
+        private Bitmap icon = Bitmap.getBitmapResource("edu/psu/sweng500/carpool/device/app/img/star_green.png");
         
         // We are going to take care of drawing the item.
         public void drawListRow(ListField listField, Graphics graphics, 

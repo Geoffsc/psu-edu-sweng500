@@ -10,7 +10,6 @@ import net.rim.device.api.ui.component.*;
 import net.rim.device.api.ui.container.*;
 import net.rim.device.api.system.*;
 import java.util.*;
-import java.util.*;
 
 
 /**
@@ -23,7 +22,6 @@ public class TitleBar extends Field implements DrawStyle
 {
     private int fieldWidth;
     private int fieldHeight;
-    private int fontColour;
     private int backgroundColor;
     
     private Bitmap titleImage =  Bitmap.getBitmapResource("Login.png"); // default
@@ -57,7 +55,7 @@ public class TitleBar extends Field implements DrawStyle
             break;
         default:
         	titleImage =  Bitmap.getBitmapResource("Login.png");
-        } // end switch
+        } // end switch 
         
         fieldHeight = titleImage.getHeight();
         fieldWidth = Graphics.getScreenWidth();

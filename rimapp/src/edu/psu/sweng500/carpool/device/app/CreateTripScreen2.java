@@ -3,7 +3,11 @@ package edu.psu.sweng500.carpool.device.app;
 import java.rmi.RemoteException;
 import java.util.Hashtable;
 
+import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.EventLogger;
+import net.rim.device.api.ui.Color;
+import net.rim.device.api.ui.DrawStyle;
+import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Keypad;
 import net.rim.device.api.ui.MenuItem;
@@ -66,7 +70,7 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 
 	public CreateTripScreen2()
 	{
-		this.setTitle("Create Trip - Select a start location");
+		//this.setTitle("Create Trip - Select a start location");
 
 		final Image tmp = Utils.createImage("/markers.png");
 		yellow = new PlaceIcon(Image.createImage(tmp, 20, 0, 10, 17, 0), 5, 17);
@@ -174,10 +178,16 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 		}
 		if (this.getType().equalsIgnoreCase("start"))
 		{
+			wrapped.setColor(Color.GREEN);
+			wrapped.setBackgroundColor(Color.BLACK);
+			//Font font1 = new Font("Helvetica", Font.PLAIN, 22);
+			//wrapped.setFont(font1);
 			wrapped.drawText("Select a start location", 0, 0);
 		}
 		if (this.getType().equalsIgnoreCase("end"))
 		{
+			wrapped.setColor(Color.GREEN);
+			wrapped.setBackgroundColor(Color.BLACK);
 			wrapped.drawText("Select an end location", 0, 0);
 		}
 

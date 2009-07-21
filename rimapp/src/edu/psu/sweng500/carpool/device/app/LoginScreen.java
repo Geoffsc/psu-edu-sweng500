@@ -70,8 +70,15 @@ public class LoginScreen extends MainScreen
             }
 		};
 		
+		SeparatorField seperator1 = new SeparatorField();
+		verticalManager.add(seperator1);
 		verticalManager.add(userNameField);
-        
+		
+		SeparatorField seperator2 = new SeparatorField();
+		verticalManager.add(seperator2);
+		SeparatorField seperator3 = new SeparatorField();
+		verticalManager.add(seperator3);
+		
 		// Row 2  
 		verticalManager.add(new LabelField("Password:", Field.FIELD_LEFT | Field.FIELD_VCENTER));
 		passwordField = new PasswordEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER)
@@ -83,7 +90,9 @@ public class LoginScreen extends MainScreen
                 super.paint(graphics);
             }
 		};
-		verticalManager.add(passwordField);  
+		SeparatorField seperator4 = new SeparatorField();
+		verticalManager.add(seperator4);
+		verticalManager.add(passwordField);
 		
         ButtonField buttonField = new ButtonField("Login", Field.FIELD_HCENTER | ButtonField.CONSUME_CLICK);
         verticalManager.add(buttonField);
