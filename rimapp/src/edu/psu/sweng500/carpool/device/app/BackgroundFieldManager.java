@@ -12,7 +12,7 @@ public class BackgroundFieldManager extends VerticalFieldManager
 	
 	BackgroundFieldManager(int inTitleBarHeight)
 	{
-        super(Manager.LEAVE_BLANK_SPACE);
+        super(Manager.VERTICAL_SCROLL);
         titleBarHeight = inTitleBarHeight;
     }
 	

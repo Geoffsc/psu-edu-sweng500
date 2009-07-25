@@ -12,6 +12,7 @@ import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.ListField;
 import net.rim.device.api.ui.component.ObjectListField;
+import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.MainScreen;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 
@@ -30,7 +31,10 @@ public class SearchScreen extends MainScreen
 		this.add(titleBar);
 		
 		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
-		        
+		
+		SeparatorField seperator1 = new SeparatorField();
+		verticalManager.add(seperator1);
+		
         menu = new MainScreenObjectListField();
         String mnuSearch = "Show my trips";
         String mnuFindByDate = "Find my trips by Date";

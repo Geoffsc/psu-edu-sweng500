@@ -53,6 +53,12 @@ public class TitleBar extends Field implements DrawStyle
         case 5:
         	titleImage =  Bitmap.getBitmapResource("CreateTrip.png");
             break;
+        case 6:
+        	titleImage =  Bitmap.getBitmapResource("Options.png");
+            break;  
+        case 7:
+        	titleImage =  Bitmap.getBitmapResource("SaveAddress.png");
+            break;   
         default:
         	titleImage =  Bitmap.getBitmapResource("Login.png");
         } // end switch 

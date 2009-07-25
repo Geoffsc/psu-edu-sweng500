@@ -180,13 +180,11 @@ class CreateTripScreen2 extends MainScreen implements MapListener, PlaceListener
 		{
 			wrapped.setColor(Color.GREEN);
 			wrapped.setBackgroundColor(Color.BLACK);
-			//Font font1 = new Font("Helvetica", Font.PLAIN, 22);
-			//wrapped.setFont(font1);
 			wrapped.drawText("Select a start location", 0, 0);
 		}
 		if (this.getType().equalsIgnoreCase("end"))
 		{
-			wrapped.setColor(Color.GREEN);
+			wrapped.setColor(Color.RED);
 			wrapped.setBackgroundColor(Color.BLACK);
 			wrapped.drawText("Select an end location", 0, 0);
 		}

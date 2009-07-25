@@ -5,6 +5,7 @@ import java.util.Hashtable;
 
 import net.rim.blackberry.api.mail.Address;
 import net.rim.device.api.system.EventLogger;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Keypad;
 import net.rim.device.api.ui.MenuItem;
@@ -72,8 +73,7 @@ class SelectLocationScreen extends MainScreen implements MapListener, PlaceListe
 
 	public SelectLocationScreen()
 	{
-		this.setTitle("Select a start location");
-
+		// this.setTitle("Select a start location");
 	}
 	
 	public void initialize()
@@ -162,11 +162,15 @@ class SelectLocationScreen extends MainScreen implements MapListener, PlaceListe
 		}
 		if (this.getType().equalsIgnoreCase("start"))
 		{
-			wrapped.drawText("Select a start location", 0, 0);
+			wrapped.setColor(Color.GREEN);
+			wrapped.setBackgroundColor(Color.BLACK);
+			wrapped.drawText("Select a default start location", 0, 0);
 		}
 		if (this.getType().equalsIgnoreCase("end"))
 		{
-			wrapped.drawText("Select an end location", 0, 0);
+			wrapped.setColor(Color.RED);
+			wrapped.setBackgroundColor(Color.BLACK);
+			wrapped.drawText("Select a default end location", 0, 0);
 		}
 
 		// paint on wrapper (in effect painting on native graphics)

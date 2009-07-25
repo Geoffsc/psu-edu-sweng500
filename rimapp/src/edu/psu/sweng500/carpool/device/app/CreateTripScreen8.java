@@ -30,6 +30,7 @@ import net.rim.device.api.ui.component.DateField;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.ObjectChoiceField;
+import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.MainScreen;
 
 public class CreateTripScreen8 extends MainScreen
@@ -45,9 +46,16 @@ public class CreateTripScreen8 extends MainScreen
 		LabelField label1 = new LabelField("Create this car pool?", Field.FIELD_LEFT | Field.FIELD_VCENTER);
 		verticalManager.add(label1);
 		
+		SeparatorField seperator1 = new SeparatorField();
+		verticalManager.add(seperator1);
+		
 		ButtonField buttonField1 = new ButtonField("Yes", Field.FIELD_HCENTER | ButtonField.CONSUME_CLICK);
 		ButtonField buttonField2 = new ButtonField("No", Field.FIELD_HCENTER | ButtonField.CONSUME_CLICK);
 		verticalManager.add(buttonField1);
+		
+		SeparatorField seperator2 = new SeparatorField();
+		verticalManager.add(seperator2);
+		
 		verticalManager.add(buttonField2);
 		
 		FieldChangeListener yesListener = new FieldChangeListener() 

@@ -9,6 +9,7 @@ import edu.psu.sweng500.carpool.device.services.generated.Place;
 import edu.psu.sweng500.carpool.device.services.generated.User;
 import net.rim.device.api.system.Bitmap;
 import net.rim.device.api.system.EventLogger;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.DrawStyle;
 import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.MenuItem;
@@ -30,14 +31,17 @@ public class CarPoolOptionsScreen extends MainScreen
 	
 	public CarPoolOptionsScreen()
 	{	
-		this.setTitle("Options");
+		TitleBar titleBar = new TitleBar(6);
+		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
+		this.add(titleBar);
 		
         menu = new MainScreenObjectListField();
         String mnuStartLocation = "Select a default start location";
         String mnuEndLocation = "Select a default end location";
         mainMenuItems = new String[]{mnuStartLocation, mnuEndLocation};
         menu.set(mainMenuItems);
-        this.add(menu);
+        verticalManager.add(menu);
+        this.add(verticalManager);
 	}
 	
 	private void pushStartLocationScreen()
@@ -161,6 +165,15 @@ public class CarPoolOptionsScreen extends MainScreen
                 graphics.drawText("- " + mainMenuItems[index], 0,
                     y, DrawStyle.ELLIPSIS, width);
             }
+        }
+        
+        public void paint(Graphics graphics)
+        {
+            // Sets the BackgroundColor
+            graphics.setBackgroundColor(Color.GRAY);
+            // Clears the entire graphic area to the current background
+            graphics.clear();
+            super.paint(graphics);  
         }
     };
 }

@@ -54,8 +54,6 @@ public class LoginScreen extends MainScreen
         //title Bar added here
 	    TitleBar titleBar = new TitleBar(0);
         this.add(titleBar);
-                
-        //now add everything in the verticalManager
         BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
         
         // Row 1  
@@ -76,8 +74,6 @@ public class LoginScreen extends MainScreen
 		
 		SeparatorField seperator2 = new SeparatorField();
 		verticalManager.add(seperator2);
-		SeparatorField seperator3 = new SeparatorField();
-		verticalManager.add(seperator3);
 		
 		// Row 2  
 		verticalManager.add(new LabelField("Password:", Field.FIELD_LEFT | Field.FIELD_VCENTER));

@@ -25,10 +25,9 @@ public class CreateTripScreen4 extends MainScreen
 	public CreateTripScreen4()
 	{
 		TitleBar titleBar = new TitleBar(5);
-		//this.setTitle("Create Trip - Trip Info");
-		this.setTitle(titleBar);
 		
 		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
+		this.setTitle(titleBar);
 		
 		LabelField labelTest1 = new LabelField("Trip start: " + TripData.getTripStartPlace() + "/" + TripData.getTripEndPlace(), Field.FIELD_LEFT | Field.FIELD_VCENTER);
 		verticalManager.add(labelTest1);

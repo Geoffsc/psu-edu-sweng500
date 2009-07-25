@@ -48,9 +48,9 @@ public class ShowAllResultsScreen extends MainScreen
 	public ShowAllResultsScreen()
 	{
 		TitleBar titleBar = new TitleBar(3);
+		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
 		this.setTitle(titleBar);
 		
-		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
 		tripList = new MainScreenObjectListField();
         verticalManager.add(tripList);
         add(verticalManager);

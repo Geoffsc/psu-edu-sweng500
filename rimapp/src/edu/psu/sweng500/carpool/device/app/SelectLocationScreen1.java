@@ -16,9 +16,13 @@ import edu.psu.sweng500.carpool.device.services.generated.User;
 
 import net.rim.device.api.i18n.DateFormat;
 import net.rim.device.api.i18n.SimpleDateFormat;
+import net.rim.device.api.system.Display;
 import net.rim.device.api.system.EventLogger;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
 import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.BasicEditField;
@@ -29,7 +33,9 @@ import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.EditField;
 import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.ObjectChoiceField;
+import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.MainScreen;
+import net.rim.device.api.ui.container.VerticalFieldManager;
 
 public class SelectLocationScreen1 extends MainScreen
 {
@@ -44,28 +50,40 @@ public class SelectLocationScreen1 extends MainScreen
 	
 	public SelectLocationScreen1()
 	{
-		this.setTitle("Saved Address");
-		
+		TitleBar titleBar = new TitleBar(7);
+        this.add(titleBar);
+        BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
+        
 		LabelField label1 = new LabelField("Location Title:", Field.FIELD_LEFT | Field.FIELD_VCENTER);
-		titleField = new BasicEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER | BasicEditField.NO_NEWLINE);
+		titleField = new BackgroundEditField();
 		
-		add(label1);
-		add(titleField);
+		verticalManager.add(label1);
+		verticalManager.add(titleField);
+		
+		SeparatorField seperator1 = new SeparatorField();
+		verticalManager.add(seperator1);
 		
 		LabelField lblAddress1 = new LabelField("Address (Line 1):", Field.FIELD_LEFT | Field.FIELD_VCENTER);
-		address1Field = new BasicEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER | BasicEditField.NO_NEWLINE);
+		address1Field = new BackgroundEditField();
 		
-		add(lblAddress1);
-		add(address1Field);
+		verticalManager.add(lblAddress1);
+		verticalManager.add(address1Field);
+		
+		SeparatorField seperator2 = new SeparatorField();
+		verticalManager.add(seperator2);
 		
 		LabelField lblAddress2 = new LabelField("Address (Line 2):", Field.FIELD_LEFT | Field.FIELD_VCENTER);
-		address2Field = new BasicEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER | BasicEditField.NO_NEWLINE);
+		address2Field = new BackgroundEditField();
 		
-		add(lblAddress2);
-		add(address2Field);
+		verticalManager.add(lblAddress2);
+		verticalManager.add(address2Field);
+		
+		SeparatorField seperator3 = new SeparatorField();
+		verticalManager.add(seperator3);
 		
 		ButtonField buttonField = new ButtonField("Next >>", Field.FIELD_HCENTER | ButtonField.CONSUME_CLICK);
-		add(buttonField);
+		verticalManager.add(buttonField);
+		
 		
 		FieldChangeListener listener = new FieldChangeListener() 
 		{
@@ -77,7 +95,25 @@ public class SelectLocationScreen1 extends MainScreen
 	     };
 	     buttonField.setChangeListener(listener);
 	     
+	     this.add(verticalManager);
 	}
+	
+	
+	private class BackgroundEditField extends BasicEditField
+	{
+		BackgroundEditField()
+		{
+	        super("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER | BasicEditField.NO_NEWLINE);
+	    }
+		
+		public void paint(Graphics graphics)
+	    {
+	        graphics.setColor(Color.BLUE);
+	        graphics.clear();
+	        super.paint(graphics);
+	    }
+	}
+	
 	
 	public void performSearch()
 	{
