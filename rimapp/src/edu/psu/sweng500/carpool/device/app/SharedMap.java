@@ -42,11 +42,13 @@ public class SharedMap
 	private void initialize()
 	{
 		EventLogger.logEvent(0xe0328a32a1c0f8ddL, "Starting initialize".getBytes(), EventLogger.ALWAYS_LOG);
-		final DefaultDownloadStreamOpener opener = new DefaultDownloadStreamOpener(";deviceside=false");
+		final DefaultDownloadStreamOpener opener = new DefaultDownloadStreamOpener(";deviceside=true");
 		if (mapComponent == null)
 		{
-			mapComponent = new MapComponent("abcdtrial", "Nutiteq",
-				"WrappedRIMUIDemo", SCREEN_WIDTH, SCREEN_HEIGHT, new WgsPoint(
+			// mapComponent = new MapComponent("abcdtrial", "Nutiteq",
+				// "WrappedRIMUIDemo", SCREEN_WIDTH, SCREEN_HEIGHT, new WgsPoint(
+			mapComponent = new MapComponent("7cbbc409ec990f19c78c75bd1e06f2154a1313a8de3216.68244154", "psu.edu",
+					"sweng500-carpool", SCREEN_WIDTH, SCREEN_HEIGHT, new WgsPoint(
 						-74.0, 40.717), 15);
 						// -75.3715, 40.2799), 15);
 			
