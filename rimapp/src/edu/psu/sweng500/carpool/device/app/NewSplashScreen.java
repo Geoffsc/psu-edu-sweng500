@@ -12,7 +12,7 @@ import net.rim.device.api.ui.container.VerticalFieldManager;
 public class NewSplashScreen
 {
 	MainScreen screen;
-	private static final Bitmap _bitmap = Bitmap.getBitmapResource("psu.jpg");
+	private static final Bitmap _bitmap = Bitmap.getBitmapResource("PennStateNittanyLions_bb.jpg");
 	
 	public NewSplashScreen()
 	{
