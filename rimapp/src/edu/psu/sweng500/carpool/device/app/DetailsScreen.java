@@ -25,11 +25,13 @@ import net.rim.device.api.ui.Manager;
 import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.ActiveRichTextField;
+import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.EditField;
 import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.ListField;
 import net.rim.device.api.ui.component.Menu;
+import net.rim.device.api.ui.component.NullField;
 import net.rim.device.api.ui.component.ObjectListField;
 import net.rim.device.api.ui.container.DialogFieldManager;
 import net.rim.device.api.ui.container.FlowFieldManager;
@@ -94,8 +96,9 @@ public class DetailsScreen extends MainScreen
 			// UiApplication.getUiApplication().getActiveScreen().invalidate();
 			
 			
-			Manager flowFieldManager = new FlowFieldManager(); 
+			Manager flowFieldManager = new FlowFieldManager(Manager.VERTICAL_SCROLLBAR); 
 			this.setFieldWithFocus(flowFieldManager);
+			flowFieldManager.add(new NullField());
 			
 			// Row 1
 			flowFieldManager.add(new LabelField("Title:" + " " + trip.getTitle(), Field.USE_ALL_WIDTH));
@@ -118,6 +121,8 @@ public class DetailsScreen extends MainScreen
 				flowFieldManager.add(new LabelField("Members:" + " " + participant.getUser().getGivenName() + " - " + 
 						participant.getType(), Field.USE_ALL_WIDTH));
 			}
+			
+			flowFieldManager.add(new NullField());
 			
 			BackgroundFieldManager backgroupLayOut = new BackgroundFieldManager(titleBar.getPreferredHeight());
 			backgroupLayOut.add(flowFieldManager);
