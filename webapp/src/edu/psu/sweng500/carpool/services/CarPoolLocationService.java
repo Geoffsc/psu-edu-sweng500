@@ -29,6 +29,7 @@ public class CarPoolLocationService extends HibernateDaoSupport implements ICarP
             boolean isAscending = criteria.isAscending();
             
             Criteria localCriteria=session.createCriteria(edu.psu.sweng500.carpool.beans.Address.class);
+            localCriteria.add(Restrictions.eq("status", "A"));
             // localCriteria.setFetchMode("savedAddresses", FetchMode.JOIN);
 
             if (sortField != null && !sortField.equals(""))

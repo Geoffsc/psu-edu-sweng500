@@ -11,6 +11,7 @@ public class Address
 	private String postalCode;
 	private float latitude;
 	private float longitude;
+	private String status;
 	
 	public String getId()
 	{
@@ -84,5 +85,12 @@ public class Address
 	{
 		this.longitude = longitude;
 	}
-	
+	public String getStatus()
+	{
+		return status;
+	}
+	public void setStatus(String status)
+	{
+		this.status = status;
+	}	
 }

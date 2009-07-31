@@ -820,12 +820,17 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 								UserAddress savedUserAddress = (UserAddress) removeAddressIter.next();
 								if (savedUserAddress != null)
 								{
-									carPoolUserService.deleteAddress(savedUserAddress.getAddress().getId());
+									// don't delete the address, just set it to inactive
+									Address addressToUpdate = savedUserAddress.getAddress();
+									addressToUpdate.setStatus("I");
+									carPoolUserService.createOrUpdateAddress(addressToUpdate);
+									// carPoolUserService.deleteAddress(savedUserAddress.getAddress().getId());
 								}
 							}
 						}
 						
 						Address newAddress = ServiceObjectMapper.convertToAddress(place);
+						newAddress.setStatus("A");
 						carPoolUserService.createOrUpdateAddress(newAddress);
 						
 						UserAddress newUserAddress = new UserAddress();

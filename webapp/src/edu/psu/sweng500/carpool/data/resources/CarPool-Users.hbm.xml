@@ -11,7 +11,13 @@
 	<property name="givenName" column="GIVEN_NAME"/>
 	<property name="surName" column="SURNAME"/>
 	
-	<many-to-one name="organization" column="ORGANIZATION_ID" unique="true" insert="false" update="false" outer-join="false"/>
+	<many-to-one 
+		name="organization" 
+		column="ORGANIZATION_ID" 
+		unique="true" 
+		insert="true" 
+		update="false" 
+		outer-join="false"/>
 	
 	<set name="savedAddresses" lazy="true" table="USERS_ADDRESSES" cascade="all" >
         <key column="USER_ID" />
@@ -23,16 +29,6 @@
            </many-to-one>
         </composite-element>
     </set>
-	
-	<!-- 
-	<set name="savedAddresses" table="USERS_ADDRESSES">
-        <key column="USER_ID"/>
-        <many-to-many column="ADDRESS_ID"
-            unique="true"
-            class="Address">
-        </many-to-many>
-    </set>
-	-->
   </class>
   
   <class name="Organization" table="ORGANIZATIONS">
@@ -50,7 +46,7 @@
   	<property name="postalCode" column="POSTAL_CODE"/>
   	<property name="latitude" column="LATITUDE"/>
   	<property name="longitude" column="LONGITUDE"/>
-  
+  	<property name="status" column="STATUS"/>
   </class>
   
   <class name="Trip" table="TRIPS">
@@ -59,10 +55,28 @@
 	<property name="endDate" column="END_DATE_TIME" type="timestamp"/>
 	<property name="title" column="TITLE"/>
 	
-	<many-to-one name="organization" column="ORGANIZATION_ID" unique="true" insert="true" update="true" outer-join="false"/>
+	<many-to-one 
+		name="organization" 
+		column="ORGANIZATION_ID" 
+		unique="true" 
+		insert="true" 
+		update="true" 
+		outer-join="false"/>
 	
-	<many-to-one name="startAddress" column="START_ADDRESS" unique="true" insert="true" update="true" outer-join="false"/>
-	<many-to-one name="endAddress" column="END_ADDRESS" unique="true" insert="true" update="true" outer-join="false"/>
+	<many-to-one 
+		name="startAddress" 
+		column="START_ADDRESS" 
+		unique="true" 
+		insert="true" 
+		update="true" 
+		outer-join="false"/>
+	<many-to-one 
+		name="endAddress" 
+		column="END_ADDRESS" 
+		unique="true" 
+		insert="true" 
+		update="true" 
+		outer-join="false"/>
 	
 	<set name="members" lazy="true" table="TRIPS_MEMBERS" cascade="all" >
         <key column="TRIP_ID" />
@@ -101,8 +115,20 @@
 		</one-to-one>
 	-->
 		
-		<many-to-one name="user" column="MEMBER_ID" unique="true" insert="false" update="false" outer-join="false"/>
-		<many-to-one name="trip" column="TRIP_ID" unique="true" insert="false" update="false" outer-join="false"/>
+		<many-to-one 
+			name="user" 
+			column="MEMBER_ID" 
+			unique="true" 
+			insert="false" 
+			update="false" 
+			outer-join="false"/>
+		<many-to-one 
+			name="trip" 
+			column="TRIP_ID" 
+			unique="true" 
+			insert="false" 
+			update="false" 
+			outer-join="false"/>
 		<property name="type" column="TYPE"/>
 		
 	</class>
