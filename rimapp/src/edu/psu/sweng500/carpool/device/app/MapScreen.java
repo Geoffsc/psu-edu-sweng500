@@ -20,7 +20,7 @@ import com.nutiteq.listeners.PlaceListener;
 import com.nutiteq.maps.NutiteqStreamedMap;
 import com.nutiteq.net.DefaultDownloadStreamOpener;
 
-import edu.psu.sweng500.carpool.device.services.generated.SecurityService_Stub;
+import edu.psu.sweng500.security.device.services.generated.SecurityService_Stub;
 
 class MapScreen extends MainScreen implements MapListener, PlaceListener
 {
@@ -157,7 +157,7 @@ class MapScreen extends MainScreen implements MapListener, PlaceListener
 	public void mapClicked(final WgsPoint pointClicked)
 	{
 		System.out.println("mapClicked " + pointClicked);
-		Dialog.alert("mapClicked " + pointClicked);
+		// Dialog.alert("mapClicked " + pointClicked);
 	}
 
 	public void mapMoved()
@@ -167,7 +167,7 @@ class MapScreen extends MainScreen implements MapListener, PlaceListener
 	public void placeClicked(final Place p)
 	{
 		System.out.println("place clicked " + p.getName());
-		Dialog.alert("place clicked " + p.getName());
+		// Dialog.alert("place clicked " + p.getName());
 
 		/*
 		SecurityService_Stub serviceStub = new SecurityService_Stub();

@@ -32,7 +32,7 @@ import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import edu.psu.sweng500.carpool.device.app.beans.TripData;
 import edu.psu.sweng500.carpool.device.app.utilities.UniqueIDGeneratorUtil;
 import edu.psu.sweng500.carpool.device.services.generated.CarPoolService_Stub;
-import edu.psu.sweng500.carpool.device.services.generated.SecurityService_Stub;
+import edu.psu.sweng500.security.device.services.generated.SecurityService_Stub;
 import edu.psu.sweng500.carpool.device.services.generated.User;
 
 class SelectLocationScreen extends MainScreen implements MapListener, PlaceListener
@@ -239,7 +239,7 @@ class SelectLocationScreen extends MainScreen implements MapListener, PlaceListe
 	public void mapClicked(final WgsPoint pointClicked)
 	{
 		System.out.println("mapClicked " + pointClicked);
-		Dialog.alert("mapClicked " + pointClicked);
+		// Dialog.alert("mapClicked " + pointClicked);
 		
 		// mapComponent.stopMapping();
 		

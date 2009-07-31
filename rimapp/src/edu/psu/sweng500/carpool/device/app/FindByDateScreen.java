@@ -61,7 +61,7 @@ public class FindByDateScreen extends MainScreen
 		
 		Date theDate = new Date(startDate.getDate());
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Dialog.alert(format.format(theDate));
+		// Dialog.alert(format.format(theDate));
 		
 		verticalManager.add(startDate);
 		//this.add(startDate);
@@ -98,7 +98,7 @@ public class FindByDateScreen extends MainScreen
     	
 		Date theDate = new Date(startDate.getDate());
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Dialog.alert(format.format(theDate));
+		// Dialog.alert(format.format(theDate));
 		
 		showAllScreen.setSearchStartDate(theDate);
 		showAllScreen.setUserName(this.userName);

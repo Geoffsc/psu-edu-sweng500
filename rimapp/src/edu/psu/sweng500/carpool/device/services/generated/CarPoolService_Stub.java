@@ -14,7 +14,8 @@ public class CarPoolService_Stub implements CarPoolService, javax.xml.rpc.Stub {
 
     public CarPoolService_Stub() {
         _propertyNames = new String[] { ENDPOINT_ADDRESS_PROPERTY };
-        _propertyValues = new Object[] { "http://geoffscholl.com:8080/sweng500_car_pool/services/CarPoolService/" };
+        _propertyValues = new Object[] { "http://PLYW314928.internal.imsglobal.com:6187/sweng500_car_pool/services/CarPoolService/" };
+        // _propertyValues = new Object[] { "http://geoffscholl.com:8080/sweng500_car_pool/services/CarPoolService/" };
     }
 
     public void _setProperty( String name, Object value ) {

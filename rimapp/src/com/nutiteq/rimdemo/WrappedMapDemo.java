@@ -20,7 +20,7 @@ import com.nutiteq.net.DefaultDownloadStreamOpener;
 import com.nutiteq.listeners.PlaceListener;
 import com.nutiteq.maps.NutiteqStreamedMap;
 
-import edu.psu.sweng500.carpool.device.services.generated.SecurityService_Stub;
+import edu.psu.sweng500.security.device.services.generated.SecurityService_Stub;
 
 public class WrappedMapDemo // extends UiApplication
 {

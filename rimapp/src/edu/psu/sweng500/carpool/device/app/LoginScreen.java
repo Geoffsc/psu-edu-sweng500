@@ -12,8 +12,8 @@ import javax.microedition.lcdui.Spacer;
 import com.thinkingblackberry.GridFieldManager;
 
 import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
-import edu.psu.sweng500.carpool.device.services.generated.SecurityService_Stub;
-import edu.psu.sweng500.carpool.device.services.generated.SimpleMessage;
+import edu.psu.sweng500.security.device.services.generated.SecurityService_Stub;
+import edu.psu.sweng500.security.device.services.generated.SimpleMessage;
 import net.rim.device.api.system.PersistentObject;
 import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;

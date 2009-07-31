@@ -180,7 +180,7 @@ public final class GeocodePopupScreen extends PopupScreen implements FieldChange
             public void run()
             {
             	EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Done executing search").getBytes(), EventLogger.ALWAYS_LOG);
-    			Dialog.alert("locationText: " + text);
+    			// Dialog.alert("locationText: " + text);
     			
     			if (text != null)
     			{

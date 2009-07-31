@@ -1,39 +1,17 @@
 package edu.psu.sweng500.carpool.device.app;
 
 import java.io.InputStream;
-import java.rmi.RemoteException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Hashtable;
 
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 
-import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
-import edu.psu.sweng500.carpool.device.app.beans.TripData;
-import edu.psu.sweng500.carpool.device.app.utilities.UniqueIDGeneratorUtil;
-import edu.psu.sweng500.carpool.device.services.generated.CarPoolService_Stub;
-import edu.psu.sweng500.carpool.device.services.generated.Organization;
-import edu.psu.sweng500.carpool.device.services.generated.Parameter;
-import edu.psu.sweng500.carpool.device.services.generated.Participant;
-import edu.psu.sweng500.carpool.device.services.generated.Place;
-import edu.psu.sweng500.carpool.device.services.generated.Trip;
-import edu.psu.sweng500.carpool.device.services.generated.TripUser;
-import edu.psu.sweng500.carpool.device.services.generated.User;
-
-import net.rim.device.api.i18n.DateFormat;
-import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.system.EventLogger;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
-import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.BasicEditField;
 import net.rim.device.api.ui.component.ButtonField;
-import net.rim.device.api.ui.component.ChoiceField;
-import net.rim.device.api.ui.component.DateField;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.LabelField;
-import net.rim.device.api.ui.component.ObjectChoiceField;
 import net.rim.device.api.ui.container.MainScreen;
 
 public class AddressSearchScreen extends MainScreen
@@ -72,7 +50,7 @@ public class AddressSearchScreen extends MainScreen
 			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("About to execute search").getBytes(), EventLogger.ALWAYS_LOG);
 			String locationText = getTextFromGoogle(streetField.getText());
 			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Done executing search").getBytes(), EventLogger.ALWAYS_LOG);
-			Dialog.alert("locationText: " + locationText);
+			// Dialog.alert("locationText: " + locationText);
 		}
 		catch (Exception e)
 		{

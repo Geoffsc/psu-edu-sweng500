@@ -2,7 +2,7 @@
 <wsclientconfig serviceType="jsr-172" version="1.0">
     <client>
         <project>WebServiceTest</project>
-        <class location="${src.dir}" type="edu.psu.sweng500.carpool.device.services.generated.SecurityService"/>
+        <class location="${src.dir}" type="edu.psu.sweng500.security.device.services.generated.SecurityService"/>
         <property name="DataBinding" value="false"/>
         <property name="cldc11" value="true"/>
     </client>

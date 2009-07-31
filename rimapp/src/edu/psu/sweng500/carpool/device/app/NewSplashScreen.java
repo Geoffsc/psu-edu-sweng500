@@ -34,8 +34,8 @@ public class NewSplashScreen
             public void run(){
                 UiApplication.getUiApplication().popScreen(screen);
                 
-                LoginScreen loginScreen = new LoginScreen();
-                UiApplication.getUiApplication().pushScreen(loginScreen);
+                CarPoolPreMainScreen initialScreen = new CarPoolPreMainScreen();
+                UiApplication.getUiApplication().pushScreen(initialScreen);
             }
         });
         
