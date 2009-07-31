@@ -8,6 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import edu.psu.sweng500.carpool.beans.Address;
+import edu.psu.sweng500.carpool.beans.Organization;
 import edu.psu.sweng500.carpool.beans.User;
 import edu.psu.sweng500.carpool.exceptions.SecurityException;
 
@@ -52,7 +54,7 @@ public class SecurityServiceWrapper extends HibernateDaoSupport implements ISecu
             	return true;
             }
             
-            throw new SecurityException(SecurityException.USER_NOT_FOUND, "The specified user could not be found");
+            throw new SecurityException(SecurityException.USER_NOT_FOUND, "User name or password is invalid");
             
         }
         catch (HibernateException ex) {
@@ -66,5 +68,45 @@ public class SecurityServiceWrapper extends HibernateDaoSupport implements ISecu
             }
         }
     }
+	
+	public boolean createOrUpdate(User user)
+			throws SecurityException
+	{
+		if (log.isDebugEnabled())
+		{
+			log.debug("The incoming user name is: " + user.getGivenName() + " " + user.getSurName());
+			log.debug("The incoming password is: " + user.getPassword());
+		}
+        Session session = getSession(true);
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            
+            if (user.getOrganization() != null && user.getOrganization().getId() != null)
+            {
+            	Organization organization = (Organization) session.load(Organization.class, user.getOrganization().getId());
+            	user.setOrganization(organization);
+            	if (logger.isDebugEnabled())
+            	{
+            		logger.debug("The organization id is: " + organization.getName());
+            	}
+            }
+            session.saveOrUpdate(user);
+            
+            tx.commit();
+            return true;
+            
+        }
+        catch (HibernateException ex) {
+            throw convertHibernateAccessException(ex);
+        }
+        finally
+        {
+            if (session != null)
+            {
+                this.releaseSession(session);
+            }
+        }
+	}
 
 }

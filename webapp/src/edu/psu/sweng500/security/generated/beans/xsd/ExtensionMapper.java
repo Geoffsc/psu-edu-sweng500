@@ -19,10 +19,30 @@
 
               
                   if (
+                  "http://beans.generated.security.sweng500.psu.edu/xsd".equals(namespaceURI) &&
+                  "User".equals(typeName)){
+                   
+                            return  edu.psu.sweng500.security.generated.beans.xsd.User.Factory.parse(reader);
+                        
+
+                  }
+
+              
+                  if (
                   "http://exceptions.generated.security.sweng500.psu.edu/xsd".equals(namespaceURI) &&
                   "SecurityServiceException".equals(typeName)){
                    
                             return  edu.psu.sweng500.security.generated.exceptions.xsd.SecurityServiceException.Factory.parse(reader);
+                        
+
+                  }
+
+              
+                  if (
+                  "http://beans.generated.security.sweng500.psu.edu/xsd".equals(namespaceURI) &&
+                  "Organization".equals(typeName)){
+                   
+                            return  edu.psu.sweng500.security.generated.beans.xsd.Organization.Factory.parse(reader);
                         
 
                   }

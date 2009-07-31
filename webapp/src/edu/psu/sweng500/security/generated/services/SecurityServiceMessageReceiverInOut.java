@@ -52,6 +52,24 @@
                                                     ;
                                             
                                         envelope = toEnvelope(getSOAPFactory(msgContext), loginElementResponse5, false);
+                                    } else 
+
+            if("registerUser".equals(methodName)){
+                
+                edu.psu.sweng500.security.generated.services.xsd.RegisterUserResponse registerUserResponse7 = null;
+	                        edu.psu.sweng500.security.generated.services.xsd.RegisterUserRequest wrappedParam =
+                                                             (edu.psu.sweng500.security.generated.services.xsd.RegisterUserRequest)fromOM(
+                                    msgContext.getEnvelope().getBody().getFirstElement(),
+                                    edu.psu.sweng500.security.generated.services.xsd.RegisterUserRequest.class,
+                                    getEnvelopeNamespaces(msgContext.getEnvelope()));
+                                                
+                                               registerUserResponse7 =
+                                                   
+                                                   
+                                                         skel.registerUser(wrappedParam)
+                                                    ;
+                                            
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), registerUserResponse7, false);
                                     
             } else {
               throw new java.lang.RuntimeException("method not found");
@@ -118,6 +136,34 @@
 
             }
         
+            private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.security.generated.services.xsd.RegisterUserRequest param, boolean optimizeContent)
+            throws org.apache.axis2.AxisFault {
+
+            
+                        try{
+                             return param.getOMElement(edu.psu.sweng500.security.generated.services.xsd.RegisterUserRequest.MY_QNAME,
+                                          org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                        } catch(org.apache.axis2.databinding.ADBException e){
+                            throw org.apache.axis2.AxisFault.makeFault(e);
+                        }
+                    
+
+            }
+        
+            private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.security.generated.services.xsd.RegisterUserResponse param, boolean optimizeContent)
+            throws org.apache.axis2.AxisFault {
+
+            
+                        try{
+                             return param.getOMElement(edu.psu.sweng500.security.generated.services.xsd.RegisterUserResponse.MY_QNAME,
+                                          org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                        } catch(org.apache.axis2.databinding.ADBException e){
+                            throw org.apache.axis2.AxisFault.makeFault(e);
+                        }
+                    
+
+            }
+        
                     private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, edu.psu.sweng500.security.generated.services.xsd.LoginElementResponse param, boolean optimizeContent)
                         throws org.apache.axis2.AxisFault{
                       try{
@@ -134,6 +180,25 @@
                     
                          private edu.psu.sweng500.security.generated.services.xsd.LoginElementResponse wraplogin(){
                                 edu.psu.sweng500.security.generated.services.xsd.LoginElementResponse wrappedElement = new edu.psu.sweng500.security.generated.services.xsd.LoginElementResponse();
+                                return wrappedElement;
+                         }
+                    
+                    private  org.apache.axiom.soap.SOAPEnvelope toEnvelope(org.apache.axiom.soap.SOAPFactory factory, edu.psu.sweng500.security.generated.services.xsd.RegisterUserResponse param, boolean optimizeContent)
+                        throws org.apache.axis2.AxisFault{
+                      try{
+                          org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+                           
+                                    emptyEnvelope.getBody().addChild(param.getOMElement(edu.psu.sweng500.security.generated.services.xsd.RegisterUserResponse.MY_QNAME,factory));
+                                
+
+                         return emptyEnvelope;
+                    } catch(org.apache.axis2.databinding.ADBException e){
+                        throw org.apache.axis2.AxisFault.makeFault(e);
+                    }
+                    }
+                    
+                         private edu.psu.sweng500.security.generated.services.xsd.RegisterUserResponse wrapregisterUser(){
+                                edu.psu.sweng500.security.generated.services.xsd.RegisterUserResponse wrappedElement = new edu.psu.sweng500.security.generated.services.xsd.RegisterUserResponse();
                                 return wrappedElement;
                          }
                     
@@ -164,6 +229,27 @@
                 if (edu.psu.sweng500.security.generated.services.xsd.LoginElementResponse.class.equals(type)){
                 
                            return edu.psu.sweng500.security.generated.services.xsd.LoginElementResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.security.generated.services.xsd.SecurityServiceExceptionE.class.equals(type)){
+                
+                           return edu.psu.sweng500.security.generated.services.xsd.SecurityServiceExceptionE.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.security.generated.services.xsd.RegisterUserRequest.class.equals(type)){
+                
+                           return edu.psu.sweng500.security.generated.services.xsd.RegisterUserRequest.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.security.generated.services.xsd.RegisterUserResponse.class.equals(type)){
+                
+                           return edu.psu.sweng500.security.generated.services.xsd.RegisterUserResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }

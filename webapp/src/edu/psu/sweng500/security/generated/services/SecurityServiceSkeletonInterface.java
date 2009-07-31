@@ -26,5 +26,20 @@
                  )
             throws SecurityServiceException;
         
+         
+        /**
+         * Auto generated method signature
+         * 
+                                    * @param registerUserRequest
+             * @throws SecurityServiceException : 
+         */
+
+        
+                public edu.psu.sweng500.security.generated.services.xsd.RegisterUserResponse registerUser
+                (
+                  edu.psu.sweng500.security.generated.services.xsd.RegisterUserRequest registerUserRequest
+                 )
+            throws SecurityServiceException;
+        
          }
     

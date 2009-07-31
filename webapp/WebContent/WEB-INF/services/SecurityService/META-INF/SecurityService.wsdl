@@ -11,6 +11,25 @@
                     <xs:element minOccurs="0" name="traceMessage" nillable="true" type="xs:string"/>
                 </xs:sequence>
 		    </xs:complexType>
+		    
+		<xs:complexType name="User">
+			<xs:sequence>
+				<xs:element maxOccurs="1" minOccurs="1" name="id" nillable="false" type="xs:string"/>
+				<xs:element minOccurs="0" name="givenName" nillable="true" type="xs:string"/>
+				<xs:element minOccurs="0" name="surName" nillable="true" type="xs:string"/>
+				<xs:element minOccurs="0" name="userName" nillable="true" type="xs:string"/>
+				<xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+				<xs:element minOccurs="0" name="type" nillable="true" type="xs:string"/>
+				<xs:element minOccurs="0" name="organization" nillable="true" type="ax21:Organization"/>
+			</xs:sequence>
+		</xs:complexType>
+		
+		<xs:complexType name="Organization">
+            <xs:sequence>
+            	<xs:element maxOccurs="1" minOccurs="1" name="id" nillable="false" type="xs:string"/>
+                <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
   	</xs:schema>
     <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://exceptions.generated.security.sweng500.psu.edu/xsd" xmlns:ax22="http://exceptions.generated.security.sweng500.psu.edu/xsd">
 		
@@ -50,7 +69,22 @@
 			<xs:element name="loginElementResponse">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element maxOccurs="1" name="return" nillable="true" type="ns0:SimpleMessage"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="return" nillable="true" type="ns0:SimpleMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
+			<xs:element name="registerUserRequest">
+		        <xs:complexType>
+		            <xs:sequence>
+		                <xs:element minOccurs="1" name="user" nillable="false" type="ax21:User"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
+			<xs:element name="registerUserResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="0" name="return" nillable="true" type="ns0:SimpleMessage"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -65,8 +99,16 @@
     <wsdl:part name="parameters" element="ns2:loginElementResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="registerUserRequest">
+    <wsdl:part name="parameters" element="ns2:registerUserRequest">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="SecurityServiceException">
     <wsdl:part name="parameters" element="ns2:SecurityServiceException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registerUserResponse">
+    <wsdl:part name="parameters" element="ns2:registerUserResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="SecurityServicePortType">
@@ -78,11 +120,31 @@
       <wsdl:fault name="SecurityServiceException" message="axis2:SecurityServiceException" wsaw:Action="urn:loginSecurityServiceException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="registerUser">
+      <wsdl:input message="axis2:registerUserRequest" wsaw:Action="urn:registerUserRequest">
+    </wsdl:input>
+      <wsdl:output message="axis2:registerUserResponse" wsaw:Action="urn:registerUserResponse">
+    </wsdl:output>
+      <wsdl:fault name="SecurityServiceException" message="axis2:SecurityServiceException" wsaw:Action="urn:loginSecurityServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="SecurityServiceSOAP11Binding" type="axis2:SecurityServicePortType">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="login">
       <soap:operation soapAction="urn:login" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="SecurityServiceException">
+        <soap:fault name="SecurityServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="registerUser">
+      <soap:operation soapAction="urn:registerUser" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
       </wsdl:input>

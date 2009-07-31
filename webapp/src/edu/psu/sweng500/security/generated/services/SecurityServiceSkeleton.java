@@ -28,5 +28,22 @@
                 throw new  java.lang.UnsupportedOperationException("Please implement " + this.getClass().getName() + "#login");
         }
      
+         
+        /**
+         * Auto generated method signature
+         * 
+                                     * @param registerUserRequest2
+             * @throws SecurityServiceException : 
+         */
+        
+                 public edu.psu.sweng500.security.generated.services.xsd.RegisterUserResponse registerUser
+                  (
+                  edu.psu.sweng500.security.generated.services.xsd.RegisterUserRequest registerUserRequest2
+                  )
+            throws SecurityServiceException{
+                //TODO : fill this with the necessary business logic
+                throw new  java.lang.UnsupportedOperationException("Please implement " + this.getClass().getName() + "#registerUser");
+        }
+     
     }
     

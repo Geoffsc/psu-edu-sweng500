@@ -22,5 +22,10 @@
             <outputActionMapping>urn:loginResponse</outputActionMapping>
             <faultActionMapping faultName="SecurityServiceException">urn:loginSecurityServiceException</faultActionMapping>
         </operation>
+        <operation name="registerUser" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://services.generated.security.sweng500.psu.edu">
+            <actionMapping>urn:registerUser</actionMapping>
+            <outputActionMapping>urn:registerUserResponse</outputActionMapping>
+            <faultActionMapping faultName="SecurityServiceException">urn:loginSecurityServiceException</faultActionMapping>
+        </operation>
     </service>
 </serviceGroup>
