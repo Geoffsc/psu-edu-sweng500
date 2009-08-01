@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import edu.psu.sweng500.carpool.beans.Address;
 import edu.psu.sweng500.carpool.beans.Organization;
 import edu.psu.sweng500.carpool.beans.User;
 import edu.psu.sweng500.carpool.exceptions.SecurityException;
@@ -16,15 +15,6 @@ import edu.psu.sweng500.carpool.exceptions.SecurityException;
 public class SecurityServiceWrapper extends HibernateDaoSupport implements ISecurityServiceWrapper
 {
 	private static final Log log = LogFactory.getLog(SecurityServiceWrapper.class);
-
-	/*
-	public boolean login(String userName, String password)
-			throws SecurityException
-	{
-		System.out.println("User name: " + userName + "/password: " + password);
-		return false;
-	}
-	*/
 	
 	public boolean login(String userName, String password) throws SecurityException
     {

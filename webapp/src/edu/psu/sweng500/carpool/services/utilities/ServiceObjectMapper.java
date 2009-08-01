@@ -2,9 +2,7 @@ package edu.psu.sweng500.carpool.services.utilities;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import edu.psu.sweng500.carpool.beans.Address;
@@ -15,8 +13,34 @@ import edu.psu.sweng500.carpool.generated.beans.xsd.Place;
 import edu.psu.sweng500.carpool.generated.beans.xsd.Trip;
 import edu.psu.sweng500.carpool.generated.beans.xsd.TripUser;
 
+/* 
+ * This program is free software; you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation; either version 2 of the License, or 
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but 
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along 
+ * with this program; if not, write to the Free Software Foundation, Inc., 
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
+/**
+ * This class is used to convert Service objects to internal objects
+ * @author Eric Borisow
+ *
+ */
 public class ServiceObjectMapper
 {
+	/**
+	 * Convert a Service object to a Place
+	 * @param address The address object to convert
+	 * @return
+	 */
 	public static Place convertToPlace(Address address)
 	{
 		Place place = new Place();
@@ -39,6 +63,11 @@ public class ServiceObjectMapper
 		return place;
 	}
 	
+	/**
+	 * Convert a Place to an Address
+	 * @param place The place to convert
+	 * @return
+	 */
 	public static Address convertToAddress(Place place)
 	{
 		Address address = new Address();
@@ -56,19 +85,11 @@ public class ServiceObjectMapper
 		return address;
 	}
 	
-	/*
-	public static TripUser convertToUser(Participant participant)
-	{
-		TripUser user = new TripUser();
-		if (participant == null)
-		{
-			return user;
-		}
-		edu.psu.sweng500.carpool.generated.beans.xsd.User serviceUser = participant.getUser();
-		user.setUserId(serviceUser.getId());
-	}
-	*/
-	
+	/**
+	 * Convert a Service Organization to an internal Organization
+	 * @param organization The service organization to convert
+	 * @return
+	 */
 	public static Organization convertToServiceOrganization(edu.psu.sweng500.carpool.beans.Organization organization)
 	{
 		Organization serviceOrg = new Organization();
@@ -81,6 +102,11 @@ public class ServiceObjectMapper
 		return serviceOrg;
 	}
 	
+	/**
+	 * Convert a User object to a TripUser
+	 * @param user The user object to convert
+	 * @return
+	 */
 	public static TripUser convertToTripUser(User user)
 	{
 		TripUser tripUser = new TripUser();
@@ -95,6 +121,11 @@ public class ServiceObjectMapper
 		return tripUser;
 	}
 	
+	/**
+	 * Convert a Service trip to a Trip
+	 * @param trip The service trip object
+	 * @return
+	 */
 	public static Trip convertToTrip(edu.psu.sweng500.carpool.beans.Trip trip)
 	{
 		Trip serviceTrip = new Trip();
@@ -133,11 +164,11 @@ public class ServiceObjectMapper
 		serviceTrip.setEndAddress(ServiceObjectMapper.convertToPlace(trip.getEndAddress()));
 		serviceTrip.setStartAddress(ServiceObjectMapper.convertToPlace(trip.getStartAddress()));
 		
-		Set members = trip.getMembers();
+		Set<edu.psu.sweng500.carpool.beans.TripUser> members = trip.getMembers();
 		if (members != null)
 		{
 			Participant[] participants = new Participant[members.size()];
-			Iterator membersIter = members.iterator();
+			Iterator<edu.psu.sweng500.carpool.beans.TripUser> membersIter = members.iterator();
 			int count = 0;
 			while (membersIter.hasNext())
 			{

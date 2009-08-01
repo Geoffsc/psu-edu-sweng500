@@ -22,6 +22,27 @@ import edu.psu.sweng500.carpool.beans.Trip;
 import edu.psu.sweng500.carpool.beans.TripUser;
 import edu.psu.sweng500.carpool.data.FindCriteria;
 
+/* 
+ * This program is free software; you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation; either version 2 of the License, or 
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but 
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along 
+ * with this program; if not, write to the Free Software Foundation, Inc., 
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
+/**
+ * Implementation of a CarpoolTripService using Hibernate
+ * @author Eric Borisow
+ *
+ */
 public class CarPoolTripService extends HibernateDaoSupport implements
 		ICarPoolTripService
 {
@@ -99,11 +120,6 @@ public class CarPoolTripService extends HibernateDaoSupport implements
             localCriteria.createAlias("user", "user", CriteriaSpecification.INNER_JOIN);
             localCriteria.createAlias("trip", "trip", CriteriaSpecification.INNER_JOIN);
             
-            // localCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
-            // localCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);
-            // localCriteria.setFetchMode("trip.organization", FetchMode.JOIN);
-            // localCriteria.setFetchMode("trip.members", FetchMode.JOIN);
-
             if (sortField != null && !sortField.equals(""))
             {
                 if (isAscending)
@@ -114,23 +130,20 @@ public class CarPoolTripService extends HibernateDaoSupport implements
                 {
                 	localCriteria.addOrder(Order.desc(sortField).ignoreCase());
                 }
-                // localCriteria.addOrder(Order.asc("stateOrProvince").ignoreCase());
-                // localCriteria.addOrder(Order.asc("city").ignoreCase());
             }
             
+            /*
+             * no default sort
             else
             {
                 if (isAscending)
                 {
-                	// localCriteria.addOrder(Order.asc("stateOrProvince").ignoreCase());
-                    // localCriteria.addOrder(Order.asc("city").ignoreCase());
                 }
                 else
                 {
-                	// localCriteria.addOrder(Order.desc("stateOrProvince").ignoreCase());
-                    // localCriteria.addOrder(Order.asc("city").ignoreCase());
                 }
             }
+            */
             
             int offset = criteria.getOffset();
             if (offset >= 0)
@@ -204,13 +217,6 @@ public class CarPoolTripService extends HibernateDaoSupport implements
             	}
             }
             
-            /*
-            localCriteria.setFetchMode("startAddress", FetchMode.JOIN);
-            localCriteria.setFetchMode("endAddress", FetchMode.JOIN);
-            localCriteria.setFetchMode("organization", FetchMode.JOIN);
-            localCriteria.setFetchMode("members", FetchMode.JOIN);
-            */
-
             if (sortField != null && !sortField.equals(""))
             {
                 if (isAscending)
@@ -221,23 +227,20 @@ public class CarPoolTripService extends HibernateDaoSupport implements
                 {
                 	localCriteria.addOrder(Order.desc(sortField).ignoreCase());
                 }
-                // localCriteria.addOrder(Order.asc("stateOrProvince").ignoreCase());
-                // localCriteria.addOrder(Order.asc("city").ignoreCase());
             }
             
+            /*
+            	no default sort
             else
             {
                 if (isAscending)
                 {
-                	// localCriteria.addOrder(Order.asc("stateOrProvince").ignoreCase());
-                    // localCriteria.addOrder(Order.asc("city").ignoreCase());
                 }
                 else
                 {
-                	// localCriteria.addOrder(Order.desc("stateOrProvince").ignoreCase());
-                    // localCriteria.addOrder(Order.asc("city").ignoreCase());
                 }
             }
+            */
             
             int offset = criteria.getOffset();
             if (offset >= 0)

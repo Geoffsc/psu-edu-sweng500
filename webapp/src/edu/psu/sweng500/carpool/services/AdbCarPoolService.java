@@ -52,6 +52,28 @@ import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest;
 import edu.psu.sweng500.carpool.services.utilities.ServiceObjectMapper;
 import edu.psu.sweng500.carpool.utilities.LocationUtils;
 
+/* 
+ * This program is free software; you can redistribute it and/or modify 
+ * it under the terms of the GNU General Public License as published by 
+ * the Free Software Foundation; either version 2 of the License, or 
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but 
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+ * for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along 
+ * with this program; if not, write to the Free Software Foundation, Inc., 
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
+/**
+ * Implementation of the web service skeleton interface
+ * This is the main class that is invoked when a web service message
+ * is received.
+ * @author Eric Borisow
+ */
 public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 {
 	private static final Log log = LogFactory.getLog(AdbCarPoolService.class);
@@ -172,8 +194,6 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			}
 			places[count++] = place;
 		}
-		// PlaceList placeList = new PlaceList();
-		// placeList.setPlace(places);
 		
 		response.setPlace(places);
 		return response;
@@ -432,7 +452,6 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		}
 		Iterator<TripUser> tripUsersIter = tripUsers.iterator();
 		
-		// TripList tripList = new TripList();
 		edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] serviceTrips = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip[tripUsers.size()];
 		
 		int count = 0;
@@ -564,7 +583,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			FindSimilarTripsRequest findSimilarTripsRequest)
 			throws CarPoolServiceException
 	{
-		
+		GetTripsByUserResponse response = new GetTripsByUserResponse();
 		float latitude = 0;
 		if (findSimilarTripsRequest.getLatitude() != null && findSimilarTripsRequest.getLatitude().trim().length() != 0)
 		{
@@ -653,6 +672,10 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		criteria.setDetachedCriteria(detachedCriteria);
 		
 		List<Trip> trips = carPoolTripService.findTripsOnly(criteria);
+		if (trips == null)
+		{
+			return response;
+		}
 		
 		// if the user passes in a number for the number of miles in the range, then use that
 		int numMiles = findSimilarTripsRequest.getNumMiles();
@@ -711,7 +734,6 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			}
 		}
 		
-		GetTripsByUserResponse response = new GetTripsByUserResponse();
 		response.setTrip(serviceTrips);
 		
 		return response;
@@ -743,6 +765,18 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		Participant participant = updateTripUserRequest.getParticipant();
 		edu.psu.sweng500.carpool.generated.beans.xsd.TripUser serviceTripUser = participant.getUser();
 		String tripId = updateTripUserRequest.getTripId();
+		if (tripId == null || tripId.trim().length() == 0)
+		{
+			SimpleMessageResponse response = new SimpleMessageResponse();
+			SimpleMessage message = new SimpleMessage();
+			message.setIsSuccess(false);
+			message.setErrorCode(0);
+			message.setErrorDescription("");
+			message.setMessage("");
+			message.setTraceMessage("");
+			response.setMessage(message);
+			return response;
+		}
 		
 		TripUser tripUser = new TripUser();
 		User user = new User();
