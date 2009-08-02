@@ -1,13 +1,14 @@
 package edu.psu.sweng500.carpool.device.app;
 
+import edu.psu.sweng500.carpool.device.app.screens.NewSplashScreen;
 import net.rim.device.api.system.*;
 
 public class SplashScreenListener implements KeyListener, 
 					TrackwheelListener {
     
-    private SplashScreen screen;
+    private NewSplashScreen screen;
     
-    public SplashScreenListener (SplashScreen splash) {
+    public SplashScreenListener (NewSplashScreen splash) {
             screen = splash;
     }
     

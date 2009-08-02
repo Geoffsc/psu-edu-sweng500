@@ -10,7 +10,7 @@ import com.nutiteq.controls.UserDefinedKeysMapping;
 import com.nutiteq.kml.KmlService;
 import com.nutiteq.kml.KmlUrlReader;
 import com.nutiteq.maps.CloudMade;
-import com.nutiteq.maps.NutiteqStreamedMap;
+// import com.nutiteq.maps.NutiteqStreamedMap;
 import com.nutiteq.net.DefaultDownloadStreamOpener;
 
 public class SharedMap
