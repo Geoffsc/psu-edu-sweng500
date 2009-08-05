@@ -5,16 +5,24 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Vector;
 
+import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
+import edu.psu.sweng500.carpool.device.app.beans.TripData;
+import edu.psu.sweng500.carpool.device.app.controllers.CreateTripController;
 import edu.psu.sweng500.carpool.device.app.fields.DocumentObjectListField;
 import edu.psu.sweng500.carpool.device.app.fields.TitleBar;
 import edu.psu.sweng500.carpool.device.app.managers.BackgroundFieldManager;
 import edu.psu.sweng500.carpool.device.services.generated.CarPoolService_Stub;
 import edu.psu.sweng500.carpool.device.services.generated.Parameter;
+import edu.psu.sweng500.carpool.device.services.generated.Participant;
 import edu.psu.sweng500.carpool.device.services.generated.Trip;
+import edu.psu.sweng500.carpool.device.services.generated.TripUser;
+import edu.psu.sweng500.carpool.device.services.generated.User;
 import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.system.EventLogger;
+import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.Dialog;
+import net.rim.device.api.ui.component.Menu;
 import net.rim.device.api.ui.container.MainScreen;
 
 public class ShowAllResultsScreen extends MainScreen
@@ -25,6 +33,12 @@ public class ShowAllResultsScreen extends MainScreen
 	private String userName;
 	
 	private Date searchStartDate;
+	
+	private MenuItem joinTripItem = new MenuItem("Join this trip", 110, 10) {
+		public void run() {
+			joinTrip();
+		}
+	};
     
 	public void setSearchStartDate(Date searchStartDate)
 	{
@@ -124,6 +138,83 @@ public class ShowAllResultsScreen extends MainScreen
 			Dialog.alert("A remote exception occurred: " + rme.getMessage());
 		}
 		
+	}
+	
+	protected void makeMenu(Menu menu, int instance)
+	{
+        menu.add(joinTripItem);
+        menu.add(MenuItem.separator(joinTripItem.getOrdinal() + 1));
+        super.makeMenu(menu,instance);
+    }
+	
+	private void joinTrip()
+	{
+		int selectedTripIndex = tripList.getSelectedIndex();
+		
+		Trip selectedTrip = this.trips[selectedTripIndex];
+		if (selectedTrip != null)
+		{				
+			MemberTypePopup popup = new MemberTypePopup();
+			UiApplication.getUiApplication().pushModalScreen(popup);
+			
+			if (TripData.getTripUserType().trim().length() == 0)
+			{
+				return;
+			}
+			
+			Participant participant = new Participant();
+			participant.setType(TripData.getTripUserType());
+			
+			TripUser user = new TripUser();
+			
+			CarPoolService_Stub service = new CarPoolService_Stub();		
+			try
+			{
+				User theUser = service.getUser(SessionSettings.getUserName());
+				
+				Trip fullTripData = service.getTrip(selectedTrip.getId());
+				Participant[] currentParticipants = fullTripData.getParticipants();
+				for (int i = 0; i < currentParticipants.length; i++)
+				{
+					Participant currentParticipant = currentParticipants[i];
+					if (currentParticipant.getUser().getId().equals(theUser.getId()))
+					{
+						if (currentParticipant.getType().equalsIgnoreCase(TripData.getTripUserType()))
+						{
+							// the user already is a member of this trip
+							if (Dialog.YES == Dialog.ask(Dialog.D_YES_NO, "You are already a member of this trip!  Would you like to exit?", Dialog.YES))
+							{
+								return;
+							}
+							else
+							{
+								return;
+							}
+						}
+						else
+						{
+							if (Dialog.NO == Dialog.ask(Dialog.D_YES_NO, "You are already a member of this trip but you are currently a " + currentParticipant.getType() + "?  Would you like to update this trip?", Dialog.NO))
+							{
+								return;
+							}
+						}
+					}
+				}
+				
+				user.setId(theUser.getId());
+				participant.setUser(user);
+				
+				service.updateTripUser(selectedTrip.getId(), participant);
+				
+				TripData.clear();
+				Dialog.alert("Trip updated!");
+			}
+			catch (RemoteException rme)
+			{
+				Dialog.alert("A remote exception occurred: " + rme.getMessage());
+				return;
+			}
+		}
 	}
 	
 	protected boolean navigationClick(int status, int time)

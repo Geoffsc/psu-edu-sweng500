@@ -2,11 +2,15 @@ package edu.psu.sweng500.carpool.device.app.screens;
 
 import java.rmi.RemoteException;
 
+import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
+import edu.psu.sweng500.carpool.device.app.beans.TripData;
 import edu.psu.sweng500.carpool.device.app.fields.TitleBar;
 import edu.psu.sweng500.carpool.device.app.managers.BackgroundFieldManager;
 import edu.psu.sweng500.carpool.device.services.generated.CarPoolService_Stub;
 import edu.psu.sweng500.carpool.device.services.generated.Participant;
 import edu.psu.sweng500.carpool.device.services.generated.Trip;
+import edu.psu.sweng500.carpool.device.services.generated.TripUser;
+import edu.psu.sweng500.carpool.device.services.generated.User;
 import net.rim.device.api.system.EventLogger;
 import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
@@ -33,6 +37,11 @@ public class DetailsScreen extends MainScreen
     VerticalFieldManager v2;
     VerticalFieldManager v3;
 
+    private MenuItem joinTripItem = new MenuItem("Join this trip", 110, 10) {
+		public void run() {
+			joinTrip();
+		}
+	};
 
 	
 	public DetailsScreen()
@@ -294,9 +303,74 @@ public class DetailsScreen extends MainScreen
 	protected void makeMenu(Menu menu, int instance)
 	{
         menu.add(showDirectionsItem);
-        menu.add(MenuItem.separator(showDirectionsItem.getOrdinal() + 1));
+        menu.add(joinTripItem);
+        menu.add(MenuItem.separator(joinTripItem.getOrdinal() + 1));
         super.makeMenu(menu,instance);
     }
+	
+	private void joinTrip()
+	{
+		MemberTypePopup popup = new MemberTypePopup();
+		UiApplication.getUiApplication().pushModalScreen(popup);
+		
+		if (TripData.getTripUserType().trim().length() == 0)
+		{
+			return;
+		}
+		
+		Participant participant = new Participant();
+		participant.setType(TripData.getTripUserType());
+		
+		TripUser user = new TripUser();
+		
+		CarPoolService_Stub service = new CarPoolService_Stub();		
+		try
+		{
+			User theUser = service.getUser(SessionSettings.getUserName());
+			
+			Trip fullTripData = service.getTrip(this.tripId);
+			Participant[] currentParticipants = fullTripData.getParticipants();
+			for (int i = 0; i < currentParticipants.length; i++)
+			{
+				Participant currentParticipant = currentParticipants[i];
+				if (currentParticipant.getUser().getId().equals(theUser.getId()))
+				{
+					if (currentParticipant.getType().equalsIgnoreCase(TripData.getTripUserType()))
+					{
+						// the user already is a member of this trip
+						if (Dialog.YES == Dialog.ask(Dialog.D_YES_NO, "You are already a member of this trip!  Would you like to exit?", Dialog.YES))
+						{
+							return;
+						}
+						else
+						{
+							return;
+						}
+					}
+					else
+					{
+						if (Dialog.NO == Dialog.ask(Dialog.D_YES_NO, "You are already a member of this trip but you are currently a " + currentParticipant.getType() + "?  Would you like to update this trip?", Dialog.NO))
+						{
+							return;
+						}
+					}
+				}
+			}
+			
+			user.setId(theUser.getId());
+			participant.setUser(user);
+			
+			service.updateTripUser(this.tripId, participant);
+			
+			TripData.clear();
+			Dialog.alert("Trip updated!");
+		}
+		catch (RemoteException rme)
+		{
+			Dialog.alert("A remote exception occurred: " + rme.getMessage());
+			return;
+		}
+	}
 	
 	private void pushDirectionsScreen()
 	{
