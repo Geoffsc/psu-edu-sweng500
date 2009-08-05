@@ -10,8 +10,12 @@ import edu.psu.sweng500.carpool.device.services.generated.CarPoolService_Stub;
 import edu.psu.sweng500.carpool.device.services.generated.Place;
 import edu.psu.sweng500.carpool.device.services.generated.User;
 import net.rim.device.api.system.EventLogger;
+import net.rim.device.api.ui.Color;
+import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.Dialog;
+import net.rim.device.api.ui.component.LabelField;
+import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.MainScreen;
 
 public class CarPoolOptionsScreen extends MainScreen
@@ -20,6 +24,7 @@ public class CarPoolOptionsScreen extends MainScreen
 	private GreenStarObjectListField menu;
 	
 	private SelectLocationScreen selectLocationScreen;
+	private PreferencesScreen preferencesScreen;
 	
 	public CarPoolOptionsScreen()
 	{	
@@ -27,10 +32,23 @@ public class CarPoolOptionsScreen extends MainScreen
 		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
 		this.add(titleBar);
 		
+		LabelField label1 = new LabelField("Please select:", LabelField.READONLY)
+		{
+			public void paint(Graphics graphics)
+            {
+                graphics.setColor(Color.BLUE);
+                graphics.clear();
+                super.paint(graphics);
+            }
+		};
+		verticalManager.add(label1);
+		verticalManager.add(new SeparatorField());
+		
         menu = new GreenStarObjectListField();
         String mnuStartLocation = "Select a default start location";
         String mnuEndLocation = "Select a default end location";
-        mainMenuItems = new String[]{mnuStartLocation, mnuEndLocation};
+        String mnuPreferences = "Edit Preferences";
+        mainMenuItems = new String[]{mnuStartLocation, mnuEndLocation, mnuPreferences};
         menu.set(mainMenuItems);
         verticalManager.add(menu);
         this.add(verticalManager);
@@ -134,6 +152,14 @@ public class CarPoolOptionsScreen extends MainScreen
             break;
             case 1:
             	this.pushEndLocationScreen();
+            break;
+            case 2:
+            	if (null == preferencesScreen)
+                {
+            		preferencesScreen = new PreferencesScreen();
+                }
+                
+                UiApplication.getUiApplication().pushScreen(preferencesScreen);
             break;
         }
         

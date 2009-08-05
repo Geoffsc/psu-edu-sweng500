@@ -11,10 +11,13 @@ import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.BasicEditField;
 import net.rim.device.api.ui.component.ButtonField;
+import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.ObjectChoiceField;
+import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.MainScreen;
 
 public class CreateTripScreen5 extends MainScreen
@@ -26,11 +29,28 @@ public class CreateTripScreen5 extends MainScreen
 	
 	public CreateTripScreen5()
 	{
+	}
+	
+	public void initialize()
+	{
+		this.deleteAll();
 		//this.setTitle("Create Trip - Person Type");
 		TitleBar titleBar = new TitleBar(5);
 		this.setTitle(titleBar);
 		
 		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
+		
+		LabelField mainLabel = new LabelField("Trip Details:", LabelField.READONLY)
+		{
+			public void paint(Graphics graphics)
+            {
+                graphics.setColor(Color.BLUE);
+                graphics.clear();
+                super.paint(graphics);
+            }
+		};
+		verticalManager.add(mainLabel);
+		verticalManager.add(new SeparatorField());
 		
 		LabelField label1 = new LabelField("Trip Title:", Field.FIELD_LEFT | Field.FIELD_VCENTER);
 		tripTitleField = new BasicEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER | BasicEditField.NO_NEWLINE);
@@ -90,6 +110,16 @@ public class CreateTripScreen5 extends MainScreen
 	{
 		tripTitleField.setText("");
 		tripUserType.setSelectedIndex(0);
+	}
+	
+	public boolean onClose()
+	{
+		if (Dialog.NO == Dialog.ask(Dialog.D_YES_NO, "Are you sure you want to exit?", Dialog.YES))
+		{
+			return false;
+		}
+		UiApplication.getUiApplication().popScreen(this);
+		return true;
 	}
 	
 }

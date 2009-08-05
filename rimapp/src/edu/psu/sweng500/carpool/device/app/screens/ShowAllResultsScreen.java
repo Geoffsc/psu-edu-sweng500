@@ -68,6 +68,7 @@ public class ShowAllResultsScreen extends MainScreen
 		*/
 		
 		Vector parameterVec = new Vector();
+		boolean useUserName = false;
 		
 		if (this.userName != null && this.userName.trim().length() != 0)
 		{
@@ -76,6 +77,7 @@ public class ShowAllResultsScreen extends MainScreen
 			param1.setValue(this.userName);
 			parameterVec.addElement(param1);
 			// parameters[0] = param1;
+			useUserName = true;
 		}
 		
 		if (searchStartDate != null)
@@ -102,7 +104,15 @@ public class ShowAllResultsScreen extends MainScreen
 		{
 			CarPoolService_Stub serviceStub = new CarPoolService_Stub();
 			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Searching for trips").getBytes(), EventLogger.ALWAYS_LOG);
-			trips = serviceStub.findTrips(parameters);
+			
+			if (useUserName)
+			{
+				trips = serviceStub.getTripsByUser(parameters);
+			}
+			else
+			{
+				trips = serviceStub.findTrips(parameters);
+			}
 			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Done searching for trips").getBytes(), EventLogger.ALWAYS_LOG);
 			
 			tripList.set(trips);

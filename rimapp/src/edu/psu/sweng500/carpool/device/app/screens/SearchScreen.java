@@ -4,7 +4,10 @@ import edu.psu.sweng500.carpool.device.app.beans.SessionSettings;
 import edu.psu.sweng500.carpool.device.app.fields.DocumentObjectListField;
 import edu.psu.sweng500.carpool.device.app.fields.TitleBar;
 import edu.psu.sweng500.carpool.device.app.managers.BackgroundFieldManager;
+import net.rim.device.api.ui.Color;
+import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.MainScreen;
 
@@ -24,8 +27,17 @@ public class SearchScreen extends MainScreen
 		
 		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
 		
-		SeparatorField seperator1 = new SeparatorField();
-		verticalManager.add(seperator1);
+		LabelField label1 = new LabelField("Please select:", LabelField.READONLY)
+		{
+			public void paint(Graphics graphics)
+            {
+                graphics.setColor(Color.BLUE);
+                graphics.clear();
+                super.paint(graphics);
+            }
+		};
+		verticalManager.add(label1);
+		verticalManager.add(new SeparatorField());
 		
         menu = new DocumentObjectListField();
         menu.setRowHeight(25);

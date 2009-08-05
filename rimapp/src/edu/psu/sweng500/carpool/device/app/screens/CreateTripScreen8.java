@@ -20,6 +20,7 @@ import edu.psu.sweng500.carpool.device.services.generated.User;
 import net.rim.device.api.i18n.SimpleDateFormat;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.LabelField;
@@ -31,6 +32,11 @@ public class CreateTripScreen8 extends MainScreen
 	
 	public CreateTripScreen8()
 	{
+	}
+	
+	public void initialize()
+	{
+		this.deleteAll();
 		// this.setTitle("Review details");
 		TitleBar titleBar = new TitleBar(5);
 		this.setTitle(titleBar);
@@ -131,6 +137,16 @@ public class CreateTripScreen8 extends MainScreen
 		
 		CreateTripController createTripController = CreateTripController.getInstance();
 		createTripController.execute(this, parameters);
+	}
+	
+	public boolean onClose()
+	{
+		if (Dialog.NO == Dialog.ask(Dialog.D_YES_NO, "Are you sure you want to exit?", Dialog.YES))
+		{
+			return false;
+		}
+		UiApplication.getUiApplication().popScreen(this);
+		return true;
 	}
 	
 }

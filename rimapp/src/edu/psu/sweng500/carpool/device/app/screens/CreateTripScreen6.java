@@ -14,13 +14,17 @@ import edu.psu.sweng500.carpool.device.services.generated.Trip;
 import edu.psu.sweng500.carpool.device.services.generated.TripUser;
 import edu.psu.sweng500.carpool.device.services.generated.User;
 import net.rim.device.api.system.EventLogger;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.Dialog;
+import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.RadioButtonField;
 import net.rim.device.api.ui.component.RadioButtonGroup;
+import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.MainScreen;
 
 public class CreateTripScreen6 extends MainScreen
@@ -51,6 +55,18 @@ public class CreateTripScreen6 extends MainScreen
 		this.trips = trips;
 		
 		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
+		
+		LabelField label1 = new LabelField("Please select:", LabelField.READONLY)
+		{
+			public void paint(Graphics graphics)
+            {
+                graphics.setColor(Color.BLUE);
+                graphics.clear();
+                super.paint(graphics);
+            }
+		};
+		verticalManager.add(label1);
+		verticalManager.add(new SeparatorField());
 		
 		radioGroup = new RadioButtonGroup();
 		for (int i = 0; i < trips.length; i++)
@@ -105,6 +121,14 @@ public class CreateTripScreen6 extends MainScreen
 			if (selectedTrip != null)
 			{				
 				Participant participant = new Participant();
+				MemberTypePopup popup = new MemberTypePopup();
+				UiApplication.getUiApplication().pushModalScreen(popup);
+				
+				if (TripData.getTripUserType().trim().length() == 0)
+				{
+					return;
+				}
+				
 				participant.setType(TripData.getTripUserType());
 				
 				TripUser user = new TripUser();
@@ -141,10 +165,10 @@ public class CreateTripScreen6 extends MainScreen
 							{
 								if (Dialog.NO == Dialog.ask(Dialog.D_YES_NO, "You are already a member of this trip but you are currently a " + currentParticipant.getType() + "?  Would you like to update this trip?", Dialog.NO))
 								{
-									parameters.put("tripSaved", "true");
+									// parameters.put("tripSaved", "true");
 									
-									CreateTripController createTripController = CreateTripController.getInstance();
-									createTripController.execute(this, parameters);
+									// CreateTripController createTripController = CreateTripController.getInstance();
+									// createTripController.execute(this, parameters);
 									return;
 								}
 							}
@@ -201,5 +225,15 @@ public class CreateTripScreen6 extends MainScreen
         
         return true;
     }
+	
+	public boolean onClose()
+	{
+		if (Dialog.NO == Dialog.ask(Dialog.D_YES_NO, "Are you sure you want to exit?", Dialog.YES))
+		{
+			return false;
+		}
+		UiApplication.getUiApplication().popScreen(this);
+		return true;
+	}
 
 }

@@ -14,9 +14,12 @@ import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
 import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.DateField;
+import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.LabelField;
+import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.MainScreen;
 
 public class CreateTripScreen4 extends MainScreen
@@ -27,10 +30,27 @@ public class CreateTripScreen4 extends MainScreen
 	
 	public CreateTripScreen4()
 	{
+	}
+	
+	public void initialize()
+	{
+		this.deleteAll();
 		TitleBar titleBar = new TitleBar(5);
 		
 		BackgroundFieldManager verticalManager = new BackgroundFieldManager(titleBar.getPreferredHeight());
 		this.setTitle(titleBar);
+		
+		LabelField mainLabel = new LabelField("Trip Details:", LabelField.READONLY)
+		{
+			public void paint(Graphics graphics)
+            {
+                graphics.setColor(Color.BLUE);
+                graphics.clear();
+                super.paint(graphics);
+            }
+		};
+		verticalManager.add(mainLabel);
+		verticalManager.add(new SeparatorField());
 		
 		LabelField labelTest1 = new LabelField("Trip start: " + TripData.getTripStartPlace() + "/" + TripData.getTripEndPlace(), Field.FIELD_LEFT | Field.FIELD_VCENTER);
 		verticalManager.add(labelTest1);
@@ -139,6 +159,16 @@ public class CreateTripScreen4 extends MainScreen
 		tripDate.setDate(Calendar.getInstance().getTime().getTime());
 		startTime.setDate(Calendar.getInstance().getTime().getTime());
 		endTime.setDate(Calendar.getInstance().getTime().getTime());
+	}
+	
+	public boolean onClose()
+	{
+		if (Dialog.NO == Dialog.ask(Dialog.D_YES_NO, "Are you sure you want to exit?", Dialog.YES))
+		{
+			return false;
+		}
+		UiApplication.getUiApplication().popScreen(this);
+		return true;
 	}
 	
 }

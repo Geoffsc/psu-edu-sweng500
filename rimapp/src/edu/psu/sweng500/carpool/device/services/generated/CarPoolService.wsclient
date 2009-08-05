@@ -7,6 +7,6 @@
         <property name="cldc11" value="true"/>
     </client>
     <services>
-        <service file="CarPoolService.wsdl" url="http://localhost:6187/sweng500_car_pool/services/CarPoolService?wsdl"/>
+        <service file="CarPoolService.wsdl" url="http://plyw314928.internal.imsglobal.com:6187/sweng500_car_pool/services/CarPoolService?wsdl"/>
     </services>
 </wsclientconfig>

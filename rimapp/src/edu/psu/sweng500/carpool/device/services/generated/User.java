@@ -43,6 +43,16 @@ public class User {
         return type;
     }
 
+    private Integer preferredDistance;
+
+    public void setPreferredDistance( Integer preferredDistance ) {
+        this.preferredDistance = preferredDistance;
+    }
+
+    public Integer getPreferredDistance() {
+        return preferredDistance;
+    }
+
     private Organization organization;
 
     public void setOrganization( Organization organization ) {

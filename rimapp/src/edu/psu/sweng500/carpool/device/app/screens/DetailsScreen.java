@@ -8,7 +8,9 @@ import edu.psu.sweng500.carpool.device.services.generated.CarPoolService_Stub;
 import edu.psu.sweng500.carpool.device.services.generated.Participant;
 import edu.psu.sweng500.carpool.device.services.generated.Trip;
 import net.rim.device.api.system.EventLogger;
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
+import net.rim.device.api.ui.Graphics;
 import net.rim.device.api.ui.Manager;
 import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
@@ -76,37 +78,176 @@ public class DetailsScreen extends MainScreen
 			trip = serviceStub.getTrip(tripId);
 			// UiApplication.getUiApplication().getActiveScreen().invalidate();
 			
-			
-			Manager flowFieldManager = new FlowFieldManager(Manager.VERTICAL_SCROLLBAR); 
-			this.setFieldWithFocus(flowFieldManager);
-			flowFieldManager.add(new NullField());
+			BackgroundFieldManager backgroupLayOut = new BackgroundFieldManager(titleBar.getPreferredHeight());
+			// Manager flowFieldManager = new FlowFieldManager(Manager.VERTICAL_SCROLLBAR); 
+			this.setFieldWithFocus(backgroupLayOut);
+			backgroupLayOut.add(new NullField());
 			
 			// Row 1
-			flowFieldManager.add(new LabelField("Title:" + " " + trip.getTitle(), Field.USE_ALL_WIDTH));
+			backgroupLayOut.add(
+				new LabelField("Title:", LabelField.READONLY)
+				{
+					public void paint(Graphics graphics)
+		            {
+		                graphics.setColor(Color.BLACK);
+		                graphics.clear();
+		                super.paint(graphics);
+		            }
+				}
+			);
+			backgroupLayOut.add(new LabelField(trip.getTitle(), Field.USE_ALL_WIDTH)
+				{
+					public void paint(Graphics graphics)
+		            {
+		                graphics.setColor(Color.YELLOW);
+		                graphics.clear();
+		                super.paint(graphics);
+		            }
+				}
+			);
 			// Row 2
-			flowFieldManager.add(new LabelField("Start Address:" + " " + trip.getStartAddress().getName(), Field.USE_ALL_WIDTH));
+			backgroupLayOut.add(
+				new LabelField("Start Address:", LabelField.READONLY)
+				{
+					public void paint(Graphics graphics)
+		            {
+		                graphics.setColor(Color.BLACK);
+		                graphics.clear();
+		                super.paint(graphics);
+		            }
+				}
+			);
+			backgroupLayOut.add(new LabelField(trip.getStartAddress().getName(), Field.USE_ALL_WIDTH)
+				{
+					public void paint(Graphics graphics)
+		            {
+		                graphics.setColor(Color.YELLOW);
+		                graphics.clear();
+		                super.paint(graphics);
+		            }
+				}
+			);
 			// Row 3
-			flowFieldManager.add(new LabelField("End Address:" + " " + trip.getEndAddress().getName(), Field.USE_ALL_WIDTH));
+			backgroupLayOut.add(
+				new LabelField("End Address:", LabelField.READONLY)
+				{
+					public void paint(Graphics graphics)
+		            {
+		                graphics.setColor(Color.BLACK);
+		                graphics.clear();
+		                super.paint(graphics);
+		            }
+				}
+			);
+			backgroupLayOut.add(new LabelField(trip.getEndAddress().getName(), Field.USE_ALL_WIDTH)
+				{
+					public void paint(Graphics graphics)
+		            {
+		                graphics.setColor(Color.YELLOW);
+		                graphics.clear();
+		                super.paint(graphics);
+		            }
+				}
+			);
 			// Row 4
-			flowFieldManager.add(new LabelField("Start Date:", Field.USE_ALL_WIDTH));
-			flowFieldManager.add(new LabelField(trip.getStartDate(), Field.USE_ALL_WIDTH));
+			backgroupLayOut.add(
+				new LabelField("Start Date:", LabelField.READONLY)
+				{
+					public void paint(Graphics graphics)
+		            {
+		                graphics.setColor(Color.BLACK);
+		                graphics.clear();
+		                super.paint(graphics);
+		            }
+				}
+			);
+			// backgroupLayOut.add(new LabelField("Start Date:", Field.USE_ALL_WIDTH));
+			backgroupLayOut.add(new LabelField(trip.getStartDate(), Field.USE_ALL_WIDTH)
+				{
+					public void paint(Graphics graphics)
+		            {
+		                graphics.setColor(Color.YELLOW);
+		                graphics.clear();
+		                super.paint(graphics);
+		            }
+				}
+			);
 			// Row 5
-			flowFieldManager.add(new LabelField("End Date:", Field.USE_ALL_WIDTH));
-			flowFieldManager.add(new LabelField(trip.getEndDate(), Field.USE_ALL_WIDTH));
+			backgroupLayOut.add(
+				new LabelField("End Date:", LabelField.READONLY)
+				{
+					public void paint(Graphics graphics)
+		            {
+		                graphics.setColor(Color.BLACK);
+		                graphics.clear();
+		                super.paint(graphics);
+		            }
+				}
+			);
+			// backgroupLayOut.add(new LabelField("End Date:", Field.USE_ALL_WIDTH));
+			backgroupLayOut.add(new LabelField(trip.getEndDate(), Field.USE_ALL_WIDTH)
+				{
+					public void paint(Graphics graphics)
+		            {
+		                graphics.setColor(Color.YELLOW);
+		                graphics.clear();
+		                super.paint(graphics);
+		            }
+				}
+			);
 			// Row 6
-			flowFieldManager.add(new LabelField("Organization:" + " " + trip.getOrganization().getName(), Field.USE_ALL_WIDTH));
+			backgroupLayOut.add(
+				new LabelField("Organization:", LabelField.READONLY)
+				{
+					public void paint(Graphics graphics)
+		            {
+		                graphics.setColor(Color.BLACK);
+		                graphics.clear();
+		                super.paint(graphics);
+		            }
+				}
+			);
+			backgroupLayOut.add(new LabelField(trip.getOrganization().getName(), Field.USE_ALL_WIDTH)
+				{
+					public void paint(Graphics graphics)
+		            {
+		                graphics.setColor(Color.YELLOW);
+		                graphics.clear();
+		                super.paint(graphics);
+		            }
+				}
+			);
 			// Row 7
+			backgroupLayOut.add(
+				new LabelField("Members:", LabelField.READONLY)
+				{
+					public void paint(Graphics graphics)
+		            {
+		                graphics.setColor(Color.BLACK);
+		                graphics.clear();
+		                super.paint(graphics);
+		            }
+				}
+			);
 			Participant[] tripParticipants = trip.getParticipants();
 			for (int i = 0; i < tripParticipants.length; i++) {
 				Participant participant = tripParticipants[i];
-				flowFieldManager.add(new LabelField("Members:" + " " + participant.getUser().getGivenName() + " - " + 
-						participant.getType(), Field.USE_ALL_WIDTH));
+				backgroupLayOut.add(new LabelField(participant.getUser().getGivenName() + " - " + 
+						participant.getType(), Field.USE_ALL_WIDTH)
+					{
+						public void paint(Graphics graphics)
+			            {
+			                graphics.setColor(Color.YELLOW);
+			                graphics.clear();
+			                super.paint(graphics);
+			            }
+					}
+				);
 			}
 			
-			flowFieldManager.add(new NullField());
+			backgroupLayOut.add(new NullField());
 			
-			BackgroundFieldManager backgroupLayOut = new BackgroundFieldManager(titleBar.getPreferredHeight());
-			backgroupLayOut.add(flowFieldManager);
+			// backgroupLayOut.add(flowFieldManager);
 			this.add(backgroupLayOut);
 		}
 		catch (RemoteException rme)

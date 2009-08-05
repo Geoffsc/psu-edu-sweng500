@@ -235,9 +235,10 @@ public class CreateTripScreen2 extends MainScreen implements MapListener, PlaceL
 	{
 		if (Dialog.NO == Dialog.ask(Dialog.D_YES_NO, "Are you sure you want to exit?", Dialog.YES))
 		{
-			return true;
+			return false;
 		}
-		return super.onClose();
+		UiApplication.getUiApplication().popScreen(this);
+		return true;
 	}
 
 	public void needRepaint(final boolean screenComplete)

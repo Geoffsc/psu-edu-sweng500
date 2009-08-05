@@ -15,6 +15,7 @@ import edu.psu.sweng500.carpool.device.app.screens.CreateTripScreen8;
 import edu.psu.sweng500.carpool.device.app.screens.DirectionsScreen;
 import edu.psu.sweng500.carpool.device.app.utilities.ApplicationConstants;
 import edu.psu.sweng500.carpool.device.services.generated.CarPoolService_Stub;
+import edu.psu.sweng500.carpool.device.services.generated.Parameter;
 import edu.psu.sweng500.carpool.device.services.generated.Place;
 import edu.psu.sweng500.carpool.device.services.generated.Trip;
 import edu.psu.sweng500.carpool.device.services.generated.User;
@@ -164,6 +165,7 @@ public class CreateTripController
 			{
 				createTripScreen4 = new CreateTripScreen4();
 			}
+			createTripScreen4.initialize();
 			
 			UiApplication.getUiApplication().popScreen(createTripScreen2);
 			UiApplication.getUiApplication().pushScreen(createTripScreen4);
@@ -188,8 +190,43 @@ public class CreateTripController
 			String longitude = "";
 			try
 			{
+				User theUser = service.getUser(SessionSettings.getUserName());
+				if (theUser != null)
+				{
+					numMiles = theUser.getPreferredDistance().intValue();
+				}
+				
 				boolean tripsFound = false;
-				Trip[] trips = service.findSimilarTrips("", "", startAddress, endAddress, dateFormat.format(startDate), dateFormat.format(endDate), latitude, longitude, "12345", numMiles);
+				dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				
+				Parameter[] params = new Parameter[5];
+				Parameter param = new Parameter();
+				param.setName("startAddress");
+				param.setValue(startAddress);
+				params[0] = param;
+				
+				param = new Parameter();
+				param.setName("endAddress");
+				param.setValue(endAddress);
+				params[1] = param;
+				
+				param = new Parameter();
+				param.setName("startDate");
+				param.setValue(dateFormat.format(startDate));
+				params[2] = param;
+				
+				param = new Parameter();
+				param.setName("endDate");
+				param.setValue(dateFormat.format(endDate));
+				params[3] = param;
+				
+				param = new Parameter();
+				param.setName("organization");
+				param.setValue("12345");
+				params[4] = param;
+				
+				Trip[] trips = service.findTrips(params);
+				// Trip[] trips = service.findSimilarTrips("", "", startAddress, endAddress, dateFormat.format(startDate), dateFormat.format(endDate), latitude, longitude, "12345", numMiles);
 				if (trips != null && trips.length > 0)
 				{
 					tripsFound = true;
@@ -211,6 +248,7 @@ public class CreateTripController
 						createTripScreen6.setState("similarSearch");
 						
 						dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+						
 						trips = service.findSimilarTrips("", "", startAddress, endAddress, dateFormat.format(startDate), dateFormat.format(startDate), latitude, longitude, "12345", numMiles);
 						if (trips != null && trips.length > 0)
 						{
@@ -254,6 +292,7 @@ public class CreateTripController
 			{
 				createTripScreen5 = new CreateTripScreen5();
 			}
+			createTripScreen5.initialize();
 			
 			UiApplication.getUiApplication().popScreen(createTripScreen4);
 			UiApplication.getUiApplication().pushScreen(createTripScreen5);
@@ -267,6 +306,7 @@ public class CreateTripController
 			{
 				createTripScreen8 = new CreateTripScreen8();
 			}
+			createTripScreen8.initialize();
 			
 			UiApplication.getUiApplication().popScreen(createTripScreen5);
 			UiApplication.getUiApplication().pushScreen(createTripScreen8);
@@ -284,7 +324,7 @@ public class CreateTripController
 			
 			UiApplication.getUiApplication().popScreen(createTripScreen6);
 			TripData.clear();
-			clearScreen();
+			// clearScreen();
 			return;
 		}
 		
@@ -310,6 +350,12 @@ public class CreateTripController
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				try
 				{
+					User theUser = service.getUser(SessionSettings.getUserName());
+					if (theUser != null)
+					{
+						numMiles = theUser.getPreferredDistance().intValue();
+					}
+					
 					Trip[] trips = service.findSimilarTrips("", "", startAddress, endAddress, dateFormat.format(startDate), dateFormat.format(endDate), latitude, longitude, "12345", numMiles);
 					if (trips != null && trips.length > 0)
 					{
@@ -351,6 +397,8 @@ public class CreateTripController
 			{
 				createTripScreen5 = new CreateTripScreen5();
 			}
+			createTripScreen5.initialize();
+			
 			UiApplication.getUiApplication().popScreen(createTripScreen6);
 			UiApplication.getUiApplication().pushScreen(createTripScreen5);
 			return;
@@ -374,7 +422,7 @@ public class CreateTripController
 		{
 			EventLogger.logEvent(0xe0328a32a1c0f8ddL, ("Moving from CreateTripScreen8 to CarPoolMainScreen: ").getBytes(), EventLogger.ALWAYS_LOG);
 			UiApplication.getUiApplication().popScreen(createTripScreen8);
-			clearScreen();
+			// clearScreen();
 			
 			// display the directions screen
 			if (directionsScreen == null)
@@ -418,11 +466,13 @@ public class CreateTripController
 		}
 	}
 	
+	/*
 	private void clearScreen()
 	{
 		createTripScreen4.clearFields();
 		createTripScreen5.clearFields();
 	}
+	*/
 	
 	private static String getStringParameter(Hashtable parameters, String parameterName)
 	{

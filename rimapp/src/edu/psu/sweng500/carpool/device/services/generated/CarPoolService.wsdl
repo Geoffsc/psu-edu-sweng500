@@ -37,6 +37,7 @@
                 <xs:element minOccurs="0" name="givenName" nillable="true" type="xs:string"/>
                 <xs:element minOccurs="0" name="surName" nillable="true" type="xs:string"/>
                 <xs:element minOccurs="0" name="type" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="preferredDistance" nillable="true" type="xs:int"/>
                 <xs:element minOccurs="0" name="organization" nillable="true" type="ax21:Organization"/>
                 <xs:element maxOccurs="unbounded" minOccurs="0" name="savedPlaces" nillable="true" type="ax21:Place"/>
             </xs:sequence>
@@ -193,7 +194,8 @@
 			<xs:element name="GetTripsByUserRequest">
 		        <xs:complexType>
 		            <xs:sequence>
-		                <xs:element minOccurs="1" name="userId" nillable="false" type="xs:string"/>
+		                <!--  <xs:element minOccurs="1" name="userId" nillable="false" type="xs:string"/> -->
+		                <xs:element maxOccurs="unbounded" minOccurs="0" name="searchParameters" nillable="true" type="ax21:Parameter"/>
 		            </xs:sequence>
 		        </xs:complexType>
 		    </xs:element>
@@ -289,9 +291,22 @@
 		            </xs:sequence>
 		        </xs:complexType>
 		    </xs:element>
+		    
+		    <xs:element name="UpdateUserRequest">
+		        <xs:complexType>
+		            <xs:sequence>
+		            	<xs:element minOccurs="1" name="userId" nillable="false" type="xs:string"/>
+		                <xs:element minOccurs="1" name="user" nillable="false" type="ax21:User"/>
+		            </xs:sequence>
+		        </xs:complexType>
+		    </xs:element>
 			
 		</xs:schema>
   </wsdl:types>
+  <wsdl:message name="UpdateUserRequest">
+    <wsdl:part name="parameters" element="ns2:UpdateUserRequest">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="SimpleMessageResponse">
     <wsdl:part name="parameters" element="ns2:SimpleMessageResponse">
     </wsdl:part>
@@ -340,12 +355,12 @@
     <wsdl:part name="parameters" element="ns2:UpdateTripResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="GetTripsByUserRequest">
-    <wsdl:part name="parameters" element="ns2:GetTripsByUserRequest">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="UpdateTripRequest">
     <wsdl:part name="parameters" element="ns2:UpdateTripRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetTripsByUserRequest">
+    <wsdl:part name="parameters" element="ns2:GetTripsByUserRequest">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="SearchTripsRequest">
@@ -442,7 +457,15 @@
     </wsdl:input>
       <wsdl:output message="axis2:SimpleMessageResponse" wsaw:Action="urn:SimpleMessageResponse">
     </wsdl:output>
-      <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:UpdateSavedAddressesException">
+      <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:UpdateTripUserServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateUser">
+      <wsdl:input message="axis2:UpdateUserRequest" wsaw:Action="urn:UpdateUserRequest">
+    </wsdl:input>
+      <wsdl:output message="axis2:SimpleMessageResponse" wsaw:Action="urn:SimpleMessageResponse">
+    </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException" message="axis2:CarPoolServiceException" wsaw:Action="urn:updateUserServiceException">
     </wsdl:fault>
     </wsdl:operation>
   </wsdl:portType>
@@ -568,10 +591,22 @@
         <soap:fault name="CarPoolServiceException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="updateUser">
+      <soap:operation soapAction="urn:updateUser" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CarPoolServiceException">
+        <soap:fault name="CarPoolServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="CarPoolService">
     <wsdl:port name="CarPoolServiceSOAP11port_http" binding="axis2:CarPoolServiceSOAP11Binding">
-      <soap:address location="http://192.168.1.5:6187/sweng500_car_pool/services/CarPoolService/"/>
+      <soap:address location="http://192.168.1.4:6187/sweng500_car_pool/services/CarPoolService/"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
