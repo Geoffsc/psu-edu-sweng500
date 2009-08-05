@@ -19,6 +19,7 @@ import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.Dialog;
 import net.rim.device.api.ui.component.EditField;
+import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.FlowFieldManager;
 import net.rim.device.api.ui.container.PopupScreen;
 
@@ -35,8 +36,9 @@ public final class GeocodePopupScreen extends PopupScreen implements FieldChange
         
     public GeocodePopupScreen() {                
     super(new FlowFieldManager());        
-    streetField=new EditField("Street:","");
-    add(streetField);          
+    streetField=new EditField("Address:","");
+    add(streetField);
+    add(new SeparatorField());
     okButton = new ButtonField("Ok");
     okButton.setChangeListener(this);
     add(okButton);

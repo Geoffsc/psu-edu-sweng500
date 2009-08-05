@@ -52,8 +52,8 @@ public class CreateTripScreen4 extends MainScreen
 		verticalManager.add(mainLabel);
 		verticalManager.add(new SeparatorField());
 		
-		LabelField labelTest1 = new LabelField("Trip start: " + TripData.getTripStartPlace() + "/" + TripData.getTripEndPlace(), Field.FIELD_LEFT | Field.FIELD_VCENTER);
-		verticalManager.add(labelTest1);
+		// LabelField labelTest1 = new LabelField("Trip start: " + TripData.getTripStartPlace() + "/" + TripData.getTripEndPlace(), Field.FIELD_LEFT | Field.FIELD_VCENTER);
+		// verticalManager.add(labelTest1);
 		
 		LabelField label1 = new LabelField("Select a trip date:", Field.FIELD_LEFT | Field.FIELD_VCENTER);
 		SimpleDateFormat dateFormat = new SimpleDateFormat(SimpleDateFormat.DATE_SHORT);
@@ -61,10 +61,11 @@ public class CreateTripScreen4 extends MainScreen
 		{
 			public void paint(Graphics graphics)
 	        {
+				graphics.setColor(Color.YELLOW);
 	            // Sets the BackgroundColor
 	            graphics.setBackgroundColor(Color.GRAY);
 	            // Clears the entire graphic area to the current background
-	            graphics.clear();
+	            // graphics.clear();
 	            super.paint(graphics);  
 	        }
 		};
@@ -75,10 +76,11 @@ public class CreateTripScreen4 extends MainScreen
 		{
 			public void paint(Graphics graphics)
 	        {
+				graphics.setColor(Color.YELLOW);
 	            // Sets the BackgroundColor
 	            graphics.setBackgroundColor(Color.GRAY);
 	            // Clears the entire graphic area to the current background
-	            graphics.clear();
+	            // graphics.clear();
 	            super.paint(graphics);  
 	        }
 		};
@@ -88,10 +90,11 @@ public class CreateTripScreen4 extends MainScreen
 		{
 			public void paint(Graphics graphics)
 	        {
+				graphics.setColor(Color.YELLOW);
 	            // Sets the BackgroundColor
 	            graphics.setBackgroundColor(Color.GRAY);
 	            // Clears the entire graphic area to the current background
-	            graphics.clear();
+	            // graphics.clear();
 	            super.paint(graphics);  
 	        }
 		};

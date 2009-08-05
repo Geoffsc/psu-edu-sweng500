@@ -53,7 +53,15 @@ public class CreateTripScreen5 extends MainScreen
 		verticalManager.add(new SeparatorField());
 		
 		LabelField label1 = new LabelField("Trip Title:", Field.FIELD_LEFT | Field.FIELD_VCENTER);
-		tripTitleField = new BasicEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER | BasicEditField.NO_NEWLINE);
+		tripTitleField = new BasicEditField("", "", 200, Field.FIELD_LEFT | Field.FIELD_VCENTER | BasicEditField.NO_NEWLINE)
+		{
+			public void paint(Graphics graphics)
+            {
+                graphics.setColor(Color.YELLOW);
+                graphics.clear();
+                super.paint(graphics);
+            }
+		};
 		
 		verticalManager.add(label1);
 		verticalManager.add(tripTitleField);
@@ -65,6 +73,7 @@ public class CreateTripScreen5 extends MainScreen
 	        {
 	            // Sets the BackgroundColor
 	            graphics.setBackgroundColor(Color.GRAY);
+	            graphics.setColor(Color.YELLOW);
 	            // Clears the entire graphic area to the current background
 	            graphics.clear();
 	            super.paint(graphics);  

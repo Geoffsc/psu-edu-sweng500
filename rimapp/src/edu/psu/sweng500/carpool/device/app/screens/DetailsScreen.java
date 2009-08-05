@@ -232,7 +232,7 @@ public class DetailsScreen extends MainScreen
 			Participant[] tripParticipants = trip.getParticipants();
 			for (int i = 0; i < tripParticipants.length; i++) {
 				Participant participant = tripParticipants[i];
-				backgroupLayOut.add(new LabelField(participant.getUser().getGivenName() + " - " + 
+				backgroupLayOut.add(new LabelField(participant.getUser().getGivenName() + " " + participant.getUser().getSurName() + " - " + 
 						participant.getType(), Field.USE_ALL_WIDTH)
 					{
 						public void paint(Graphics graphics)

@@ -12,6 +12,7 @@ import net.rim.device.api.ui.component.ButtonField;
 import net.rim.device.api.ui.component.EditField;
 import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.component.ObjectChoiceField;
+import net.rim.device.api.ui.component.SeparatorField;
 import net.rim.device.api.ui.container.FlowFieldManager;
 import net.rim.device.api.ui.container.PopupScreen;
 import net.rim.device.api.ui.container.VerticalFieldManager;
@@ -43,6 +44,7 @@ public class MemberTypePopup extends PopupScreen implements FieldChangeListener
 		
 		vertManager.add(label2);
 		vertManager.add(tripUserType);
+		vertManager.add(new SeparatorField());
 		
 		add(vertManager);
 	            

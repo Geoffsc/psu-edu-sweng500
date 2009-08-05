@@ -265,6 +265,11 @@ public class CreateTripScreen2 extends MainScreen implements MapListener, PlaceL
 		if (this.type.equalsIgnoreCase("end"))
 		{
 			edu.psu.sweng500.carpool.device.services.generated.Place placeClicked = places[p.getId()];
+			if (placeClicked.getId().equals(TripData.getTripStartPlace()))
+			{
+				Dialog.alert("The start and end location cannot be the same!");
+				return;
+			}
 			TripData.setTripEndPlace(placeClicked.getId());
 			
 			Hashtable parameters = new Hashtable();
