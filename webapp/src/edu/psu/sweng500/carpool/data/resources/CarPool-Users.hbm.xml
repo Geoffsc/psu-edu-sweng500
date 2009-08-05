@@ -10,6 +10,7 @@
 	<property name="password" column="PASSWORD"/>
 	<property name="givenName" column="GIVEN_NAME"/>
 	<property name="surName" column="SURNAME"/>
+	<property name="preferredDistance" column="PREFERRED_DISTANCE" type="integer"/>
 	
 	<many-to-one 
 		name="organization" 

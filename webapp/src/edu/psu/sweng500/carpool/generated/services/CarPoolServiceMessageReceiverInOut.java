@@ -38,182 +38,200 @@
 
             if("updateTrip".equals(methodName)){
                 
-                edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripResponse updateTripResponse44 = null;
+                edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripResponse updateTripResponse27 = null;
 	                        edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripRequest wrappedParam =
                                                              (edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripRequest)fromOM(
                                     msgContext.getEnvelope().getBody().getFirstElement(),
                                     edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripRequest.class,
                                     getEnvelopeNamespaces(msgContext.getEnvelope()));
                                                 
-                                               updateTripResponse44 =
+                                               updateTripResponse27 =
                                                    
                                                    
                                                          skel.updateTrip(wrappedParam)
                                                     ;
                                             
-                                        envelope = toEnvelope(getSOAPFactory(msgContext), updateTripResponse44, false);
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), updateTripResponse27, false);
+                                    } else 
+
+            if("updateUser".equals(methodName)){
+                
+                edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse simpleMessageResponse29 = null;
+	                        edu.psu.sweng500.carpool.generated.services.xsd.UpdateUserRequest wrappedParam =
+                                                             (edu.psu.sweng500.carpool.generated.services.xsd.UpdateUserRequest)fromOM(
+                                    msgContext.getEnvelope().getBody().getFirstElement(),
+                                    edu.psu.sweng500.carpool.generated.services.xsd.UpdateUserRequest.class,
+                                    getEnvelopeNamespaces(msgContext.getEnvelope()));
+                                                
+                                               simpleMessageResponse29 =
+                                                   
+                                                   
+                                                         skel.updateUser(wrappedParam)
+                                                    ;
+                                            
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), simpleMessageResponse29, false);
                                     } else 
 
             if("updateTripUser".equals(methodName)){
                 
-                edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse simpleMessageResponse46 = null;
+                edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse simpleMessageResponse31 = null;
 	                        edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest wrappedParam =
                                                              (edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest)fromOM(
                                     msgContext.getEnvelope().getBody().getFirstElement(),
                                     edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest.class,
                                     getEnvelopeNamespaces(msgContext.getEnvelope()));
                                                 
-                                               simpleMessageResponse46 =
+                                               simpleMessageResponse31 =
                                                    
                                                    
                                                          skel.updateTripUser(wrappedParam)
                                                     ;
                                             
-                                        envelope = toEnvelope(getSOAPFactory(msgContext), simpleMessageResponse46, false);
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), simpleMessageResponse31, false);
                                     } else 
 
             if("getTrip".equals(methodName)){
                 
-                edu.psu.sweng500.carpool.generated.services.xsd.GetTripResponse getTripResponse48 = null;
+                edu.psu.sweng500.carpool.generated.services.xsd.GetTripResponse getTripResponse33 = null;
 	                        edu.psu.sweng500.carpool.generated.services.xsd.GetTripRequest wrappedParam =
                                                              (edu.psu.sweng500.carpool.generated.services.xsd.GetTripRequest)fromOM(
                                     msgContext.getEnvelope().getBody().getFirstElement(),
                                     edu.psu.sweng500.carpool.generated.services.xsd.GetTripRequest.class,
                                     getEnvelopeNamespaces(msgContext.getEnvelope()));
                                                 
-                                               getTripResponse48 =
+                                               getTripResponse33 =
                                                    
                                                    
                                                          skel.getTrip(wrappedParam)
                                                     ;
                                             
-                                        envelope = toEnvelope(getSOAPFactory(msgContext), getTripResponse48, false);
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), getTripResponse33, false);
                                     } else 
 
             if("updateSavedAddresses".equals(methodName)){
                 
-                edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse simpleMessageResponse50 = null;
+                edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse simpleMessageResponse35 = null;
 	                        edu.psu.sweng500.carpool.generated.services.xsd.UpdateSavedAddressesRequest wrappedParam =
                                                              (edu.psu.sweng500.carpool.generated.services.xsd.UpdateSavedAddressesRequest)fromOM(
                                     msgContext.getEnvelope().getBody().getFirstElement(),
                                     edu.psu.sweng500.carpool.generated.services.xsd.UpdateSavedAddressesRequest.class,
                                     getEnvelopeNamespaces(msgContext.getEnvelope()));
                                                 
-                                               simpleMessageResponse50 =
+                                               simpleMessageResponse35 =
                                                    
                                                    
                                                          skel.updateSavedAddresses(wrappedParam)
                                                     ;
                                             
-                                        envelope = toEnvelope(getSOAPFactory(msgContext), simpleMessageResponse50, false);
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), simpleMessageResponse35, false);
                                     } else 
 
             if("getUser".equals(methodName)){
                 
-                edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse getUserResponse52 = null;
+                edu.psu.sweng500.carpool.generated.services.xsd.GetUserResponse getUserResponse37 = null;
 	                        edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest wrappedParam =
                                                              (edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest)fromOM(
                                     msgContext.getEnvelope().getBody().getFirstElement(),
                                     edu.psu.sweng500.carpool.generated.services.xsd.GetUserRequest.class,
                                     getEnvelopeNamespaces(msgContext.getEnvelope()));
                                                 
-                                               getUserResponse52 =
+                                               getUserResponse37 =
                                                    
                                                    
                                                          skel.getUser(wrappedParam)
                                                     ;
                                             
-                                        envelope = toEnvelope(getSOAPFactory(msgContext), getUserResponse52, false);
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), getUserResponse37, false);
                                     } else 
 
             if("findSimilarTrips".equals(methodName)){
                 
-                edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse getTripsByUserResponse54 = null;
+                edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse getTripsByUserResponse39 = null;
 	                        edu.psu.sweng500.carpool.generated.services.xsd.FindSimilarTripsRequest wrappedParam =
                                                              (edu.psu.sweng500.carpool.generated.services.xsd.FindSimilarTripsRequest)fromOM(
                                     msgContext.getEnvelope().getBody().getFirstElement(),
                                     edu.psu.sweng500.carpool.generated.services.xsd.FindSimilarTripsRequest.class,
                                     getEnvelopeNamespaces(msgContext.getEnvelope()));
                                                 
-                                               getTripsByUserResponse54 =
+                                               getTripsByUserResponse39 =
                                                    
                                                    
                                                          skel.findSimilarTrips(wrappedParam)
                                                     ;
                                             
-                                        envelope = toEnvelope(getSOAPFactory(msgContext), getTripsByUserResponse54, false);
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), getTripsByUserResponse39, false);
                                     } else 
 
             if("findPlacesNearLocation".equals(methodName)){
                 
-                edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse findPlacesNearLocationResponse56 = null;
+                edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationResponse findPlacesNearLocationResponse41 = null;
 	                        edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest wrappedParam =
                                                              (edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest)fromOM(
                                     msgContext.getEnvelope().getBody().getFirstElement(),
                                     edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesNearLocationRequest.class,
                                     getEnvelopeNamespaces(msgContext.getEnvelope()));
                                                 
-                                               findPlacesNearLocationResponse56 =
+                                               findPlacesNearLocationResponse41 =
                                                    
                                                    
                                                          skel.findPlacesNearLocation(wrappedParam)
                                                     ;
                                             
-                                        envelope = toEnvelope(getSOAPFactory(msgContext), findPlacesNearLocationResponse56, false);
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), findPlacesNearLocationResponse41, false);
                                     } else 
 
             if("findTrips".equals(methodName)){
                 
-                edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse getTripsByUserResponse58 = null;
+                edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse getTripsByUserResponse43 = null;
 	                        edu.psu.sweng500.carpool.generated.services.xsd.SearchTripsRequest wrappedParam =
                                                              (edu.psu.sweng500.carpool.generated.services.xsd.SearchTripsRequest)fromOM(
                                     msgContext.getEnvelope().getBody().getFirstElement(),
                                     edu.psu.sweng500.carpool.generated.services.xsd.SearchTripsRequest.class,
                                     getEnvelopeNamespaces(msgContext.getEnvelope()));
                                                 
-                                               getTripsByUserResponse58 =
+                                               getTripsByUserResponse43 =
                                                    
                                                    
                                                          skel.findTrips(wrappedParam)
                                                     ;
                                             
-                                        envelope = toEnvelope(getSOAPFactory(msgContext), getTripsByUserResponse58, false);
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), getTripsByUserResponse43, false);
                                     } else 
 
             if("findPlaces".equals(methodName)){
                 
-                edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesResponse findPlacesResponse60 = null;
+                edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesResponse findPlacesResponse45 = null;
 	                        edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesRequest wrappedParam =
                                                              (edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesRequest)fromOM(
                                     msgContext.getEnvelope().getBody().getFirstElement(),
                                     edu.psu.sweng500.carpool.generated.services.xsd.FindPlacesRequest.class,
                                     getEnvelopeNamespaces(msgContext.getEnvelope()));
                                                 
-                                               findPlacesResponse60 =
+                                               findPlacesResponse45 =
                                                    
                                                    
                                                          skel.findPlaces(wrappedParam)
                                                     ;
                                             
-                                        envelope = toEnvelope(getSOAPFactory(msgContext), findPlacesResponse60, false);
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), findPlacesResponse45, false);
                                     } else 
 
             if("getTripsByUser".equals(methodName)){
                 
-                edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse getTripsByUserResponse62 = null;
+                edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserResponse getTripsByUserResponse47 = null;
 	                        edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest wrappedParam =
                                                              (edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest)fromOM(
                                     msgContext.getEnvelope().getBody().getFirstElement(),
                                     edu.psu.sweng500.carpool.generated.services.xsd.GetTripsByUserRequest.class,
                                     getEnvelopeNamespaces(msgContext.getEnvelope()));
                                                 
-                                               getTripsByUserResponse62 =
+                                               getTripsByUserResponse47 =
                                                    
                                                    
                                                          skel.getTripsByUser(wrappedParam)
                                                     ;
                                             
-                                        envelope = toEnvelope(getSOAPFactory(msgContext), getTripsByUserResponse62, false);
+                                        envelope = toEnvelope(getSOAPFactory(msgContext), getTripsByUserResponse47, false);
                                     
             } else {
               throw new java.lang.RuntimeException("method not found");
@@ -280,12 +298,12 @@
 
             }
         
-            private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest param, boolean optimizeContent)
+            private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.carpool.generated.services.xsd.UpdateUserRequest param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
             
                         try{
-                             return param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest.MY_QNAME,
+                             return param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.UpdateUserRequest.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -300,6 +318,20 @@
             
                         try{
                              return param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse.MY_QNAME,
+                                          org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                        } catch(org.apache.axis2.databinding.ADBException e){
+                            throw org.apache.axis2.AxisFault.makeFault(e);
+                        }
+                    
+
+            }
+        
+            private  org.apache.axiom.om.OMElement  toOM(edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest param, boolean optimizeContent)
+            throws org.apache.axis2.AxisFault {
+
+            
+                        try{
+                             return param.getOMElement(edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest.MY_QNAME,
                                           org.apache.axiom.om.OMAbstractFactory.getOMFactory());
                         } catch(org.apache.axis2.databinding.ADBException e){
                             throw org.apache.axis2.AxisFault.makeFault(e);
@@ -523,6 +555,11 @@
                     }
                     }
                     
+                         private edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse wrapupdateUser(){
+                                edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse wrappedElement = new edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse();
+                                return wrappedElement;
+                         }
+                    
                          private edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse wrapupdateTripUser(){
                                 edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse wrappedElement = new edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse();
                                 return wrappedElement;
@@ -665,6 +702,27 @@
                 if (edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripResponse.class.equals(type)){
                 
                            return edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE.class.equals(type)){
+                
+                           return edu.psu.sweng500.carpool.generated.services.xsd.CarPoolServiceExceptionE.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.carpool.generated.services.xsd.UpdateUserRequest.class.equals(type)){
+                
+                           return edu.psu.sweng500.carpool.generated.services.xsd.UpdateUserRequest.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse.class.equals(type)){
+                
+                           return edu.psu.sweng500.carpool.generated.services.xsd.SimpleMessageResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }

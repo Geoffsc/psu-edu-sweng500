@@ -1,5 +1,7 @@
 package edu.psu.sweng500.carpool.services;
 
+import java.util.List;
+
 import edu.psu.sweng500.carpool.beans.TripUser;
 
 /* 
@@ -30,5 +32,7 @@ public interface ICarPoolTripUserService
 	 * @return
 	 */
 	boolean createOrUpdate(TripUser tripUser);
+	
+	List<TripUser> getTripUsersForTrip(String id);
 	
 }

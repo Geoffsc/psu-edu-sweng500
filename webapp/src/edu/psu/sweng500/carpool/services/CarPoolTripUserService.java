@@ -1,13 +1,20 @@
 package edu.psu.sweng500.carpool.services;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import edu.psu.sweng500.carpool.beans.Address;
 import edu.psu.sweng500.carpool.beans.TripUser;
+import edu.psu.sweng500.carpool.beans.User;
 
 /* 
  * This program is free software; you can redistribute it and/or modify 
@@ -65,6 +72,34 @@ public class CarPoolTripUserService extends HibernateDaoSupport implements
             }
         }
         return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<TripUser> getTripUsersForTrip(String id)
+	{
+		Session session = getSession(true);
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            
+            Criteria criteria=session.createCriteria(edu.psu.sweng500.carpool.beans.TripUser.class);
+            criteria.setFetchMode("user", FetchMode.JOIN);
+            criteria.setFetchMode("trip", FetchMode.JOIN);
+            criteria.add(Restrictions.eq("tripId", id));
+
+            tx.commit();
+            return (List<TripUser>) criteria.list();
+        }
+        catch (HibernateException ex) {
+            throw convertHibernateAccessException(ex);
+        }
+        finally
+        {
+            if (session != null)
+            {
+                this.releaseSession(session);
+            }
+        }
 	}
 	
 }

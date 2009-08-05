@@ -33,34 +33,86 @@
         
 
                         /**
-                        * field for UserId
+                        * field for SearchParameters
+                        * This was an Array!
                         */
 
                         
-                                    protected java.lang.String localUserId ;
+                                    protected edu.psu.sweng500.carpool.generated.beans.xsd.Parameter[] localSearchParameters ;
                                 
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localSearchParametersTracker = false ;
+                           
 
                            /**
                            * Auto generated getter method
-                           * @return java.lang.String
+                           * @return edu.psu.sweng500.carpool.generated.beans.xsd.Parameter[]
                            */
-                           public  java.lang.String getUserId(){
-                               return localUserId;
+                           public  edu.psu.sweng500.carpool.generated.beans.xsd.Parameter[] getSearchParameters(){
+                               return localSearchParameters;
                            }
 
                            
                         
-                            /**
-                               * Auto generated setter method
-                               * @param param UserId
-                               */
-                               public void setUserId(java.lang.String param){
-                            
-                                            this.localUserId=param;
-                                    
 
-                               }
+
+                               
+                              /**
+                               * validate the array for SearchParameters
+                               */
+                              protected void validateSearchParameters(edu.psu.sweng500.carpool.generated.beans.xsd.Parameter[] param){
+                             
+                              }
+
+
+                             /**
+                              * Auto generated setter method
+                              * @param param SearchParameters
+                              */
+                              public void setSearchParameters(edu.psu.sweng500.carpool.generated.beans.xsd.Parameter[] param){
+                              
+                                   validateSearchParameters(param);
+
+                               
+                                          if (param != null){
+                                             //update the setting tracker
+                                             localSearchParametersTracker = true;
+                                          } else {
+                                             localSearchParametersTracker = true;
+                                                 
+                                          }
+                                      
+                                      this.localSearchParameters=param;
+                              }
+
+                               
+                             
+                             /**
+                             * Auto generated add method for the array for convenience
+                             * @param param edu.psu.sweng500.carpool.generated.beans.xsd.Parameter
+                             */
+                             public void addSearchParameters(edu.psu.sweng500.carpool.generated.beans.xsd.Parameter param){
+                                   if (localSearchParameters == null){
+                                   localSearchParameters = new edu.psu.sweng500.carpool.generated.beans.xsd.Parameter[]{};
+                                   }
+
                             
+                                 //update the setting tracker
+                                localSearchParametersTracker = true;
+                            
+
+                               java.util.List list =
+                            org.apache.axis2.databinding.utils.ConverterUtil.toList(localSearchParameters);
+                               list.add(param);
+                               this.localSearchParameters =
+                             (edu.psu.sweng500.carpool.generated.beans.xsd.Parameter[])list.toArray(
+                            new edu.psu.sweng500.carpool.generated.beans.xsd.Parameter[list.size()]);
+
+                             }
+                             
 
      /**
      * isReaderMTOMAware
@@ -158,41 +210,69 @@
 
                
                    }
-               
-                                    namespace = "http://services.generated.carpool.sweng500.psu.edu/xsd";
-                                    if (! namespace.equals("")) {
-                                        prefix = xmlWriter.getPrefix(namespace);
+                if (localSearchParametersTracker){
+                                       if (localSearchParameters!=null){
+                                            for (int i = 0;i < localSearchParameters.length;i++){
+                                                if (localSearchParameters[i] != null){
+                                                 localSearchParameters[i].serialize(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","searchParameters"),
+                                                           factory,xmlWriter);
+                                                } else {
+                                                   
+                                                            // write null attribute
+                                                            java.lang.String namespace2 = "http://services.generated.carpool.sweng500.psu.edu/xsd";
+                                                            if (! namespace2.equals("")) {
+                                                                java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
 
-                                        if (prefix == null) {
-                                            prefix = generatePrefix(namespace);
+                                                                if (prefix2 == null) {
+                                                                    prefix2 = generatePrefix(namespace2);
 
-                                            xmlWriter.writeStartElement(prefix,"userId", namespace);
-                                            xmlWriter.writeNamespace(prefix, namespace);
-                                            xmlWriter.setPrefix(prefix, namespace);
+                                                                    xmlWriter.writeStartElement(prefix2,"searchParameters", namespace2);
+                                                                    xmlWriter.writeNamespace(prefix2, namespace2);
+                                                                    xmlWriter.setPrefix(prefix2, namespace2);
 
-                                        } else {
-                                            xmlWriter.writeStartElement(namespace,"userId");
-                                        }
+                                                                } else {
+                                                                    xmlWriter.writeStartElement(namespace2,"searchParameters");
+                                                                }
 
-                                    } else {
-                                        xmlWriter.writeStartElement("userId");
-                                    }
-                                
+                                                            } else {
+                                                                xmlWriter.writeStartElement("searchParameters");
+                                                            }
 
-                                          if (localUserId==null){
-                                              // write the nil attribute
-                                              
-                                                     throw new org.apache.axis2.databinding.ADBException("userId cannot be null!!");
-                                                  
-                                          }else{
+                                                           // write the nil attribute
+                                                           writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                           xmlWriter.writeEndElement();
+                                                    
+                                                }
 
+                                            }
+                                     } else {
                                         
-                                                   xmlWriter.writeCharacters(localUserId);
-                                            
-                                          }
-                                    
-                                   xmlWriter.writeEndElement();
-                             
+                                                // write null attribute
+                                                java.lang.String namespace2 = "http://services.generated.carpool.sweng500.psu.edu/xsd";
+                                                if (! namespace2.equals("")) {
+                                                    java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
+
+                                                    if (prefix2 == null) {
+                                                        prefix2 = generatePrefix(namespace2);
+
+                                                        xmlWriter.writeStartElement(prefix2,"searchParameters", namespace2);
+                                                        xmlWriter.writeNamespace(prefix2, namespace2);
+                                                        xmlWriter.setPrefix(prefix2, namespace2);
+
+                                                    } else {
+                                                        xmlWriter.writeStartElement(namespace2,"searchParameters");
+                                                    }
+
+                                                } else {
+                                                    xmlWriter.writeStartElement("searchParameters");
+                                                }
+
+                                               // write the nil attribute
+                                               writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                               xmlWriter.writeEndElement();
+                                        
+                                    }
+                                 }
                     xmlWriter.writeEndElement();
                
 
@@ -354,16 +434,32 @@
                  java.util.ArrayList elementList = new java.util.ArrayList();
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
-                
-                                      elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
-                                                                      "userId"));
+                 if (localSearchParametersTracker){
+                             if (localSearchParameters!=null) {
+                                 for (int i = 0;i < localSearchParameters.length;i++){
+
+                                    if (localSearchParameters[i] != null){
+                                         elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
+                                                                          "searchParameters"));
+                                         elementList.add(localSearchParameters[i]);
+                                    } else {
+                                        
+                                                elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
+                                                                          "searchParameters"));
+                                                elementList.add(null);
+                                            
+                                    }
+
+                                 }
+                             } else {
                                  
-                                        if (localUserId != null){
-                                            elementList.add(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localUserId));
-                                        } else {
-                                           throw new org.apache.axis2.databinding.ADBException("userId cannot be null!!");
-                                        }
+                                        elementList.add(new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd",
+                                                                          "searchParameters"));
+                                        elementList.add(localSearchParameters);
                                     
+                             }
+
+                        }
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
             
@@ -439,25 +535,66 @@
                     
                     reader.next();
                 
+                        java.util.ArrayList list1 = new java.util.ArrayList();
+                    
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","userId").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","searchParameters").equals(reader.getName())){
                                 
-                                    java.lang.String content = reader.getElementText();
                                     
-                                              object.setUserId(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
-                                              
-                                        reader.next();
                                     
+                                    // Process the array and step past its final element's end.
+                                    
+                                                          nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                                          if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                                              list1.add(null);
+                                                              reader.next();
+                                                          } else {
+                                                        list1.add(edu.psu.sweng500.carpool.generated.beans.xsd.Parameter.Factory.parse(reader));
+                                                                }
+                                                        //loop until we find a start element that is not part of this array
+                                                        boolean loopDone1 = false;
+                                                        while(!loopDone1){
+                                                            // We should be at the end element, but make sure
+                                                            while (!reader.isEndElement())
+                                                                reader.next();
+                                                            // Step out of this element
+                                                            reader.next();
+                                                            // Step to next element event.
+                                                            while (!reader.isStartElement() && !reader.isEndElement())
+                                                                reader.next();
+                                                            if (reader.isEndElement()){
+                                                                //two continuous end elements means we are exiting the xml structure
+                                                                loopDone1 = true;
+                                                            } else {
+                                                                if (new javax.xml.namespace.QName("http://services.generated.carpool.sweng500.psu.edu/xsd","searchParameters").equals(reader.getName())){
+                                                                    
+                                                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                                                          list1.add(null);
+                                                                          reader.next();
+                                                                      } else {
+                                                                    list1.add(edu.psu.sweng500.carpool.generated.beans.xsd.Parameter.Factory.parse(reader));
+                                                                        }
+                                                                }else{
+                                                                    loopDone1 = true;
+                                                                }
+                                                            }
+                                                        }
+                                                        // call the converter utility  to convert and set the array
+                                                        
+                                                        object.setSearchParameters((edu.psu.sweng500.carpool.generated.beans.xsd.Parameter[])
+                                                            org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
+                                                                edu.psu.sweng500.carpool.generated.beans.xsd.Parameter.class,
+                                                                list1));
+                                                            
                               }  // End of if for expected property start element
                                 
-                                else{
-                                    // A start element we are not expecting indicates an invalid parameter was passed
-                                    throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getLocalName());
-                                }
-                              
+                                    else {
+                                        
+                                    }
+                                  
                             while (!reader.isStartElement() && !reader.isEndElement())
                                 reader.next();
                             

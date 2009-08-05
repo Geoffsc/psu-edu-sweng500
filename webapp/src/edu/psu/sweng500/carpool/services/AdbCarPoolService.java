@@ -6,10 +6,15 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,6 +54,7 @@ import edu.psu.sweng500.carpool.generated.services.xsd.UpdateSavedAddressesReque
 import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripRequest;
 import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripResponse;
 import edu.psu.sweng500.carpool.generated.services.xsd.UpdateTripUserRequest;
+import edu.psu.sweng500.carpool.generated.services.xsd.UpdateUserRequest;
 import edu.psu.sweng500.carpool.services.utilities.ServiceObjectMapper;
 import edu.psu.sweng500.carpool.utilities.LocationUtils;
 
@@ -217,6 +223,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		serviceUser.setGivenName(user.getGivenName());
 		serviceUser.setSurName(user.getSurName());
 		serviceUser.setType("");
+		serviceUser.setPreferredDistance(user.getPreferredDistance());
 		Organization organization = user.getOrganization();
 		if (organization != null)
 		{
@@ -269,28 +276,107 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 	{
 		GetTripsByUserResponse response = new GetTripsByUserResponse();
 		
+		/*
 		String id = getTripsByUserRequest.getUserId();
 		if (id == null || id.trim().length() == 0)
 		{
 			return response;
 		}
+		*/
 		
 		FindCriteria criteria = new FindCriteria();
 		
-		Criterion[] allCriterion = new Criterion[1];
-		Criterion userCriterion = Restrictions.eq("user.userName", id);
+		List<Criterion> criterionList = new ArrayList<Criterion>();
+		Parameter[] parameters = getTripsByUserRequest.getSearchParameters();
+		if (parameters != null)
+		{
+			for (int i = 0; i < parameters.length; i++)
+			{
+				Parameter param = parameters[i];
+				String name = param.getName();
+				String value = param.getValue();
+				
+				if (name.equalsIgnoreCase("username"))
+				{
+					Criterion userCriterion = Restrictions.eq("user.userName", value);
+					criterionList.add(userCriterion);
+				}
+				
+				if (name.equalsIgnoreCase("startDate"))
+				{
+					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					try
+					{
+						Date theDateBegin = dateFormat.parse(value + " 00:00:00");
+						Date theDateEnd = dateFormat.parse(value + " 23:59:59");
+						Criterion startDateCriterion = Restrictions.ge("trip.startDate", theDateBegin);
+						Criterion endDateCriterion = Restrictions.le("trip.startDate", theDateEnd);
+						criterionList.add(startDateCriterion);
+						criterionList.add(endDateCriterion);
+					}
+					catch (ParseException pe)
+					{
+						StringWriter sw = new StringWriter();
+						PrintWriter pw = new PrintWriter(sw);
+						pe.printStackTrace(pw);
+						log.error(sw.toString());
+						
+						edu.psu.sweng500.carpool.generated.exceptions.xsd.CarPoolServiceException theError = new edu.psu.sweng500.carpool.generated.exceptions.xsd.CarPoolServiceException();
+						theError.setErrorCode(8888);
+						theError.setErrorDescription(pe.getMessage());
+						theError.setMessage(pe.getMessage());
+						theError.setTraceMessage(sw.toString());
+						// CarPoolServiceException exception = new CarPoolServiceException();
+						// throw theError;
+					}
+				}
+				
+				if (name.equalsIgnoreCase("startAddress"))
+				{
+					Criterion criterion = Restrictions.eq("trip.startAddress.id", value);
+					criterionList.add(criterion);
+				}
+				
+				if (name.equalsIgnoreCase("endAddress"))
+				{
+					Criterion criterion = Restrictions.eq("trip.endAddress.id", value);
+					criterionList.add(criterion);
+				}
+				
+				if (name.equalsIgnoreCase("organization"))
+				{
+					Criterion criterion = Restrictions.eq("trip.organization.id", value);
+					criterionList.add(criterion);
+				}	
+			}
+		}
+		
+		// Criterion[] allCriterion = new Criterion[1];
+		// Criterion userCriterion = Restrictions.eq("user.userName", id);
+		
+		// criteria.setSortField("trip.title");
+		// criteria.setAscending(true);
+		
+		// allCriterion[0] = userCriterion;
+		// criteria.setCriterion(allCriterion);
+		
+		Criterion[] allCriterion = new Criterion[criterionList.size()];
+		int criterionCount = 0;
+		Iterator<Criterion> criterionIter = criterionList.iterator();
+		while (criterionIter.hasNext())
+		{
+			allCriterion[criterionCount++] = (Criterion) criterionIter.next();
+		}
 		
 		criteria.setSortField("trip.title");
 		criteria.setAscending(true);
 		
-		allCriterion[0] = userCriterion;
 		criteria.setCriterion(allCriterion);
 		
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(edu.psu.sweng500.carpool.beans.TripUser.class);
 		detachedCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("trip.organization", FetchMode.JOIN);
-		detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
 		criteria.setDetachedCriteria(detachedCriteria);
 		
 		List<TripUser> tripUsers = carPoolTripService.findTrips(criteria);
@@ -400,8 +486,8 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 					{
 						Date theDateBegin = dateFormat.parse(value + " 00:00:00");
 						Date theDateEnd = dateFormat.parse(value + " 23:59:59");
-						Criterion startDateCriterion = Restrictions.ge("trip.startDate", theDateBegin);
-						Criterion endDateCriterion = Restrictions.le("trip.startDate", theDateEnd);
+						Criterion startDateCriterion = Restrictions.ge("startDate", theDateBegin);
+						Criterion endDateCriterion = Restrictions.le("startDate", theDateEnd);
 						criterionList.add(startDateCriterion);
 						criterionList.add(endDateCriterion);
 					}
@@ -422,6 +508,23 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 					}
 				}
 				
+				if (name.equalsIgnoreCase("startAddress"))
+				{
+					Criterion criterion = Restrictions.eq("startAddress.id", value);
+					criterionList.add(criterion);
+				}
+				
+				if (name.equalsIgnoreCase("endAddress"))
+				{
+					Criterion criterion = Restrictions.eq("endAddress.id", value);
+					criterionList.add(criterion);
+				}
+				
+				if (name.equalsIgnoreCase("organization"))
+				{
+					Criterion criterion = Restrictions.eq("organization.id", value);
+					criterionList.add(criterion);
+				}	
 			}
 		}
 		
@@ -433,37 +536,49 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			allCriterion[criterionCount++] = (Criterion) criterionIter.next();
 		}
 		
-		criteria.setSortField("trip.title");
+		criteria.setSortField("title");
 		criteria.setAscending(true);
 		
 		criteria.setCriterion(allCriterion);
 		
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(edu.psu.sweng500.carpool.beans.Trip.class);
+		detachedCriteria.setFetchMode("startAddress", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("endAddress", FetchMode.JOIN);
+		detachedCriteria.setFetchMode("organization", FetchMode.JOIN);
+		// detachedCriteria.setFetchMode("members", FetchMode.JOIN);
+		// detachedCriteria.setFetchMode("members.user", FetchMode.JOIN);
+		criteria.setDetachedCriteria(detachedCriteria);
+		
+		/*
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(edu.psu.sweng500.carpool.beans.TripUser.class);
 		detachedCriteria.setFetchMode("trip.startAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("trip.endAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("trip.organization", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("trip.members", FetchMode.JOIN);
 		criteria.setDetachedCriteria(detachedCriteria);
+		*/
 		
-		List<TripUser> tripUsers = carPoolTripService.findTrips(criteria);
-		if (tripUsers == null || tripUsers.size() == 0)
+		// List<TripUser> tripUsers = carPoolTripService.findTrips(criteria);
+		List<Trip> trips = carPoolTripService.findTripsOnly(criteria);
+		if (trips == null || trips.size() == 0)
 		{
 			return response;
 		}
-		Iterator<TripUser> tripUsersIter = tripUsers.iterator();
+		Iterator<Trip> tripsIter = trips.iterator();
 		
-		edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] serviceTrips = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip[tripUsers.size()];
+		edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] serviceTrips = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip[trips.size()];
 		
 		int count = 0;
-		while (tripUsersIter.hasNext())
+		while (tripsIter.hasNext())
 		{
-			TripUser tripUser = (TripUser) tripUsersIter.next();
-			if (tripUser != null)
+			Trip trip = (Trip) tripsIter.next();
+			if (trip != null)
 			{
-				Trip trip = tripUser.getTrip();
+				/*
+				// Trip trip = tripUser.getTrip();
 				edu.psu.sweng500.carpool.generated.beans.xsd.Trip serviceTrip = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip();
-				if (trip != null)
-				{
+				// if (trip != null)
+				// {
 					if (log.isDebugEnabled())
 					{
 						log.debug("Trip id: " + trip.getId());
@@ -501,11 +616,21 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 					{
 						serviceTrip.setEndDate("");
 					}
-					
-					
-					serviceTrips[count++] = serviceTrip;
-				}
+					*/
 				
+				List<TripUser> tripUsers = carPoolTripUserService.getTripUsersForTrip(trip.getId());
+				if (tripUsers != null)
+				{
+					Set<TripUser> membersSet = new HashSet<TripUser>(tripUsers);
+					trip.setMembers(membersSet);
+				}
+					
+				serviceTrips[count++] = ServiceObjectMapper.convertToTrip(trip);
+				// serviceMap.put(trip.getId(), ServiceObjectMapper.convertToTrip(trip));
+					
+				// }
+				
+					/*
 				User user = carPoolUserService.getUserById(tripUser.getUserId());
 				edu.psu.sweng500.carpool.generated.beans.xsd.TripUser serviceTripUser = ServiceObjectMapper.convertToTripUser(user);
 				
@@ -514,10 +639,22 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 				participant.setType(tripUser.getType());
 				
 				serviceTrip.addParticipants(participant);
+				*/
 				
-				response.addTrip(serviceTrip);
+				// response.addTrip(serviceTrip);
 			}
+			
+			
+			// Collection<edu.psu.sweng500.carpool.generated.beans.xsd.Trip> tripCollection = serviceMap.values();
+			// Iterator<edu.psu.sweng500.carpool.generated.beans.xsd.Trip> tripsIter = tripCollection.iterator();
+			// edu.psu.sweng500.carpool.generated.beans.xsd.Trip[] serviceTrips = new edu.psu.sweng500.carpool.generated.beans.xsd.Trip[trips.size()];
+			// while (tripsIter.hasNext())
+			// {
+				// serviceTrips[count++] = tripsIter.next();
+			// }
+			// response.setTrip(serviceTrips);
 		}
+		response.setTrip(serviceTrips);
 		
 		return response;
 	}
@@ -597,6 +734,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		log.debug("Incoming lat/lon: " + latitude + "/" + longitude);
 		
 		List<Criterion> criterionList = new ArrayList<Criterion>();
+		/*
 		if (findSimilarTripsRequest.getStartAddress() != null)
 		{
 			Criterion criterion = Restrictions.eq("startAddress.id", findSimilarTripsRequest.getStartAddress());
@@ -608,6 +746,7 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			Criterion criterion = Restrictions.eq("endAddress.id", findSimilarTripsRequest.getEndAddress());
 			criterionList.add(criterion);
 		}
+		*/
 		
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
@@ -663,12 +802,15 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		FindCriteria criteria = new FindCriteria();
 		criteria.setCriterion(criterion);
 		
+		criteria.setSortField("title");
+		criteria.setAscending(true);
+		
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(edu.psu.sweng500.carpool.beans.Trip.class);
 		detachedCriteria.setFetchMode("startAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("endAddress", FetchMode.JOIN);
 		detachedCriteria.setFetchMode("organization", FetchMode.JOIN);
-		detachedCriteria.setFetchMode("members", FetchMode.JOIN);
-		detachedCriteria.setFetchMode("members.user", FetchMode.JOIN);
+		// detachedCriteria.setFetchMode("members", FetchMode.JOIN);
+		// detachedCriteria.setFetchMode("members.user", FetchMode.JOIN);
 		criteria.setDetachedCriteria(detachedCriteria);
 		
 		List<Trip> trips = carPoolTripService.findTripsOnly(criteria);
@@ -681,6 +823,15 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 		int numMiles = findSimilarTripsRequest.getNumMiles();
 		if (numMiles > 0)
 		{
+			// if the latitude and longitude were not passed in with the request, then
+			// we can use the latitude and longitude from the start and end address
+			Address incomingStartAddress = this.carPoolLocationService.getAddress(findSimilarTripsRequest.getStartAddress());
+			Address incomingEndAddress = this.carPoolLocationService.getAddress(findSimilarTripsRequest.getEndAddress());
+			float incomingStartLat = incomingStartAddress.getLatitude();
+			float incomingStartLon = incomingStartAddress.getLongitude();
+			float incomingEndLat = incomingEndAddress.getLatitude();
+			float incomingEndLon = incomingEndAddress.getLongitude();
+			
 			List<Trip> foundTrips = new ArrayList<Trip>();
 			// figure out which addresses are within our range
 			for (int i = 0; i < trips.size(); i++)
@@ -690,27 +841,28 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 				{
 					Address startAddress = trip.getStartAddress();
 					Address endAddress = trip.getEndAddress();
-					boolean keepTrip = false;
+					boolean keepStartTrip = false;
+					boolean keepEndTrip = false;
 					
 					log.debug("Start address: " + startAddress.getLatitude() + "/" + startAddress.getLongitude());
 					
-					double distance = LocationUtils.getDistance(latitude, longitude, startAddress.getLatitude(), startAddress.getLongitude(), 'M');
+					double distance = LocationUtils.getDistance(incomingStartLat, incomingStartLon, startAddress.getLatitude(), startAddress.getLongitude(), 'M');
 					log.debug("Distance to start address is: " + distance);
 					if (distance <= findSimilarTripsRequest.getNumMiles())
 					{
 						log.debug("Start address is within distance for trip #" + trip.getId());
-						keepTrip = true;
+						keepStartTrip = true;
 					}
 					
-					distance = LocationUtils.getDistance(latitude, longitude, endAddress.getLatitude(), endAddress.getLongitude(), 'M');
+					distance = LocationUtils.getDistance(incomingEndLat, incomingEndLon, endAddress.getLatitude(), endAddress.getLongitude(), 'M');
 					log.debug("Distance to end address is: " + distance);
 					if (distance <= findSimilarTripsRequest.getNumMiles())
 					{
 						log.debug("End address is within distance for trip #" + trip.getId());
-						keepTrip = true;
+						keepEndTrip = true;
 					}
 					
-					if (keepTrip)
+					if (keepStartTrip && keepEndTrip)
 					{
 						log.debug("Keeping trip #" + trip.getId());
 						// trips.remove(i);
@@ -730,6 +882,13 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 			Trip resultTrip = (Trip) tripUsersIter.next();
 			if (resultTrip != null)
 			{
+				List<TripUser> tripUsers = carPoolTripUserService.getTripUsersForTrip(resultTrip.getId());
+				if (tripUsers != null)
+				{
+					Set<TripUser> membersSet = new HashSet<TripUser>(tripUsers);
+					resultTrip.setMembers(membersSet);
+				}
+				
 				serviceTrips[serviceTripCount++] = ServiceObjectMapper.convertToTrip(resultTrip);
 			}
 		}
@@ -900,6 +1059,60 @@ public class AdbCarPoolService implements CarPoolServiceSkeletonInterface
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public SimpleMessageResponse updateUser(UpdateUserRequest updateUserRequest)
+			throws CarPoolServiceException
+	{
+		SimpleMessageResponse response = new SimpleMessageResponse();
+		SimpleMessage message = new SimpleMessage();
+		response.setMessage(message);
+		
+		String id = updateUserRequest.getUserId();
+		if (id == null || id.trim().length() == 0)
+		{
+			message.setErrorCode(8888);
+			message.setIsSuccess(false);
+			message.setErrorDescription("User Id passed in is null or empty");
+			message.setTraceMessage("");
+			message.setMessage("");
+			return response;
+		}
+		
+		edu.psu.sweng500.carpool.generated.beans.xsd.User serviceUser = updateUserRequest.getUser();
+		if (serviceUser == null)
+		{
+			message.setErrorCode(8888);
+			message.setIsSuccess(false);
+			message.setErrorDescription("User passed in was null");
+			message.setTraceMessage("");
+			message.setMessage("");
+			return response;
+		}
+		
+		User user = this.carPoolUserService.getUserById(id);
+		if (user == null)
+		{
+			message.setErrorCode(8888);
+			message.setIsSuccess(false);
+			message.setErrorDescription("User could not be found with specified id");
+			message.setTraceMessage("");
+			message.setMessage("");
+			return response;
+		}
+		user.setGivenName(serviceUser.getGivenName());
+		user.setSurName(serviceUser.getSurName());
+		user.setPreferredDistance(serviceUser.getPreferredDistance());
+		
+		this.carPoolUserService.createOrUpdateUser(user);
+		
+		message.setErrorCode(0);
+		message.setIsSuccess(true);
+		message.setErrorDescription("");
+		message.setTraceMessage("");
+		message.setMessage("");
+		response.setMessage(message);
+		return response;
 	}
 
 }

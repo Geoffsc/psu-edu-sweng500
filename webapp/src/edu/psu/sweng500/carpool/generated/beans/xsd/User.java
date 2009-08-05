@@ -194,6 +194,51 @@
                             
 
                         /**
+                        * field for PreferredDistance
+                        */
+
+                        
+                                    protected int localPreferredDistance ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localPreferredDistanceTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return int
+                           */
+                           public  int getPreferredDistance(){
+                               return localPreferredDistance;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param PreferredDistance
+                               */
+                               public void setPreferredDistance(int param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       
+                                               if (param==java.lang.Integer.MIN_VALUE) {
+                                           localPreferredDistanceTracker = true;
+                                              
+                                       } else {
+                                          localPreferredDistanceTracker = true;
+                                       }
+                                   
+                                            this.localPreferredDistance=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for Organization
                         */
 
@@ -551,6 +596,35 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
+                             } if (localPreferredDistanceTracker){
+                                    namespace = "http://beans.generated.carpool.sweng500.psu.edu/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"preferredDistance", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"preferredDistance");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("preferredDistance");
+                                    }
+                                
+                                               if (localPreferredDistance==java.lang.Integer.MIN_VALUE) {
+                                           
+                                                         writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPreferredDistance));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
                              } if (localOrganizationTracker){
                                     if (localOrganization==null){
 
@@ -833,7 +907,13 @@
                                  
                                          elementList.add(localType==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localType));
-                                    } if (localOrganizationTracker){
+                                    } if (localPreferredDistanceTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd",
+                                                                      "preferredDistance"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPreferredDistance));
+                            } if (localOrganizationTracker){
                             elementList.add(new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd",
                                                                       "organization"));
                             
@@ -941,7 +1021,7 @@
                     
                     reader.next();
                 
-                        java.util.ArrayList list6 = new java.util.ArrayList();
+                        java.util.ArrayList list7 = new java.util.ArrayList();
                     
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
@@ -1046,6 +1126,37 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd","preferredDistance").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setPreferredDistance(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                                   object.setPreferredDistance(java.lang.Integer.MIN_VALUE);
+                                               
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                               object.setPreferredDistance(java.lang.Integer.MIN_VALUE);
+                                           
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd","organization").equals(reader.getName())){
                                 
                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
@@ -1078,14 +1189,14 @@
                                     
                                                           nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                                           if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                                              list6.add(null);
+                                                              list7.add(null);
                                                               reader.next();
                                                           } else {
-                                                        list6.add(edu.psu.sweng500.carpool.generated.beans.xsd.Place.Factory.parse(reader));
+                                                        list7.add(edu.psu.sweng500.carpool.generated.beans.xsd.Place.Factory.parse(reader));
                                                                 }
                                                         //loop until we find a start element that is not part of this array
-                                                        boolean loopDone6 = false;
-                                                        while(!loopDone6){
+                                                        boolean loopDone7 = false;
+                                                        while(!loopDone7){
                                                             // We should be at the end element, but make sure
                                                             while (!reader.isEndElement())
                                                                 reader.next();
@@ -1096,19 +1207,19 @@
                                                                 reader.next();
                                                             if (reader.isEndElement()){
                                                                 //two continuous end elements means we are exiting the xml structure
-                                                                loopDone6 = true;
+                                                                loopDone7 = true;
                                                             } else {
                                                                 if (new javax.xml.namespace.QName("http://beans.generated.carpool.sweng500.psu.edu/xsd","savedPlaces").equals(reader.getName())){
                                                                     
                                                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                                                       if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                                                          list6.add(null);
+                                                                          list7.add(null);
                                                                           reader.next();
                                                                       } else {
-                                                                    list6.add(edu.psu.sweng500.carpool.generated.beans.xsd.Place.Factory.parse(reader));
+                                                                    list7.add(edu.psu.sweng500.carpool.generated.beans.xsd.Place.Factory.parse(reader));
                                                                         }
                                                                 }else{
-                                                                    loopDone6 = true;
+                                                                    loopDone7 = true;
                                                                 }
                                                             }
                                                         }
@@ -1117,7 +1228,7 @@
                                                         object.setSavedPlaces((edu.psu.sweng500.carpool.generated.beans.xsd.Place[])
                                                             org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
                                                                 edu.psu.sweng500.carpool.generated.beans.xsd.Place.class,
-                                                                list6));
+                                                                list7));
                                                             
                               }  // End of if for expected property start element
                                 

@@ -19,7 +19,7 @@ import java.util.Set;
  */
 
 /**
- * Java bean that represents a User
+ * Java bean that represents a User in the system
  * @author Eric Borisow
  */
 public class User
@@ -30,6 +30,7 @@ public class User
 	private String givenName;
 	private String surName;
 	private String type;
+	private int preferredDistance;
 	private Organization organization;
 	private Set<UserAddress> savedAddresses;
 	
@@ -97,5 +98,12 @@ public class User
 	{
 		this.savedAddresses = savedAddresses;
 	}
-	
+	public int getPreferredDistance()
+	{
+		return preferredDistance;
+	}
+	public void setPreferredDistance(int preferredDistance)
+	{
+		this.preferredDistance = preferredDistance;
+	}	
 }
